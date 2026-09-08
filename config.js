@@ -8,6 +8,6 @@
 // 不会配？看 README.md 第 2 步。
 // =========================================================
 const CONFIG = {
-  SUPABASE_URL: 'https://YOUR-PROJECT.supabase.co',
-  SUPABASE_ANON_KEY: 'YOUR-ANON-KEY'
+  SUPABASE_URL: 'https://kvscxwvzphbzvbcyjlbn.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2c2N4d3Z6cGhienZiY3lqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NzQ3MzYsImV4cCI6MjEwNDQ1MDczNn0.QtkRm3BPjk7tnrH89GeZ2XHFivVirOtENkP0hNL49x4'
 };
