@@ -1,0 +1,9 @@
+# 固定行尾：.command 在 macOS 必须是 LF；.bat 在 Windows 用 CRLF 最稳
+*.bat     text eol=crlf
+*.command text eol=lf
+*.js      text eol=lf
+*.html    text eol=lf
+*.css     text eol=lf
+*.md      text eol=lf
+*.sql     text eol=lf
+*.json    text eol=lf
