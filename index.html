@@ -234,7 +234,7 @@ function speak(text, rate){
 
 // ---------- 状态 & Supabase 云同步 ----------
 const CACHE_PREFIX = 'en_vocab_v3:';      // 每用户本地缓存 key 前缀
-let supabase = null, uid = null, userEmail = '';
+let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：不能叫 supabase，会与 CDN 库的全局重名）
 let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 let importInProgress = false;
@@ -293,7 +293,7 @@ async function flush(){
   if(!uid || !dirty || !navigator.onLine) return;
   dirty = false; renderSyncStatus();
   try{
-    const { error } = await supabase.from('user_state').upsert(
+    const { error } = await sb.from('user_state').upsert(
       { user_id: uid, state, updated_at: new Date().toISOString() },
       { onConflict: 'user_id' });
     if(error) throw error;
@@ -898,7 +898,7 @@ function renderAuthForm(){
 }
 async function authSubmit(){
   if(authMode!=='login' && authMode!=='register') return;
-  if(!supabase){ setAuthMsg('登录组件还没就绪（网络或 config.js 问题），请刷新后再试'); return; }
+  if(!sb){ setAuthMsg('登录组件还没就绪（网络或 config.js 问题），请刷新后再试'); return; }
   const email=($('auEmail').value||'').trim().toLowerCase();
   const pass=$('auPass').value||'';
   if(!email || !pass){ setAuthMsg('请填写邮箱和密码'); return; }
@@ -906,24 +906,24 @@ async function authSubmit(){
   setAuthMsg(authMode==='register' ? '注册中…' : '登录中…', true);
   try{
     if(authMode==='register'){
-      const { data, error } = await supabase.auth.signUp({ email, password: pass });
+      const { data, error } = await sb.auth.signUp({ email, password: pass });
       if(error) throw error;
       if(data && data.session){ /* 已自动登录，onAuthStateChange 会接管 */ }
       else { setAuthMsg('注册成功！请到邮箱点确认链接，然后回来登录。', true); authMode='login'; renderAuthForm(); }
     }else{
-      const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
       if(error) throw error;
       /* 登录成功由 onAuthStateChange 接管 */
     }
   }catch(e){ setAuthMsg(authErrMsg(e)); }
 }
 async function authDoReset(){
-  if(!supabase){ setAuthMsg('登录组件还没就绪（网络或 config.js 问题），请刷新后再试'); return; }
+  if(!sb){ setAuthMsg('登录组件还没就绪（网络或 config.js 问题），请刷新后再试'); return; }
   const email=($('auEmail').value||'').trim().toLowerCase();
   if(!email){ setAuthMsg('请输入邮箱'); return; }
   setAuthMsg('发送中…', true);
   try{
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
     if(error) throw error;
     setAuthMsg('重置链接已发送，请查收邮件。', true);
     authMode='login'; renderAuthForm();
@@ -933,7 +933,7 @@ async function doLogout(){
   if(dirty && navigator.onLine) await flush();
   uid=null; userEmail=''; booted=false;
   const ab=$('accountBar'); if(ab) ab.style.display='none';
-  try{ await supabase.auth.signOut(); }catch(e){}
+  try{ await sb.auth.signOut(); }catch(e){}
   showLogin();
 }
 function showLogin(msg){
@@ -947,7 +947,7 @@ async function enterApp(){
   // 登录后进入：拉取云端该用户的进度行
   resetRuntime();
   try{
-    const { data, error } = await supabase.from('user_state').select('state').eq('user_id', uid).maybeSingle();
+    const { data, error } = await sb.from('user_state').select('state').eq('user_id', uid).maybeSingle();
     if(error) throw error;
     if(data && data.state) state = normalize(data.state);
     else { showImport(); return; }            // 首次登录 → 引导导入旧进度或从零开始
@@ -1035,14 +1035,14 @@ async function boot(){
     return;
   }
   try{
-    supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+    sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
   }catch(e){ showLogin('⚠️ config.js 填错了，请检查 SUPABASE_URL / SUPABASE_ANON_KEY。'); return; }
-  supabase.auth.onAuthStateChange((event, session)=>{
+  sb.auth.onAuthStateChange((event, session)=>{
     const u = (session && session.user) ? session.user : null;
     if(u && u.id !== uid){ uid = u.id; userEmail = u.email || ''; enterApp(); }
     else if(!u && event==='SIGNED_OUT'){ showLogin(); }
   });
-  const { data:{ session } } = await supabase.auth.getSession();
+  const { data:{ session } } = await sb.auth.getSession();
   const u = (session && session.user) ? session.user : null;
   if(u){ if(u.id !== uid){ uid = u.id; userEmail = u.email || ''; enterApp(); } }
   else showLogin();
