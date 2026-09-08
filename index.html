@@ -8,7 +8,8 @@
 <script src="words_ielts1.js"></script>
 <script src="words_ielts2.js"></script>
 <script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- supabase-js 已下载到本地仓库（supabase.min.js），不依赖外部 CDN，避免部分地区加载失败 -->
+<script src="supabase.min.js"></script>
 <style>
   :root {
     --bg:#0f1420; --panel:#1a2233; --card:#232d44; --card2:#2a3550;
@@ -123,6 +124,9 @@
   <h1>📚 雅思背单词工作台</h1>
   <div id="accountBar" style="display:none">
     <span class="pill" id="accountEmail"></span>
+    <a class="pill" id="btnVocabTest" href="https://my.vocabularysize.com/" target="_blank" rel="noopener"
+       style="margin-left:auto;border-color:var(--gold);color:var(--gold);text-decoration:none;cursor:pointer"
+       title="去测一下你的词汇量水平（新窗口打开）">📊 测词汇量</a>
     <button class="ghost" id="btnLogout" style="flex:0 0 auto;min-width:64px;padding:6px 10px">退出登录</button>
   </div>
   <div class="sub" id="syncStatus"></div>

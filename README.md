@@ -17,6 +17,7 @@
 | 任何设备 | 直接收藏网址 |
 
 > 双击脚本只是「帮你打开默认浏览器并跳转到上面的网址」，不用装任何东西、不用后台常驻进程。
+> 登录后**顶部有一行「📊 测词汇量」链接**，点击会打开 VocabularySize（https://my.vocabularysize.com/ ）在**新窗口**测你的词汇量，方便定期评估水平。
 
 ## 给两个人用（各注册一个账号）
 
@@ -113,6 +114,7 @@ Supabase 免费项目**连续 7 天没有任何访问会自动休眠**。此时�
 | `index.html` | 工作台本体（判词 → 三明治三步 → 双复习 + 登录/云同步） |
 | `words.js` / `words_ielts1.js` / `words_ielts2.js` | 词库（基础 + 雅思词包 1/2） |
 | `config.js` | ⚠️ 填你的 Supabase URL 和 anon key（第 4 步） |
+| `supabase.min.js` | supabase-js 库（已下载进仓库本地加载，不依赖外部 CDN） |
 | `schema.sql` | Supabase 建表 + 安全策略（第 3 步粘贴运行） |
 | `legacy_state.json` | 旧版 `生词本.json` 的备份，供首登一键导入 |
 | `开始学习.bat` / `开始学习.command` | Windows / macOS 双击打开网站 |
