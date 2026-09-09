@@ -259,6 +259,21 @@
   .confetti { position:fixed; inset:0; z-index:205; pointer-events:none; overflow:hidden; }
   .confetti i { position:absolute; top:-16px; width:9px; height:15px; border-radius:2px; will-change:transform; animation:cf linear forwards; }
   @keyframes cf { to { transform:translateY(108vh) rotate(760deg); opacity:.25; } }
+
+  /* ---- 造句笔记本 ---- */
+  .nb-group { text-align:left; }
+  .nb-entry { margin-top:8px; border-top:1px dashed rgba(255,255,255,.12); padding-top:10px; }
+  .nb-entry:first-of-type { border-top:none; padding-top:4px; }
+  .nb-line { margin-top:7px; padding:7px 10px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+    border-left:2px solid var(--accent); border-radius:8px; white-space:pre-wrap; word-break:break-word; }
+  .nb-line .en { font-size:16px; color:#dbe6ff; line-height:1.6; }
+  .nb-line .txt { font-size:14px; color:var(--text); line-height:1.6; }
+  .nb-line.raw { border-left-color:var(--gold); background:rgba(255,199,95,.04); }
+  .nb-lbl { font-size:11px; color:var(--muted); margin-bottom:3px; letter-spacing:.3px; }
+  .nb-meta { font-size:11px; color:var(--muted); }
+  .nb-tools { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+  .nb-tools button { flex:0 0 auto; padding:4px 9px; font-size:12px; box-shadow:none; }
+  .nb-edit textarea { font-size:14px; margin-top:7px; }
 </style>
 </head>
 <body>
@@ -296,7 +311,7 @@
   <div class="sub flow" style="padding:9px 11px">
     <div><b>每天流程</b></div>
     <div class="flow-line">① <b>判词</b>：看英文想中文——认识 → 已学会，不认识 → 今日生词。判满 <b id="flowTarget">10</b> 个就停。</div>
-    <div class="flow-line">② <b>三明治学习</b>：每个生词走三步——听音默写 → 句子填空（英文提示 + 中文拐杖）→ 看释义造句并复制去 AI 批改。</div>
+    <div class="flow-line">② <b>三明治学习</b>：每个生词走三步——听音默写 → 句子填空（英文提示 + 中文拐杖）→ 看释义造句并复制去 AI 批改，批改回复可存进 <b>📒 造句笔记</b>。</div>
     <div class="flow-line">③ <b>复习</b>：「复习当天」过今天的生词；「复习到期」按艾宾浩斯 1→3→7→15→30 天自动到期。所有朗读均为慢速。</div>
   </div>
 
@@ -315,6 +330,7 @@
     <div class="navbtn" data-m="sandwich"><b>🥪 三明治学习</b><span class="c" id="navSandwich">3步×7词</span></div>
     <div class="navbtn" data-m="reviewToday"><b>🔄 复习当天</b><span class="c" id="navRT">今天的7个</span></div>
     <div class="navbtn" data-m="reviewDue"><b>📅 复习到期</b><span class="c" id="navRD">艾宾浩斯到期</span></div>
+    <div class="navbtn" data-m="notes"><b>📒 造句笔记</b><span class="c" id="navNotes">0 条</span></div>
   </div>
 
   <div id="stage"></div>
@@ -490,7 +506,7 @@ function newDay(target){
   return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0, speedRevDone:false, miss:[] };
 }
 function baseState(){
-  return { learned:[], newWords:{}, day:null,
+  return { learned:[], newWords:{}, notes:{}, day:null,
     settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
     stats:{ streak:0, last:'' },
     relearn:{},
@@ -503,6 +519,12 @@ function normalize(s){
   s.v = 3;
   s.learned = Array.isArray(s.learned)? s.learned : [];
   s.newWords = (s.newWords && typeof s.newWords==='object')? s.newWords : {};
+  // 造句笔记本：按词建档，每个词存一组 {date,my,err,fix,tip,raw} 记录（新的追加在后）
+  if(!s.notes || typeof s.notes!=='object' || Array.isArray(s.notes)) s.notes={};
+  for(const w in s.notes){
+    if(!Array.isArray(s.notes[w])) s.notes[w] = (s.notes[w] && typeof s.notes[w]==='object') ? [s.notes[w]] : [];
+    s.notes[w] = s.notes[w].filter(e => e && typeof e==='object');
+  }
   s.settings = s.settings||{};
   s.settings.target = upgraded? 10 : Math.max(1, Math.min(30, parseInt(s.settings.target)||10));
   s.settings.rate  = parseFloat(s.settings.rate)||0.6;
@@ -655,6 +677,7 @@ function openModule(m){
   else if(m==='sandwich') openSandwich();
   else if(m==='reviewToday') openReviewToday();
   else if(m==='reviewDue') openReviewDue();
+  else if(m==='notes') openNotes();
   window.scrollTo(0,0);
 }
 function refresh(){ openModule(MOD); }
@@ -875,7 +898,8 @@ function renderNav(){
     collect: '今日生词 '+dlen+'/'+tgt,
     sandwich: dlen? ('已学 '+learningTodayCount()+'/'+dlen) : '等先判词',
     reviewToday: sched? ('今天 '+sched+' 个') : '暂无',
-    reviewDue: due? ('到期 '+due+' 个') : (again? ('回炉 '+again+' 个') : '今天无')
+    reviewDue: due? ('到期 '+due+' 个') : (again? ('回炉 '+again+' 个') : '今天无'),
+    notes: noteCount()? ('共 '+noteCount()+' 条') : '暂无'
   };
   document.querySelectorAll('.navbtn').forEach(b=>{
     const m=b.dataset.m;
@@ -884,7 +908,7 @@ function renderNav(){
     if(m==='sandwich' && dlen===0) b.disabled=true;
     if(m==='reviewToday' && sched===0) b.disabled=true;
     if(m==='reviewDue' && due===0 && again===0) b.disabled=true;
-    $('nav'+({collect:'Collect',sandwich:'Sandwich',reviewToday:'RT',reviewDue:'RD'}[m])).textContent = navInfo[m];
+    $('nav'+({collect:'Collect',sandwich:'Sandwich',reviewToday:'RT',reviewDue:'RD',notes:'Notes'}[m])).textContent = navInfo[m];
   });
 }
 
@@ -1046,6 +1070,26 @@ function swNextUnfinished(){
   for(const w of dl){ if((state.day.steps[w]||0)<3) return w; }
   return dl[0];
 }
+// 给豆包的开场指令：约定「3 行批改」精简格式（每次开新对话先发一次）
+const AI_OPENING =
+'你是一名专业雅思英语老师。我在背雅思单词，方式是：先记词义，再用这个词自己造一个简单句。\n'+
+'接下来我会一句一句发我的造句，你只负责批改。请严格按下面三行回复，不要寒暄、不要展开：\n'+
+'\n'+
+'① 原句问题：只指出真实错误（语法/用词/搭配），最多 2 点；没大错就写「无大错」。\n'+
+'② 修正句：给 1 句更地道、更适合雅思的改法，别用太复杂的词。\n'+
+'③ 知识点：用 1 句话点出这个词最常用的 1 个雅思考点（搭配/同义替换/易错）。\n'+
+'\n'+
+'收到请只回复：收到，之后每句只按 ①②③ 三行批改。';
+function copyTaText(t){
+  const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+}
+function copyAiOpening(){
+  const done=()=>{ const f=$('sw3Fb'); if(f) f.innerHTML='<span class="ok">✅ 豆包开场指令已复制 → 到对话里粘贴发一次（换新对话时再发一次）。</span>'; };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(AI_OPENING).then(done).catch(()=>{ copyTaText(AI_OPENING); done(); });
+  else { copyTaText(AI_OPENING); done(); }
+}
 function swPick(w){
   SW={ word:w, step:(state.day.steps[w]||0)+1, attempts:0, revealed:false, nextWord:null };
   if(SW.step>3) SW.step=3;
@@ -1194,17 +1238,26 @@ function sandwichStep3Html(){
     '<div class="left"><span class="toggle" onclick="document.getElementById(\'c3\').style.display=(document.getElementById(\'c3\').style.display===\'block\'?\'none\':\'block\')">🩼 中文拐杖</span>'+
       '<div class="zhcrutch" id="c3">'+esc(o.zh)+' · '+esc(o.ipa)+'</div></div>'+
     '<textarea id="sw3In" class="sentence" style="margin-top:10px" placeholder="在这里写你的句子（要包含 '+esc(o.word)+'）"></textarea>'+
+    '<div style="text-align:left">'+
+      '<div class="hint" style="margin:10px 0 4px">🤖 豆包批改后，把回复整段粘到下面（可选）→ 点 ✅ 完成会存进 <b>📒 造句笔记本</b>：</div>'+
+      '<textarea id="sw3Ai" rows="3" placeholder="例：\n① 原句问题：…\n② 修正句：…\n③ 知识点：…"></textarea>'+
+      '<div class="btn-row" style="margin:6px 0 0;justify-content:flex-start">'+
+        '<button class="ghost" style="flex:0 0 auto;padding:6px 10px;font-size:13px" onclick="copyAiOpening()">📋 复制豆包开场指令</button>'+
+        '<span class="small" style="align-self:center">每次开新对话先发它一次，豆包就会只回精简 3 行。</span>'+
+      '</div>'+
+    '</div>'+
     '<div class="btn-row">'+
       '<button class="speaker" onclick="var t=$(\'sw3In\').value;if(t.trim())speak(t.trim())">🔊 读我的句子</button>'+
       '<button class="gold" onclick="sw3Copy()">📋 复制去AI批改</button>'+
       '<button class="green" onclick="sw3Done()">✅ 批改完了，学完这个词</button>'+
     '</div>'+
-    '<div class="hint left" style="margin-top:8px">流程：写好句子 → 🔊听听自己读得顺不顺 → 「复制去AI批改」把句子发到对话里 → AI 给你批改反馈 → 你订正后再点 ✅ 完成。</div>'+
+    '<div class="hint left" style="margin-top:8px">流程：写好句子 → 「复制去AI批改」发到对话 → 把豆包回的 3 行粘进上面的框 → 点 ✅ 完成（自动存入这个词的笔记）。</div>'+
     '<div class="fb" id="sw3Fb"></div>';
 }
 function sw3Copy(){
   const v=($('sw3In').value||'').trim();
   if(!v){ $('sw3Fb').innerHTML='<span class="bad">先写一个句子再复制。</span>'; return; }
+  SW.draft=v;   // 记下发给 AI 批改的「原句」，点完成后作为笔记本里的「我的句子」
   const text='批改造句 | '+SW.word+' | '+v;
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(()=>$('sw3Fb').innerHTML='<span class="ok">已复制。到对话里粘贴发给我，例如：'+esc(text)+'</span>').catch(()=>{ $('sw3Fb').innerHTML='<span class="warn">复制失败，请手动选中输入框内容复制。</span>'; });
@@ -1226,6 +1279,7 @@ function sw3Done(){
     if(!inReview(o.word)) scheduleWord(o.word);
     state.day.steps[o.word]=3;
     if(state.newWords[o.word]) state.newWords[o.word].sentence=v;   // 把「我的句子」写回生词本，形成造句闭环
+    saveSentenceNote(o.word, v);   // 存进造句笔记本（我的原句 + 豆包批改三段）
     noteStudy();
     save();
     checkCeleb();   // 若这是今天最后一个没学完的词 → 弹完成庆祝
@@ -1236,6 +1290,44 @@ function sw3Done(){
   for(const w of dl){ if((state.day.steps[w]||0)<3 && w!==o.word){ nxt=w; break; } }
   SW.nextWord=nxt;
   renderSandwich();
+}
+// 把豆包回复（可能是 ①②③ 三行，也可能只贴了原文）拆成三段；拆不出的字段留空
+function parseAIReply(raw){
+  const out={err:'',fix:'',tip:''};
+  const src=(raw||'').trim();
+  if(!src) return out;
+  const numbered=[
+    {key:'err', re:/^\s*(?:①|1[)、.]?)\s*(?:原句问题|问题|错误|原句)\s*[:：]?\s*/},
+    {key:'fix', re:/^\s*(?:②|2[)、.]?)\s*(?:修正句|修改后|修正|建议改|改句|更好(?:的)?说法)\s*[:：]?\s*/},
+    {key:'tip', re:/^\s*(?:③|3[)、.]?)\s*(?:知识点|小知识|考点|小贴士)\s*[:：]?\s*/}
+  ];
+  const unnumbered=[   // 豆包偶尔漏写序号，但写了「标签：」也能拆
+    {key:'err', re:/^\s*(?:原句问题|错误点|问题)\s*[:：]\s*/},
+    {key:'fix', re:/^\s*(?:修正句|修改后|建议改(?:成|为)?|改句)\s*[:：]\s*/},
+    {key:'tip', re:/^\s*(?:知识点|小知识|考点|小贴士)\s*[:：]\s*/}
+  ];
+  const buf={err:[],fix:[],tip:[]};
+  let cur='', curRe=null;
+  for(const line of src.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)){
+    let hit=null;
+    for(const st of numbered){ if(st.re.test(line)){ hit=st; break; } }
+    if(!hit){ for(const st of unnumbered){ if(st.re.test(line)){ hit=st; break; } } }
+    if(hit){ cur=hit.key; curRe=hit.re; buf[cur].push(line.replace(curRe,'')); }
+    else if(cur){ buf[cur].push(line); }   // 段落换行延续到当前段
+  }
+  out.err=buf.err.join('\n').trim(); out.fix=buf.fix.join('\n').trim(); out.tip=buf.tip.join('\n').trim();
+  return out;
+}
+// 三明治学完一个词 → 写入造句笔记本（state.notes[word] 追加一条；毕业后仍保留）
+function saveSentenceNote(word, mySentence){
+  const aiBox=$('sw3Ai');
+  const raw=(aiBox ? aiBox.value : '').trim();
+  const ai=parseAIReply(raw);
+  const entry={ date:todayStr(), my:((SW.draft||mySentence)||'').trim(), err:ai.err, fix:ai.fix, tip:ai.tip };
+  if(raw) entry.raw=raw;
+  if(!state.notes || typeof state.notes!=='object') state.notes={};
+  if(!Array.isArray(state.notes[word])) state.notes[word]=[];
+  state.notes[word].unshift(entry);   // 最新记录放最前，笔记本按此顺序展示/编辑
 }
 
 // ---------- 例句渲染（___ 高亮为输入框样） ----------
@@ -1408,6 +1500,150 @@ function reviewDontKnow(){
 function reviewRedoWrong(){
   RV.list=RV.wrong.slice(); RV.idx=0; RV.right=[]; RV.wrong=[]; RV.locked=false;
   renderReview();
+}
+
+// =========================================================
+// 📒 造句笔记本：按词建档，回看每个词的造句 + 豆包批改（毕业也保留）
+// =========================================================
+let NB = { q:'', edit:null, show:{} };
+function noteCount(){
+  let n=0;
+  for(const w in (state.notes||{})){ const a=state.notes[w]; if(Array.isArray(a)) n+=a.filter(e=>e&&typeof e==='object').length; }
+  return n;
+}
+function noteGroups(){
+  const gs=[];
+  for(const w in (state.notes||{})){
+    const a=Array.isArray(state.notes[w])? state.notes[w].filter(e=>e&&typeof e==='object') : [];
+    if(a.length) gs.push({word:w, arr:a});
+  }
+  gs.sort((x,y)=>(y.arr[0].date||'').localeCompare(x.arr[0].date||''));  // 最近记的在前
+  return gs;
+}
+function openNotes(){ NB.edit=null; renderNotes(); }
+function renderNotes(){
+  paint();
+  const total=noteCount();
+  $('stage').innerHTML =
+    '<div class="progress">📒 造句笔记本 · 共 <b>'+total+'</b> 条记录</div>'+
+    '<div class="row left" style="margin:0 0 6px">'+
+      '<input type="text" id="nbSearch" value="'+esc(NB.q||'')+'" placeholder="搜单词 / 中文…" autocomplete="off" style="max-width:300px">'+
+      (total? '<button class="ghost" style="flex:0 0 auto;padding:7px 12px;font-size:13px;color:#ff7575;border-color:rgba(255,117,117,.45)" onclick="nbClearAll()">🗑 清空笔记本</button>' : '')+
+    '</div>'+
+    '<div class="hint left" style="margin:0 0 8px">三明治第③步把豆包批改粘进框里并点 ✅ 完成后，这里会自动归档该词记录；词从生词本毕业、已学会后也一直保留。想听句子就点 🔊。</div>'+
+    '<div id="nbList"></div>';
+  const bs=$('nbSearch');
+  bs.addEventListener('input', ()=>{ NB.q=bs.value; NB.edit=null; refreshNbList(); });
+  refreshNbList();
+}
+function refreshNbList(){ const l=$('nbList'); if(l) l.innerHTML=nbListHtml(NB.q); }
+function nbListHtml(q){
+  let gs=noteGroups();
+  const ql=(q||'').trim().toLowerCase();
+  if(ql) gs=gs.filter(x=> x.word.toLowerCase().indexOf(ql)>=0 || ((WORDMAP[x.word]||{}).zh||'').indexOf(ql)>=0);
+  if(!gs.length){
+    return '<div class="card"><div class="zh">'+(ql? '没有匹配的词' : '还没有笔记')+'</div>'+
+      '<div class="hint">'+(ql? '换个关键词试试。' : '去「三明治学习」第③步完成造句，把豆包回复粘进去，就会存成这个词的笔记。')+'</div></div>';
+  }
+  return gs.map(nbGroupHtml).join('');
+}
+function nbGroupHtml(g){
+  const o=WORDMAP[g.word];
+  let inner='';
+  g.arr.forEach((e,i)=>{ inner += nbEntryHtml(g.word, i, e); });
+  return '<div class="card left nb-group" style="padding:14px 16px">'+
+    '<div class="row left" style="margin:0 0 2px;justify-content:space-between;gap:8px;align-items:center">'+
+      '<div><b style="font-size:19px;color:var(--accent)">'+esc(g.word)+'</b>'+
+        (o? ' <span style="font-size:15px">'+esc(o.zh)+'</span><span class="small" style="margin-left:4px">'+esc(o.ipa||'')+'</span>' : '')+
+      '</div>'+
+      '<span class="nb-meta">'+g.arr.length+' 条</span>'+
+    '</div>'+
+    inner+
+  '</div>';
+}
+function nbEntryHtml(w, i, e){
+  if(NB.edit && NB.edit.w===w && NB.edit.i===i) return nbEditHtml(w, i, e);
+  let h='<div class="nb-entry"><div class="nb-meta">'+(e.date||'')+(e.raw? '' : ' · 未贴豆包回复')+'</div>';
+  if(e.my) h+='<div class="nb-line"><div class="nb-lbl">✍️ 我的句子</div><div class="en">'+esc(e.my)+'</div></div>';
+  if(e.err) h+='<div class="nb-line"><div class="nb-lbl">① 原句问题</div><div class="txt">'+esc(e.err)+'</div></div>';
+  if(e.fix) h+='<div class="nb-line"><div class="nb-lbl">② 修正句</div><div class="en">'+esc(e.fix)+'</div></div>';
+  if(e.tip) h+='<div class="nb-line"><div class="nb-lbl">③ 知识点</div><div class="txt">'+esc(e.tip)+'</div></div>';
+  const key=w+'|'+i;
+  if(e.raw){
+    if(!(e.err||e.fix||e.tip)){   // 三段没拆出来 → 整段当原文展示
+      h+='<div class="nb-line raw"><div class="nb-lbl">🤖 豆包原文</div><div class="en">'+esc(e.raw)+'</div></div>';
+    }else{
+      const open=!!NB.show[key];
+      h+='<div class="nb-line raw" style="padding:4px 10px"><div class="nb-lbl"><span class="toggle" onclick="nbToggleRaw(this)" data-w="'+esc(w)+'" data-i="'+i+'">'+(open? '▾ 收起豆包原文' : '▸ 看豆包原文')+'</span></div>'+
+        (open? '<div class="en" style="margin-top:4px">'+esc(e.raw)+'</div>' : '')+'</div>';
+    }
+  }
+  h+='<div class="nb-tools">'+
+      '<button class="ghost" onclick="nbSpeak(this)" data-w="'+esc(w)+'" data-i="'+i+'">🔊 朗读'+(e.fix?'修正句':'我的句子')+'</button>'+
+      '<button class="ghost" onclick="nbStartEdit(this)" data-w="'+esc(w)+'" data-i="'+i+'">✏️ 改</button>'+
+      '<button class="ghost" style="color:#ff7575" onclick="nbDel(this)" data-w="'+esc(w)+'" data-i="'+i+'">🗑 删</button>'+
+    '</div></div>';
+  return h;
+}
+function nbEditHtml(w, i, e){
+  return '<div class="nb-entry nb-edit">'+
+    '<div class="nb-meta">编辑「'+esc(w)+'」的笔记</div>'+
+    '<textarea id="ne_my" rows="2" placeholder="✍️ 我的句子（发给豆包批改的原句）">'+esc(e.my||'')+'</textarea>'+
+    '<textarea id="ne_err" rows="2" placeholder="① 原句问题">'+esc(e.err||'')+'</textarea>'+
+    '<textarea id="ne_fix" rows="2" placeholder="② 修正句">'+esc(e.fix||'')+'</textarea>'+
+    '<textarea id="ne_tip" rows="2" placeholder="③ 知识点">'+esc(e.tip||'')+'</textarea>'+
+    '<textarea id="ne_raw" rows="2" placeholder="🤖 豆包原文（想重新解析就粘新内容后点「从原文重新解析」）">'+esc(e.raw||'')+'</textarea>'+
+    '<div class="nb-tools">'+
+      '<button class="green" onclick="nbSave(this)" data-w="'+esc(w)+'" data-i="'+i+'">保存</button>'+
+      '<button class="ghost" onclick="nbReparse(this)" data-w="'+esc(w)+'" data-i="'+i+'">从原文重新解析</button>'+
+      '<button class="ghost" onclick="NB.edit=null;refreshNbList()">取消</button>'+
+    '</div></div>';
+}
+function nbSpeak(btn){
+  const w=btn.dataset.w, i=parseInt(btn.dataset.i);
+  const a=state.notes[w]; if(!Array.isArray(a)) return;
+  const e=a[i]; if(e) speak(e.fix||e.my||w);
+}
+function nbToggleRaw(btn){
+  NB.show[btn.dataset.w+'|'+btn.dataset.i] = !NB.show[btn.dataset.w+'|'+btn.dataset.i];
+  refreshNbList();
+}
+function nbStartEdit(btn){
+  NB.edit={ w:btn.dataset.w, i:parseInt(btn.dataset.i) };
+  refreshNbList();
+}
+function nbDel(btn){
+  const w=btn.dataset.w, i=parseInt(btn.dataset.i);
+  const a=state.notes[w];
+  if(!Array.isArray(a) || !a[i]) return;
+  if(!confirm('删除「'+w+'」这条笔记？')) return;
+  a.splice(i,1);
+  if(!a.length) delete state.notes[w];
+  if(NB.edit && NB.edit.w===w) NB.edit=null;
+  save(); openNotes();
+}
+function nbSave(btn){
+  const w=btn.dataset.w, i=parseInt(btn.dataset.i);
+  const a=state.notes[w]; if(!Array.isArray(a) || !a[i]) return;
+  const e=a[i];
+  e.my  = ($('ne_my') ? $('ne_my').value.trim()  : e.my);
+  e.err = ($('ne_err') ? $('ne_err').value.trim() : e.err);
+  e.fix = ($('ne_fix') ? $('ne_fix').value.trim() : e.fix);
+  e.tip = ($('ne_tip') ? $('ne_tip').value.trim() : e.tip);
+  const raw=($('ne_raw') ? $('ne_raw').value.trim() : '');
+  if(raw) e.raw=raw; else delete e.raw;
+  NB.edit=null;
+  save(); refreshNbList();
+}
+function nbReparse(btn){
+  const raw=$('ne_raw') ? $('ne_raw').value.trim() : '';
+  const p=parseAIReply(raw);
+  const set=(id,v)=>{ const el=$(id); if(el) el.value=v; };
+  set('ne_err', p.err); set('ne_fix', p.fix); set('ne_tip', p.tip);
+}
+function nbClearAll(){
+  if(!noteCount()) return;
+  if(confirm('清空造句笔记本的全部记录？不可恢复。')){ state.notes={}; NB.edit=null; save(); openNotes(); }
 }
 
 // =========================================================
@@ -1647,8 +1883,8 @@ $('btnResetDay').addEventListener('click',()=>{
   }
 });
 $('btnClear').addEventListener('click',()=>{
-  if(confirm('确定清空全部进度（已学会+生词本+今日）？不可恢复。')){
-    state={ learned:[], newWords:{}, day:null, settings:state.settings, stats:state.stats, v:3 };
+  if(confirm('确定清空全部进度（已学会+生词本+今日）？不可恢复。（造句笔记保留，可去笔记本里单独清空）')){
+    state={ learned:[], newWords:{}, day:null, notes:state.notes, settings:state.settings, stats:state.stats, v:3 };
     state=normalize(state); save(); refresh();
   }
 });
@@ -1660,6 +1896,7 @@ function resetRuntime(){   // 切换账号时清掉上一个用户留在内存�
   MOD='collect'; collectQ=[]; collectIdx=0;
   SW={word:null,step:1,attempts:0,revealed:false,nextWord:null};
   RV={mode:'today',list:[],idx:0,right:[],wrong:[],locked:false};
+  NB={ q:'', edit:null, show:{} };
 }
 function authErrMsg(e){
   const m=(e && e.message) || String(e);
