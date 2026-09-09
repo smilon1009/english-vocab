@@ -11,8 +11,8 @@
 
 | 设备 | 方式 |
 |---|---|
-| Windows | 双击仓库里的 **`开始学习.bat`**（可复制到桌面） |
-| macOS | 双击 **`开始学习.command`**（首次请「右键 → 打开」绕过系统提示） |
+| Windows | 双击仓库里的 **`tools/开始学习.bat`**（可复制到桌面） |
+| macOS | 双击 **`tools/开始学习.command`**（首次请「右键 → 打开」绕过系统提示） |
 | 手机 | 浏览器打开网址 → 右上角菜单「添加到主屏幕」，以后像 App 一样点开 |
 | 任何设备 | 直接收藏网址 |
 
@@ -38,6 +38,36 @@
 - 这个 GitHub 仓库只放网页源码和公开雅思词库，**不含任何用户学习数据**。
 - 想手动留备份：页面底部「设置 → 数据 → 复制数据(JSON)」，粘贴到本地文件保存即可。
 
+## 🗂 仓库结构（每个文件干什么）
+
+```
+english-vocab/
+├── index.html                # ▶ 网站入口（工作台本体，内嵌全部样式与逻辑）
+├── README.md                 # 本说明
+├── .gitattributes            # 行尾规范：.bat=CRLF / .command=LF / 文本=LF
+│
+├── js/                       # 页面加载的 JavaScript（都在 index.html 顶部 <script> 引入）
+│   ├── words.js              #   基础词库（Level 1–4，约 530 行）
+│   ├── words_ielts1.js       #   雅思核心词包①（用 WORDS.push 追加进同一数组）
+│   ├── words_ielts2.js       #   雅思核心词包②（用 WORDS.push 追加进同一数组）
+│   └── config.js             #   ⚠️ Supabase 配置：Project URL + anon public key（你填一次）
+│
+├── lib/                      # 第三方库（下载到本地，不依赖外部 CDN）
+│   └── supabase.min.js       #   supabase-js v2 官方客户端库（登录 + 云数据库）
+│
+├── database/
+│   └── schema.sql            # Supabase 建表 SQL：user_state 表 + 3 条行级安全策略
+│
+├── data/
+│   └── legacy_state.json     # 旧版本地备份（老进度的快照），供首次登录「导入仓库备份」用
+│
+└── tools/                    # 双击打开网站的启动器（网址已写好，改仓库名记得同步改）
+    ├── 开始学习.bat          #   Windows 双击 → 打开默认浏览器
+    └── 开始学习.command      #   macOS 双击 → 打开默认浏览器
+```
+
+> ⚠️ **不要移动 `index.html`**：GitHub Pages 靠根目录的 `index.html` 当网站入口，它移动位置站点就打不开。其余文件可以换文件夹，但改完要同步更新 `index.html` 里的相对路径。
+
 ## 🛠 主人的一次性配置教程（只做这一次，约 10 分钟）
 
 下面几步只在最初搭建时做一次；做完后你和女朋友就能用了。
@@ -56,13 +86,13 @@
 
 ### 第 3 步：建数据表
 1. 左侧 **SQL Editor** → New query。
-2. 把仓库里的 **`schema.sql`** 全部内容粘贴进去 → **Run**。
+2. 把仓库里的 **`database/schema.sql`** 全部内容粘贴进去 → **Run**。
 3. 应看到 `Success. No rows returned`。表 `user_state` + 3 条安全策略就建好了。
 
-### 第 4 步：填 `config.js`
+### 第 4 步：填 `js/config.js`
 1. 左侧 **Settings → API**。
 2. 复制 **Project URL** 和 **anon public key**。
-3. 用编辑器打开本仓库的 `config.js`，把两个占位值换成你的（anon key 是"公开密钥"，明文放网页里是 Supabase 的标准做法，靠第 3 步的 RLS 保护数据）。
+3. 用编辑器打开本仓库的 `js/config.js`，把两个占位值换成你的（anon key 是"公开密钥"，明文放网页里是 Supabase 的标准做法，靠第 3 步的 RLS 保护数据）。
 
 ### 第 5 步：推到 GitHub 并开启网页托管
 1. 在 https://github.com 新建一个**公开**仓库，名字建议 `english-vocab`（不要勾选自动生成 README，保持空仓库）。
@@ -82,7 +112,69 @@
 - 主人电脑打开网址 → 登录 → 导入仓库备份 → 看到自己之前的已学会/生词本。
 - 手机打开同一网址 → 登录**同一账号** → 刷新/点几个词 → 电脑上应能看到变化（自动同步，等待几秒或刷新）。
 
-> 启动器 `开始学习.bat` / `开始学习.command` 里的网址已在仓库里写好；如果你改用了别的仓库名或托管方式，记得把脚本里的网址也改掉。
+> 启动器 `tools/开始学习.bat` / `tools/开始学习.command` 里的网址已在仓库里写好；如果你改用了别的仓库名或托管方式，记得把脚本里的网址也改掉。
+
+## 文件说明（逐文件详解）
+
+### `index.html` —— 唯一的"应用"
+纯 HTML + CSS + 原生 JS（无框架）写成的单页应用，内嵌两大部分：
+- **页面结构**：顶部状态栏（今日/目标/已学会/生词本/到期）、四个模块按钮（判词 / 三明治 / 复习当天 / 复习到期）、右侧设置面板（每日目标、朗读语速、难度上限、词包勾选、数据导出）、登录/注册/导入弹层。
+- **应用逻辑**（`<script>` 内约 850 行）：
+  - 判词（出英文→确认中文→认识/不认识，抽词按 level 加权、高频先筛）
+  - 三明治三步学习（听音辨词→句子填空→看释义造句）
+  - 双复习（当天 7 词 / 艾宾浩斯到期），错词自动重置到第 1 天
+  - 状态管理 + **防抖云端同步**（本地 localStorage 缓存 → 800ms 防抖 upsert 到 Supabase）
+  - 登录/注册/忘记密码（走 Supabase Auth）、首登进度导入（仓库备份/本机旧版/JSON 文件）
+  - 在线/离线监听：断网时先写本地，`online` 事件或 4 秒定时器自动补传
+
+### `js/` 目录
+| 文件 | 作用 |
+|---|---|
+| `js/words.js` | 基础词库，声明全局 `const WORDS = [...]`。每条含 `word / ipa / pos / zh / def / example / level`（`___` 表示例句中待填空的目标词） |
+| `js/words_ielts1.js` | 雅思核心词包①，用 `WORDS.push(...)` 追加进同一个数组，额外带 `pack:"ielts1"` 标记 |
+| `js/words_ielts2.js` | 雅思核心词包②，同上，`pack:"ielts2"` + `level` 权重 |
+| `js/config.js` | ⚠️ 只暴露全局 `CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY }`，**需在部署前填好** |
+
+### `lib/` 目录
+| 文件 | 作用 |
+|---|---|
+| `lib/supabase.min.js` | supabase-js 官方库（压缩版）。已下载到仓库本地引入，**不依赖外部 CDN**，避免部分地区加载失败 |
+
+### `database/` 目录
+| 文件 | 作用 |
+|---|---|
+| `database/schema.sql` | 粘贴到 Supabase SQL Editor 运行一次：创建 `user_state` 表（`id / user_id / state jsonb / updated_at`）+ 开启 RLS + 3 条策略（每个账号只能 select / insert / update 自己的 `user_id` 那一行） |
+
+### `data/` 目录
+| 文件 | 作用 |
+|---|---|
+| `data/legacy_state.json` | 老版本（本地单机 JSON 时代）的进度快照。首次登录点「导入仓库备份」时页面 `fetch('data/legacy_state.json')` 读取它，供老用户一键迁移。不含任何新数据，可放心公开 |
+
+### `tools/` 目录
+| 文件 | 作用 |
+|---|---|
+| `tools/开始学习.bat` | Windows 启动器：一行 `start "网址"`，双击用默认浏览器打开工作台 |
+| `tools/开始学习.command` | macOS 启动器：一行 `open "网址"`，双击打开工作台（文件本身带可执行权限，且经 `.gitattributes` 强制 LF 行尾，否则 macOS 无法运行） |
+
+### 根目录其他文件
+| 文件 | 作用 |
+|---|---|
+| `README.md` | 本说明：使用教程 + 搭建指南 + 文件地图 |
+| `.gitattributes` | 让 Git 按文件类型统一行尾：`*.bat` 用 CRLF（Windows）、`*.command` 用 LF（macOS 必需），其余文本文件用 LF，避免跨平台换行混乱 |
+
+## 用到的技术点速览
+
+- **纯前端静态站（零构建）**：原生 HTML/CSS/JS，无框架、无打包器，GitHub 直接托管
+- **GitHub Pages**：公开仓库 + "Deploy from a branch"（root 目录）自动部署
+- **Supabase（BaaS）**：
+  - **Auth**：邮箱+密码注册/登录/找回密码，`onAuthStateChange` 监听会话
+  - **PostgreSQL 数据库**：一张 `user_state` 表，进度整包存成 JSONB 列
+  - **RLS（Row Level Security）**：数据库端强制"只能读写自己那一行"，前端拿的是公开 anon key 也不怕
+- **本地缓存 + 离线优先**：localStorage 每账号一份缓存，断网可用，联网自动补传
+- **Web Speech API**：`speechSynthesis` + `SpeechSynthesisUtterance` 实现慢速单词朗读
+- **艾宾浩斯遗忘曲线**：`INTERVALS=[1,3,7,15,30]` 天，复习错词退回第 1 天
+- **Fetch / Clipboard / FileReader**：读取仓库备份、复制 JSON 导出、从文件导入
+- **LFS? 不需要**；整个站点纯文本，仓库只有 100 多 KB
 
 ## ❓ 常见问题
 
@@ -107,18 +199,8 @@ Supabase 免费项目**连续 7 天没有任何访问会自动休眠**。此时�
 **Q：我还能用旧版那种"复制 JSON 到文件"的方式吗？**
 可以，页面底部设置里「复制数据(JSON)」随时能导出；也支持在首次登录时从导出的 JSON 文件导入。
 
-## 文件清单
-
-| 文件 | 说明 |
-|---|---|
-| `index.html` | 工作台本体（判词 → 三明治三步 → 双复习 + 登录/云同步） |
-| `words.js` / `words_ielts1.js` / `words_ielts2.js` | 词库（基础 + 雅思词包 1/2） |
-| `config.js` | ⚠️ 填你的 Supabase URL 和 anon key（第 4 步） |
-| `supabase.min.js` | supabase-js 库（已下载进仓库本地加载，不依赖外部 CDN） |
-| `schema.sql` | Supabase 建表 + 安全策略（第 3 步粘贴运行） |
-| `legacy_state.json` | 旧版 `生词本.json` 的备份，供首登一键导入 |
-| `开始学习.bat` / `开始学习.command` | Windows / macOS 双击打开网站 |
-| `README.md` | 本说明 |
+**Q：部署报错 `Listing artifact metadata failed ... (403) Forbidden`？**
+这是 GitHub Pages 内部（artifact 服务）的偶发故障，**不是仓库代码问题**，前两次同样配置能成功即是证明。到仓库 **Actions** 页对失败的 `pages build and deployment` 点 **Re-run**，或随便再 `git push` 一次即可重发部署。
 
 ## 旧版档案
 
