@@ -49,6 +49,7 @@ english-vocab/
 │   ├── words_ielts2.js       #   雅思核心词包②（用 WORDS.push 追加进同一数组）
 │   ├── words_ielts3.js       #   雅思核心词包③ —— 扩容第一批
 │   ├── words_ielts4.js       #   雅思核心词包④ —— 高频词大扩容（第二次）
+│   ├── words_ielts5.js       #   雅思核心词包⑤ —— 学术/拓展扩容（第三次）
 │   └── config.js             #   ⚠️ Supabase 配置：Project URL + anon public key（部署前填一次）
 │
 ├── lib/                      # 第三方库（下载到本地，不依赖外部 CDN）
@@ -143,7 +144,7 @@ english-vocab/
   - **例句朗读**：复习判分后自动朗读整句例句，顺带练听力
   - **庆祝彩带**：完成日目标时彩带动效
   - **词汇量测量**：① 抽样自测——分层抽 80 词快速估"本词库掌握率"（与泛词汇量口径不同）；② 高频全量摸底——把 level1+2 高频词分批筛完，认识的当场入已学会、不认识的留待日常三明治逐个学。两者均会存进度
-  - **词库扩容计划**：当前约 **1375 词**（words.js 500 + 雅思包①~④），高频常用层已基本覆盖（本次 +387 词多为 level1/2）。目标雅思 ~6000；后续新增 `words_ielts5/6/…` 继续扩低频与学术层。逻辑无需改动：`index.html` 逐个引入、按 `WORDS` 全局数组自动并入去重，词包可在设置里勾选（数字随扩容变化，正文不再写死词数）
+  - **词库扩容计划**：当前约 **1475 词**（words.js 500 + 雅思包①~⑤）。高频常用层与多数学术层已覆盖，越往后新词与库内重叠越高、每批净增量回落（本批 +100）。目标雅思 ~6000，后续 `words_ielts6/7/…` 继续。逻辑无需改动：`index.html` 逐个引入、按 `WORDS` 全局数组自动并入去重，新词包自动默认启用、可手动关停
 
 ### `js/` 目录
 | 文件 | 作用 |
@@ -152,7 +153,8 @@ english-vocab/
 | `js/words_ielts1.js` | 雅思核心词包①，用 `WORDS.push(...)` 追加进同一个数组，额外带 `pack:"ielts1"` 标记 |
 | `js/words_ielts2.js` | 雅思核心词包②，同上，`pack:"ielts2"` + `level` 权重 |
 | `js/words_ielts3.js` | 雅思核心词包③，同上，`pack:"ielts3"` + `level` 权重（扩容第一批） |
-| `js/words_ielts4.js` | 雅思核心词包④，同上，`pack:"ielts4"` + `level` 权重（高频词大扩容，第二次；后续 words_ielts5… 同格式追加） |
+| `js/words_ielts4.js` | 雅思核心词包④，同上，`pack:"ielts4"` + `level` 权重（高频词大扩容，第二次） |
+| `js/words_ielts5.js` | 雅思核心词包⑤，同上，`pack:"ielts5"` + `level` 权重（学术/拓展扩容，第三次；后续 words_ielts6… 同格式追加） |
 | `js/config.js` | ⚠️ 只暴露全局 `CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY }`，**需在部署前填好** |
 
 ### `lib/` 目录
@@ -197,7 +199,7 @@ english-vocab/
 - **艾宾浩斯遗忘曲线**：`INTERVALS=[1,3,7,15,30]` 天，复习错词退回第 1 天
 - **Clipboard API**：造句步骤一键复制文本去 AI 批改
 - **PWA（渐进式 Web 应用）**：`manifest.webmanifest` + Service Worker → 可「添加到主屏幕」当 App 用、断网也能打开界面（学习数据仍实时走 Supabase）
-- **词库扩容机制**：词包文件按 `WORDS.push` 追加、自动去重合并，扩词不改任何业务逻辑；当前库约 1375 词、分批发往 ~6000
+- **词库扩容机制**：词包文件按 `WORDS.push` 追加、自动去重合并，扩词不改任何业务逻辑；当前库约 1475 词、分批发往 ~6000
 
 ## ❓ 常见问题
 
