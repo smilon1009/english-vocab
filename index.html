@@ -22,6 +22,7 @@
 <script src="js/words_ielts6.js"></script>
 <script src="js/words_ielts7.js"></script>
 <script src="js/words_ielts8.js"></script>
+<script src="js/words_ielts9.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
 <style>
@@ -439,7 +440,7 @@ const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7','ielts8':'雅思词包8'}; return L[g]||g; }
+function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7','ielts8':'雅思词包8','ielts9':'雅思词包9'}; return L[g]||g; }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
@@ -486,7 +487,7 @@ let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：
 let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 function newDay(target){
-  return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0 };
+  return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0, speedRevDone:false, miss:[] };
 }
 function baseState(){
   return { learned:[], newWords:{}, day:null,
@@ -547,6 +548,8 @@ function normalize(s){
   if(!Array.isArray(s.day.fuzzy)) s.day.fuzzy=[];
   if(!Number.isInteger(s.day.revR)||s.day.revR<0) s.day.revR=0;
   if(!Number.isInteger(s.day.revW)||s.day.revW<0) s.day.revW=0;
+  if(!Array.isArray(s.day.miss)) s.day.miss=[];                       // 当日复习答错的词（#5 补刀用）
+  if(typeof s.day.speedRevDone!=='boolean') s.day.speedRevDone=false; // 今日是否做过「复习当天」
   // 高频摸底进度（screening）做基础校验
   if(!s.screen || !Array.isArray(s.screen.list)) s.screen=null;
   else { s.screen.idx=Math.max(0, parseInt(s.screen.idx)||0); s.screen.known=Math.max(0,parseInt(s.screen.known)||0); s.screen.fuzzy=Math.max(0,parseInt(s.screen.fuzzy)||0); s.screen.unknown=Math.max(0,parseInt(s.screen.unknown)||0); }
@@ -622,6 +625,7 @@ function isTodayStudied(word){ return todayNewWords().includes(word) && (state.d
 
 // ---------- 已学会·可回炉（学会 30 天后可自愿复习；答对再延 90/180/360 天，答错 7 天后重试） ----------
 const RELEARN_INTERVALS = [30, 90, 180, 360];
+const FUZZY_REVIEW_DAYS = 3;   // 「半熟」词的快速回炉间隔（7 天 → 3 天，缩小遗忘窗口）
 function relearnInit(word){
   if(!state.relearn) state.relearn={};
   if(!state.relearn[word]) state.relearn[word] = { stage:0, next:addDays(todayStr(), RELEARN_INTERVALS[0]) };
@@ -761,7 +765,8 @@ function checkCeleb(){
     '判词：确定认识 <b>'+(knownT-z)+'</b> · 半熟 <b>'+z+'</b> · 今日生词 <b>'+todayNewWords().length+'</b> / '+state.settings.target+' 目标<br>'+
     '三明治：全部完成 <b>'+learningTodayCount()+'</b> 个'+
     (revT? '<br>复习：答对 <b>'+(d.revR||0)+'</b>/'+revT+'（'+revPct+'%）' : '')+
-    '<br>🔥 连续 <b>'+(state.stats?state.stats.streak:0)+'</b> 天 · 已学会 <b>'+state.learned.length+'</b> / '+ALL.length+' 词';
+    '<br>🔥 连续 <b>'+(state.stats?state.stats.streak:0)+'</b> 天 · 已学会 <b>'+state.learned.length+'</b> / '+ALL.length+' 词'+
+    (!d.speedRevDone? '<br><a style="cursor:pointer;color:#93b4ff;text-decoration:underline" onclick="closeCeleb();openModule(\'reviewToday\')">🌙 睡前速记：现在把今天学的拼写一遍 →</a>' : '');
   const co=$('celebOverlay'); if(co){ co.style.display='flex'; }
   showConfetti();
 }
@@ -982,7 +987,7 @@ function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安�
   if(!d.known.includes(o.word)) d.known.push(o.word);
   if(!state.learned.includes(o.word)) state.learned.push(o.word);
   relearnInit(o.word);
-  if(state.relearn[o.word]) state.relearn[o.word].next = addDays(todayStr(), 7);
+  if(state.relearn[o.word]) state.relearn[o.word].next = addDays(todayStr(), FUZZY_REVIEW_DAYS);   // 半熟：3 天后回炉确认
   state.day.lastKnown = o.word;
   noteStudy();
   collectIdx++; save();
@@ -1259,8 +1264,14 @@ function openReviewDue(){
   paint();
   const due=dueWords();
   const again=relearnDueAll();
+  const missN=(state.day.miss||[]).length;
   if(!due.length && !again.length){
-    $('stage').innerHTML='<div class="card"><div class="zh">今天没有到期的复习</div><div class="hint">生词本没有到期词，「已学会回炉」也还没到期。好好休息。</div></div>';
+    let extra='';
+    if(missN) extra += '<div class="btn-row"><button class="ghost" onclick="startMissReview()">⚔️ 当日错词补刀（'+missN+'）</button></div>';
+    if(!state.day.speedRevDone && todayWordsAllDone())
+      extra += '<div class="btn-row"><button class="ghost" onclick="openModule(\'reviewToday\')">🌙 睡前速记：复习今天学的</button></div>';
+    $('stage').innerHTML='<div class="card"><div class="zh">今天没有到期的复习</div>'+
+      '<div class="hint">生词本没有到期词，「已学会回炉」也还没到期。好好休息。</div>'+extra+'</div>';
     return;
   }
   if(!due.length){               // 生词本没到期 → 直接进可回炉（自愿）
@@ -1277,15 +1288,23 @@ function startAgainReview(){     // 复习到期完成后，可选进入已学�
   RV={ mode:'again', list:again, idx:0, right:[], wrong:[], locked:false };
   renderReview();
 }
+function startMissReview(){      // 当日错词补刀（#5）：把今天答错的词再练一遍，答对移除
+  const miss=(state.day.miss||[]).slice();
+  if(!miss.length){ alert('今天还没有答错的词，继续保持！'); openModule('reviewDue'); return; }
+  RV={ mode:'miss', list:shuffle(miss), idx:0, right:[], wrong:[], locked:false };
+  renderReview();
+}
 function renderReview(){
   paint();
   const modeName = RV.mode==='today'? '复习当天（今天的生词）'
     : RV.mode==='due'? '复习到期（艾宾浩斯 1→3→7→15→30）'
+    : RV.mode==='miss'? '⚔️ 当日错词补刀'
     : '已学会·可回炉';
   if(RV.idx>=RV.list.length){
     const r=RV.right.length, t=RV.list.length, w=RV.wrong;
     let extra;
     if(RV.mode==='today'){
+      if(!state.day.speedRevDone){ state.day.speedRevDone=true; save(); }  // 今日已做「复习当天」（#3 睡前速记引导）
       extra = w.length
         ? '<div class="btn-row"><button class="gold" onclick="reviewRedoWrong()">重做答错的 '+w.length+' 个</button></div>'
         : '<div class="hint" style="color:var(--green)">全对，漂亮！</div>';
@@ -1295,16 +1314,27 @@ function renderReview(){
         : '<div class="hint" style="color:var(--green)">全对，漂亮！</div>';
       const left=relearnDueAll().length;
       if(left) extra += '<div class="btn-row"><button class="gold" onclick="startAgainReview()">已学会词可回炉 '+left+' 个（自愿）→</button></div>';
-    }else{ // again：已学会回炉（错词自动 7 天后再来）
+    }else if(RV.mode==='again'){
       extra = w.length
         ? '<div class="hint" style="margin-top:6px">答错的已自动安排 7 天后再回炉。</div>'
         : '<div class="hint" style="color:var(--green)">全部对得上，记得很牢！</div>';
       const left=relearnDueAll().length;
       if(left) extra += '<div class="small" style="margin-top:8px">还有 '+left+' 个到期的可回炉词，可再点「再来一轮」继续。</div>';
+    }else{ // miss 补刀完成
+      extra = w.length
+        ? '<div class="hint" style="margin-top:6px">这次仍没写对的词，明天会照常进入复习队列，明天再战。</div>'
+        : '<div class="hint" style="color:var(--green)">全写对了！今日错词已清零。</div>';
+      save();
     }
+    const missN=(state.day.miss||[]).length;
+    if(missN && RV.mode!=='miss') extra += '<div class="btn-row"><button class="ghost" onclick="startMissReview()">⚔️ 当日错词补刀（'+missN+'）</button></div>';
+    const title = RV.mode==='today'?'复习当天完成'
+      : RV.mode==='due'?'复习到期完成'
+      : RV.mode==='miss'?'错词补刀完成'
+      : '已学会回炉完成';
     $('stage').innerHTML =
       '<div class="card">'+
-        '<div class="zh">'+(RV.mode==='again'?'已学会回炉完成':'复习完成')+'</div>'+
+        '<div class="zh">'+title+'</div>'+
         '<div class="def">答对 <b style="color:var(--green)">'+r+'</b> / '+t+'，答错 '+w.length+' 个：</div>'+
         (w.length? '<div>'+w.map(x=>'<span class="chip">'+esc(x)+'</span>').join('')+'</div>' : '')+
         extra+
@@ -1337,6 +1367,11 @@ function reviewJudge(correct){
   const w=RV.list[RV.idx];
   if(RV.mode==='due'){ if(correct) dueCorrect(w); else dueWrong(w); }
   else if(RV.mode==='again'){ if(correct) relearnCorrect(w); else relearnWrong(w); }
+  else if(RV.mode==='miss'){                                // 当日错词补刀：答对即移除，答错保留待补
+    const mi=state.day.miss.indexOf(w);
+    if(correct && mi>=0) state.day.miss.splice(mi,1);
+  }
+  if(!correct && RV.mode!=='miss' && !state.day.miss.includes(w)) state.day.miss.push(w);   // 记录当日错词（#5）
   state.day.revR=(state.day.revR||0)+(correct?1:0);   // 今日复习统计（日报用）
   state.day.revW=(state.day.revW||0)+(correct?0:1);
   noteStudy();
@@ -1543,7 +1578,7 @@ function screenAnswer(a){
   }else if(a===0.5){       // 半熟 → 也算认识，但 7 天后回炉再确认
     if(!state.learned.includes(word)){ state.learned.push(word); }
     relearnInit(word);
-    if(state.relearn[word]) state.relearn[word].next = addDays(todayStr(), 7);
+    if(state.relearn[word]) state.relearn[word].next = addDays(todayStr(), FUZZY_REVIEW_DAYS);   // 半熟：3 天后回炉确认
     s.fuzzy++;
   }else{ s.unknown++; }    // 不认识 → 保留，以后会进三明治学习
   s.idx++;
