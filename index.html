@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>雅思背单词工作台</title>
-<!-- 资源分目录存放：js/（词库+配置）、lib/（第三方库）、data/（备份数据），见 README 目录结构 -->
+<!-- 资源分目录存放：js/（词库+配置）、lib/（第三方库），见 README 目录结构 -->
 <script src="js/words.js"></script>
 <script src="js/words_ielts1.js"></script>
 <script src="js/words_ielts2.js"></script>
@@ -115,7 +115,7 @@
 <div id="authOverlay" style="display:none">
   <div class="auth-card">
     <h1>📚 雅思背单词工作台</h1>
-    <div class="sub" style="text-align:center;margin:0 0 6px">两人独立进度 · 手机/电脑自动云同步</div>
+    <div class="sub" style="text-align:center;margin:0 0 6px">每人独立进度 · 手机/电脑自动云同步</div>
     <div id="authForm"></div>
     <div class="auth-err" id="authMsg"></div>
   </div>
@@ -132,7 +132,7 @@
   <div class="sub" id="syncStatus"></div>
   <div class="sub" style="color:var(--muted);border:1px dashed var(--border);border-radius:8px;padding:8px 10px">
     <b>每天流程</b>：①<b>判词</b>——看英文想中文，认识→已学会，不认识→今日生词；判满 <b id="flowTarget">10</b> 个就停。
-    ②<b>三明治学习</b>——每个生词走三步：听音默写 → 句子填空（英文提示+中文拐杖）→ 看释义造句并复制到对话给我批改。
+    ②<b>三明治学习</b>——每个生词走三步：听音默写 → 句子填空（英文提示+中文拐杖）→ 看释义造句并复制到对话请 AI 批改。
     ③<b>复习</b>——“复习当天”过今天的生词；“复习到期”按艾宾浩斯 1→3→7→15→30 天自动到期复习。所有朗读均为慢速。
   </div>
 
@@ -196,7 +196,6 @@
     <h3>🗂️ 数据</h3>
     <div class="btn-row">
       <button class="ghost" id="btnResetDay" style="min-width:110px">重置今日</button>
-      <button class="ghost" id="btnExport" style="min-width:110px">复制数据(JSON)</button>
       <button class="red" id="btnClear" style="min-width:110px">清空全部进度</button>
     </div>
     <div class="small" style="margin-top:8px" id="dataTip"></div>
@@ -205,11 +204,10 @@
 
 <script>
 // =========================================================
-// 雅思背单词工作台 v3 —— 双人云同步版
-// 用法：登录邮箱账号（两人各一个账号，独立进度），打开网页即用，
+// 雅思背单词工作台 v3 —— 多账号云同步版
+// 用法：每个用户登录自己的邮箱账号、各自独立进度，打开网页即用，
 //       进度自动云同步到 Supabase；旧版需 node server.js 的用法已废弃。
 // =========================================================
-const LEGACY_KEY = 'en_vocab_state_v2';  // 旧版单用户进度 key，只作一次性导入来源（本版不再写入）
 const INTERVALS = [1, 3, 7, 15, 30];   // 艾宾浩斯：1→3→7→15→30 天
 
 // ---------- 工具 ----------
@@ -241,7 +239,6 @@ const CACHE_PREFIX = 'en_vocab_v3:';      // 每用户本地缓存 key 前缀
 let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：不能叫 supabase，会与 CDN 库的全局重名）
 let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
-let importInProgress = false;
 function newDay(target){
   return { date: todayStr(), target: target||7, newWords:[], known:[], steps:{}, phase:'collect', reviewToday:null };
 }
@@ -273,13 +270,12 @@ function normalize(s){
 }
 let state = baseState();   // 登录成功后由 enterApp() 用云端数据填充
 
-// ---------- 本地缓存 / 旧进度读取 ----------
+// ---------- 本地缓存 ----------
 function cacheKey(){ return uid ? CACHE_PREFIX + uid : null; }
 function cacheRead(){
   try{ const k=cacheKey(); return k ? JSON.parse(localStorage.getItem(k)||'null') : null; }catch(e){ return null; }
 }
 function cacheWrite(){ try{ if(cacheKey()) localStorage.setItem(cacheKey(), JSON.stringify(state)); }catch(e){} }
-function legacyRead(){ try{ return JSON.parse(localStorage.getItem(LEGACY_KEY)||'null'); }catch(e){ return null; } }
 
 // ---------- 云同步：save() 全站调用点不变，写本地缓存 + 防抖推送到 Supabase ----------
 function save(){
@@ -400,7 +396,7 @@ function renderLists(){
     });
   }
   $('dataTip').textContent = uid
-    ? '进度自动云同步到账号「'+userEmail+'」；手机/电脑登录同一账号即同步。「复制数据」可随时导出备份。'
+    ? '进度自动云同步到账号「'+userEmail+'」；手机/电脑登录同一账号即同步。'
     : '';
 }
 function showWordDetail(w){
@@ -849,12 +845,6 @@ $('btnResetDay').addEventListener('click',()=>{
     save(); refresh();
   }
 });
-$('btnExport').addEventListener('click',()=>{
-  const text=JSON.stringify(state,null,2);
-  const doCopy=()=>{ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); alert('已复制。这是你的完整进度备份，请妥善保存。'); }catch(e){ alert('复制失败，请手动复制：\n\n'+text); } document.body.removeChild(ta); };
-  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>alert('已复制。这是你的完整进度备份，请妥善保存。')).catch(doCopy);
-  else doCopy();
-});
 $('btnClear').addEventListener('click',()=>{
   if(confirm('确定清空全部进度（已学会+生词本+今日）？不可恢复。')){
     state={ learned:[], newWords:{}, day:null, settings:state.settings, v:3 };
@@ -893,11 +883,11 @@ function renderAuthForm(){
   }
   const isReg = authMode==='register';
   f.innerHTML =
-    '<input type="email" id="auEmail" placeholder="邮箱（两人各注册一个，进度独立）" autocomplete="email">'+
+    '<input type="email" id="auEmail" placeholder="邮箱（每人注册一个账号，进度独立）" autocomplete="email">'+
     '<input type="password" id="auPass" placeholder="密码（至少 6 位）" autocomplete="'+(isReg?'new-password':'current-password')+'" onkeydown="if(event.key===\'Enter\')authSubmit()">'+
     '<div class="btn-row"><button class="'+(isReg?'gold':'green')+'" onclick="authSubmit()">'+(isReg?'注册并开始学习':'登录')+'</button></div>'+
     '<div class="auth-link" onclick="authMode=\''+(isReg?'login':'register')+'\';renderAuthForm();setAuthMsg(\'\')">'+
-      (isReg?'已有账号？直接登录':'没有账号？注册一个（女朋友也注册自己的）')+'</div>'+
+      (isReg?'已有账号？直接登录':'没有账号？注册一个')+'</div>'+
     (!isReg ? '<div class="auth-link" onclick="authMode=\'reset\';renderAuthForm();setAuthMsg(\'\')">忘记密码？</div>' : '');
 }
 async function authSubmit(){
@@ -954,7 +944,7 @@ async function enterApp(){
     const { data, error } = await sb.from('user_state').select('state').eq('user_id', uid).maybeSingle();
     if(error) throw error;
     if(data && data.state) state = normalize(data.state);
-    else { showImport(); return; }            // 首次登录 → 引导导入旧进度或从零开始
+    else state = normalize(baseState());   // 首次登录：云端还没有该账号的行 → 直接空白进度从零开始
   }catch(err){
     // 云端不可达（离线 / 项目休眠）→ 用本机该账号缓存兜底，稍后自动重试补传
     state = normalize(cacheRead() || baseState());
@@ -971,63 +961,6 @@ function finalizeEnterApp(){
   const ar=$('appRoot'); if(ar) ar.style.display='';
   renderSyncStatus();
   refresh();
-}
-// —— 首登导入卡：只在云端还没有该用户的行时出现，必须手动点按钮（防误导旧数据）——
-function showImport(){
-  const legacy = legacyRead();
-  const f=$('authForm'); if(!f) return;
-  f.innerHTML =
-    '<div style="text-align:left;font-size:13.5px;line-height:1.7;margin-bottom:8px">'+
-      '<b style="font-size:15px">第一次登录这个账号。</b><br>'+
-      '以前在旧版学过的话可以导入进度（已学会 + 生词本复习计划都会保留）；女朋友第一次用请选「从零开始」。'+
-    '</div>'+
-    '<div class="btn-row">'+
-      '<button class="gold" onclick="importFrom(\'repo\')">导入仓库备份</button>'+
-      '<button class="ghost" onclick="importFrom(\'local\')"'+(legacy?'':' disabled title="本机没检测到旧版进度"')+'>导入本机旧进度</button>'+
-    '</div>'+
-    '<div class="btn-row">'+
-      '<button class="ghost" onclick="importFrom(\'file\')">从 JSON 文件导入</button>'+
-      '<button class="green" onclick="importFrom(\'fresh\')">从零开始</button>'+
-    '</div>'+
-    '<div class="small muted" style="margin-top:6px;line-height:1.6">「仓库备份」= 网页自带的 legacy_state.json；「JSON 文件」= 旧版「复制数据」按钮导出的备份。</div>';
-  setAuthMsg('');
-  const ao=$('authOverlay'); if(ao) ao.style.display='flex';
-  const ar=$('appRoot'); if(ar) ar.style.display='none';
-}
-function importFrom(which){
-  if(importInProgress) return;
-  if(which==='fresh'){
-    state = normalize(baseState());
-    finalizeEnterApp();
-  }else if(which==='local'){
-    const obj = legacyRead();
-    if(!obj || !Array.isArray(obj.learned)){ setAuthMsg('本机没有找到旧版进度缓存'); return; }
-    state = normalize(obj);
-    try{ localStorage.removeItem(LEGACY_KEY); }catch(e){}
-    finalizeEnterApp();
-  }else if(which==='repo'){
-    importInProgress = true; setAuthMsg('读取中…', true);
-    fetch('data/legacy_state.json').then(r=>r.json()).then(obj=>{
-      if(!obj || !Array.isArray(obj.learned)){ importInProgress=false; setAuthMsg('仓库备份读取失败，可改用「从零开始」'); return; }
-      state = normalize(obj); importInProgress=false; finalizeEnterApp();
-    }).catch(()=>{ importInProgress=false; setAuthMsg('网络错误：读取备份失败，可改用「从零开始」'); });
-  }else if(which==='file'){
-    const inp=document.createElement('input');
-    inp.type='file'; inp.accept='.json,application/json';
-    inp.onchange=()=>{
-      const file=inp.files && inp.files[0]; if(!file) return;
-      const fr=new FileReader();
-      fr.onload=()=>{
-        try{
-          const obj=JSON.parse(fr.result);
-          if(!obj || !Array.isArray(obj.learned)) throw new Error('bad');
-          state = normalize(obj); finalizeEnterApp();
-        }catch(e){ setAuthMsg('不是有效的进度 JSON，请用旧版「复制数据」导出的文件'); }
-      };
-      fr.readAsText(file);
-    };
-    inp.click();
-  }
 }
 async function boot(){
   if(!window.supabase){
