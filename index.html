@@ -17,6 +17,7 @@
 <script src="js/words_ielts1.js"></script>
 <script src="js/words_ielts2.js"></script>
 <script src="js/words_ielts3.js"></script>
+<script src="js/words_ielts4.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
 <style>
@@ -434,7 +435,7 @@ const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ return g==='core' ? '基础词库' : (g==='ielts1' ? '雅思词包1' : (g==='ielts2' ? '雅思词包2' : (g==='ielts3' ? '雅思词包3' : g))); }
+function groupLabel(g){ return g==='core' ? '基础词库' : (g==='ielts1' ? '雅思词包1' : (g==='ielts2' ? '雅思词包2' : (g==='ielts3' ? '雅思词包3' : (g==='ielts4' ? '雅思词包4' : g)))); }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
@@ -485,7 +486,7 @@ function newDay(target){
 }
 function baseState(){
   return { learned:[], newWords:{}, day:null,
-    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true },
+    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
     stats:{ streak:0, last:'' },
     relearn:{},
     screen:null,
@@ -504,9 +505,9 @@ function normalize(s){
   const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
   if(!s.settings.ttsEngine || !['auto','sys','net'].includes(s.settings.ttsEngine)) s.settings.ttsEngine='auto';
   if(typeof s.settings.breakReminder!=='boolean') s.settings.breakReminder = true;
-  // 词包勾选：升级过或首次 → 全选；之后尊重用户勾选
-  if(s.settings.packs===undefined || upgraded) s.settings.packs=groups();
-  else s.settings.packs=s.settings.packs.filter(g=>groups().includes(g));
+  // 词包勾选：默认全开；用户关掉的（packOff）保持关闭；新词包入库后自动默认开启
+  if(!Array.isArray(s.settings.packOff)) s.settings.packOff=[];
+  s.settings.packs = groups().filter(g => !s.settings.packOff.includes(g));
   // 打卡统计
   s.stats = (s.stats && typeof s.stats==='object')? s.stats : {};
   if(!Number.isInteger(s.stats.streak) || s.stats.streak<0) s.stats.streak=0;
@@ -806,8 +807,14 @@ function renderLists(){
     pr.querySelectorAll('input[data-pack]').forEach(cb=>{
       cb.addEventListener('change',()=>{
         const g=cb.dataset.pack;
-        if(cb.checked){ if(!state.settings.packs.includes(g)) state.settings.packs.push(g); }
-        else state.settings.packs=state.settings.packs.filter(x=>x!==g);
+        state.settings.packOff=state.settings.packOff||[];
+        if(cb.checked){
+          if(!state.settings.packs.includes(g)) state.settings.packs.push(g);
+          state.settings.packOff=state.settings.packOff.filter(x=>x!==g);
+        }else{
+          state.settings.packs=state.settings.packs.filter(x=>x!==g);
+          if(!state.settings.packOff.includes(g)) state.settings.packOff.push(g);
+        }
         save();
       });
     });
