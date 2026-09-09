@@ -55,6 +55,11 @@ english-vocab/
 ├── database/
 │   └── schema.sql            # Supabase 建表 SQL：user_state 表 + 3 条行级安全策略
 │
+├── pwa/                      # 手机「添加到主屏幕」+ 离线缓存
+│   ├── icon.svg              #   网站图标（渐变书本 logo）
+│   ├── manifest.webmanifest  #   PWA 清单：应用名/主题色/图标/独立窗口
+│   └── sw.js                 #   Service Worker：缓存页面壳与词库，Supabase 请求仍走网络
+│
 └── tools/                    # 双击打开网站的启动器（网址已写好，改仓库名记得同步改）
     ├── 开始学习.bat          #   Windows 双击 → 打开默认浏览器
     └── 开始学习.command      #   macOS 双击 → 打开默认浏览器
@@ -113,14 +118,20 @@ english-vocab/
 
 ### `index.html` —— 唯一的"应用"
 纯 HTML + CSS + 原生 JS（无框架）写成的单页应用，内嵌两大部分：
-- **页面结构**：顶部状态栏（今日/目标/已学会/生词本/到期）、四个模块按钮（判词 / 三明治 / 复习当天 / 复习到期）、设置面板（每日目标、朗读语速、难度上限、词包勾选）、登录/注册弹层。
-- **应用逻辑**（`<script>` 内约 800 行）：
+- **页面结构**：品牌头 + 账号栏（含词汇量等级徽章）、统计卡（含连续打卡天数）、四个模块按钮（判词 / 三明治 / 复习当天 / 复习到期）、设置面板（每日目标、朗读语速、难度上限、词包勾选、词汇量登记）、数据区（撤销误判 / 重置今日 / 清空进度）、完成庆祝弹层、登录/注册弹层。
+- **应用逻辑**（`<script>` 内约 900 行）：
   - 判词（出英文→确认中文→认识/不认识，抽词按 level 加权、高频先筛）
   - 三明治三步学习（听音辨词→句子填空→看释义造句）
   - 双复习（当天 7 词 / 艾宾浩斯到期），错词自动重置到第 1 天
   - 状态管理 + **防抖云端同步**（本地 localStorage 缓存 → 800ms 防抖 upsert 到 Supabase）
   - 登录/注册/忘记密码（走 Supabase Auth）；首次登录无云端记录时自动建立空白进度
   - 在线/离线监听：断网时先写本地，`online` 事件或 4 秒定时器自动补传
+  - **连续打卡**：完成判词/学完单词/复习判定时推进 streak，存进 state.stats
+  - **撤销误判**：判词点「认识」后可在数据区一键撤销（仅当天有效）
+  - **跨天顺延**：当天判了但没学满 3 步的词，次日自动带进今日清单继续学
+  - **完成庆祝**：今日生词全部学完时弹庆祝卡片
+  - **词汇量等级**：登记 VocabularySize 测试结果，自动估算 CEFR 等级并显示在账号栏
+  - **PWA**：末尾注册 `pwa/sw.js`，支持「添加到主屏幕」与离线打开
 
 ### `js/` 目录
 | 文件 | 作用 |
@@ -139,6 +150,13 @@ english-vocab/
 | 文件 | 作用 |
 |---|---|
 | `database/schema.sql` | 粘贴到 Supabase SQL Editor 运行一次：创建 `user_state` 表（`id / user_id / state jsonb / updated_at`）+ 开启 RLS + 3 条策略（每个账号只能 select / insert / update 自己的 `user_id` 那一行） |
+
+### `pwa/` 目录
+| 文件 | 作用 |
+|---|---|
+| `pwa/manifest.webmanifest` | PWA 清单：应用名称/主题色/图标/独立窗口，让「添加到主屏幕」变成一个 App |
+| `pwa/sw.js` | Service Worker：缓存页面壳与词库做离线兜底；**Supabase 的请求一律放行走网络**，不缓存个人数据 |
+| `pwa/icon.svg` | 站点图标（渐变书本 logo），同时用作 favicon / apple-touch-icon / 清单图标 |
 
 ### `tools/` 目录
 | 文件 | 作用 |
@@ -164,6 +182,7 @@ english-vocab/
 - **Web Speech API**：`speechSynthesis` + `SpeechSynthesisUtterance` 实现慢速单词朗读
 - **艾宾浩斯遗忘曲线**：`INTERVALS=[1,3,7,15,30]` 天，复习错词退回第 1 天
 - **Clipboard API**：造句步骤一键复制文本去 AI 批改
+- **PWA（渐进式 Web 应用）**：`manifest.webmanifest` + Service Worker → 可「添加到主屏幕」当 App 用、断网也能打开界面（学习数据仍实时走 Supabase）
 - **LFS? 不需要**；整个站点纯文本，仓库只有 100 多 KB
 
 ## ❓ 常见问题

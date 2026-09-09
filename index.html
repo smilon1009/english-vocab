@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>雅思背单词工作台</title>
-<!-- 资源分目录存放：js/（词库+配置）、lib/（第三方库），见 README 目录结构 -->
+<meta name="theme-color" content="#0b0f1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="背单词">
+<link rel="manifest" href="pwa/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="pwa/icon.svg">
+<link rel="apple-touch-icon" href="pwa/icon.svg">
+<!-- 资源分目录存放：js/（词库+配置）、lib/（第三方库）、pwa/（图标+离线），见 README 目录结构 -->
 <script src="js/words.js"></script>
 <script src="js/words_ielts1.js"></script>
 <script src="js/words_ielts2.js"></script>
@@ -12,9 +20,15 @@
 <script src="lib/supabase.min.js"></script>
 <style>
   :root {
-    --bg:#0f1420; --panel:#1a2233; --card:#232d44; --card2:#2a3550;
-    --text:#e6ebf5; --muted:#8b96ad; --accent:#4f8cff; --accent2:#7aa8ff;
-    --green:#34c98e; --red:#ff6b6b; --gold:#f5b84d; --border:#2c3750;
+    --bg:#060a13; --panel:#0f1628; --card:#141e36; --card2:#1b2a4e;
+    --text:#eef2ff; --muted:#8fa0c4; --accent:#5a8dff; --accent2:#93b4ff;
+    --green:#3ad89e; --red:#ff7575; --gold:#ffc75f; --border:#26345e;
+    --grad:linear-gradient(135deg,#5a8dff,#8f6bff);
+    --gradbg:radial-gradient(1100px 500px at 15% -10%, rgba(90,141,255,.16), transparent 60%),
+              radial-gradient(900px 520px at 110% 0%, rgba(143,107,255,.13), transparent 55%),
+              radial-gradient(700px 600px at 50% 120%, rgba(58,216,158,.07), transparent 60%);
+    --shadow:0 10px 30px rgba(3,6,14,.45);
+    --glow:0 0 0 3px rgba(90,141,255,.18);
   }
   * { box-sizing:border-box; }
   body { margin:0; font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
@@ -110,27 +124,147 @@
   #accountBar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 10px; }
   #accountBar .pill { margin-left:0; border-color:var(--accent); color:var(--accent2); }
 </style>
+<style>
+  /* ================= v2 精致暗色改版（覆盖层） ================= */
+  html { scrollbar-color:#26345e transparent; }
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb { background:#26345e; border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover { background:#354a7a; }
+  ::selection { background:rgba(90,141,255,.35); }
+
+  body { background:var(--bg); background-image:var(--gradbg); background-attachment:fixed; }
+
+  .wrap { max-width:800px; padding:20px 16px 90px; }
+
+  /* ---- 品牌头 ---- */
+  .brand { display:flex; align-items:center; gap:12px; margin:2px 0 12px; }
+  .brand-mark { flex:0 0 auto; width:46px; height:46px; display:flex; align-items:center; justify-content:center;
+    font-size:23px; border-radius:14px; background:var(--grad); color:#fff; box-shadow:var(--shadow), inset 0 0 0 1px rgba(255,255,255,.18); }
+  .brand h1 { font-size:21px; margin:0; letter-spacing:.2px;
+    background:linear-gradient(90deg,#fff, #b7c9ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero-sub { color:var(--muted); font-size:12px; margin-top:2px; }
+  .hero-sub b { color:var(--accent2); }
+
+  /* ---- 通用小组件 ---- */
+  .sub { color:var(--muted); }
+  .flow { background:rgba(255,255,255,.025); border:1px solid rgba(90,141,255,.22) !important;
+    border-radius:12px !important; backdrop-filter:blur(6px); line-height:1.65 !important; }
+  .stats { gap:10px; margin:14px 0 16px; }
+  .stat { background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border); border-radius:14px; padding:10px 12px; position:relative; overflow:hidden;
+    box-shadow:0 6px 16px rgba(0,0,0,.22); transition:transform .15s ease, border-color .2s; }
+  .stat::after { content:''; position:absolute; left:0; top:0; height:2px; width:100%;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:.65; }
+  .stat:hover { transform:translateY(-1px); border-color:#31416f; }
+  .stat .num { font-size:20px; color:#dbe6ff; text-shadow:0 0 18px rgba(90,141,255,.35); }
+  .stat .lbl { font-size:11px; line-height:1.5; }
+  .stat.streak { background:linear-gradient(180deg, rgba(255,199,95,.09), rgba(255,199,95,.015)); border-color:#4a3c18; }
+  .stat.streak .num { color:var(--gold); text-shadow:0 0 16px rgba(255,199,95,.35); }
+
+  .navbtn { border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    box-shadow:0 6px 14px rgba(0,0,0,.18); transition:all .16s ease; }
+  .navbtn.active { background:var(--grad); box-shadow:0 8px 22px rgba(90,141,255,.4), inset 0 0 0 1px rgba(255,255,255,.25); }
+  .navbtn.active .c { color:#e6edff; }
+  .navbtn:not(:disabled):hover { opacity:1; border-color:var(--accent); transform:translateY(-1px); }
+
+  .card { background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); backdrop-filter:blur(4px); }
+  .en-word { color:#dbe6ff; text-shadow:0 2px 24px rgba(90,141,255,.45); letter-spacing:1px; }
+  .bigword { font-size:46px; }
+  .zh { color:#fff; }
+  .zhcrutch { background:rgba(255,199,95,.06); border:1px dashed rgba(255,199,95,.4); color:#ffd98a; }
+
+  input[type=text], input[type=number], textarea, select,
+  .auth-card input[type=email], .auth-card input[type=password], .auth-card input[type=text] {
+    background:#0a1020; border:1px solid #2a3860; transition:border-color .2s, box-shadow .2s; }
+  input[type=text]:focus, input[type=number]:focus, textarea:focus, select:focus,
+  .auth-card input:focus { border-color:var(--accent); box-shadow:var(--glow); }
+
+  button { background:var(--grad); box-shadow:0 6px 16px rgba(90,141,255,.28); transition:transform .12s, box-shadow .2s, opacity .2s; }
+  button:not(:disabled):hover { opacity:.94; transform:translateY(-1px); }
+  button:active:not(:disabled) { transform:translateY(0); }
+  button.ghost { background:rgba(255,255,255,.04); box-shadow:none; color:#b9c5e6; }
+  button.ghost:hover { border-color:var(--accent); }
+  button.green { box-shadow:0 6px 16px rgba(58,216,158,.26); }
+  button.red { box-shadow:0 6px 16px rgba(255,117,117,.24); }
+  button.gold { background:linear-gradient(135deg,#ffc75f,#ffab5f); box-shadow:0 6px 16px rgba(255,199,95,.25); }
+  .speaker { border-radius:12px; background:rgba(255,255,255,.04); box-shadow:none; }
+
+  .bar { height:8px; background:rgba(255,255,255,.06); border-radius:6px; box-shadow:inset 0 1px 3px rgba(0,0,0,.5); }
+  .bar > div { background:var(--grad); box-shadow:0 0 12px rgba(90,141,255,.6); border-radius:6px; }
+
+  .chip { border-radius:9px; background:#1b2a4e; transition:all .15s; }
+  .chip:hover { border-color:var(--accent); box-shadow:var(--glow); transform:translateY(-1px); }
+  .chip.done { color:var(--green); border-color:rgba(58,216,158,.6); }
+  .pill { border-radius:30px; font-size:12px; }
+  #accountBar { gap:8px; margin:0 0 12px; }
+
+  .list { background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+    border:1px solid var(--border); border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,.2); }
+  .list h3 { color:#b7c9ff; letter-spacing:.3px; text-transform:none; font-size:13px; }
+
+  .step.active { border-color:var(--accent); box-shadow:var(--glow); }
+  .crumb.active { background:var(--grad); box-shadow:0 4px 12px rgba(90,141,255,.4); }
+  .crumb.done, .step.done { color:var(--green); }
+
+  /* ---- 登录弹层 ---- */
+  #authOverlay { background:rgba(4,7,15,.78); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+  .auth-card { background:linear-gradient(180deg, #141e36, #0d1424); border:1px solid #26345e;
+    border-radius:20px; box-shadow:0 24px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04); }
+  .auth-hero { display:flex; align-items:center; gap:12px; margin:2px 0 10px; }
+  .auth-hero .brand-mark { width:44px; height:44px; font-size:22px; border-radius:13px; }
+  .auth-hero h1 { font-size:19px; text-align:left; margin:0;
+    background:linear-gradient(90deg,#fff,#b7c9ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .auth-hero .sub { text-align:left; margin:2px 0 0; font-size:12px; }
+
+  /* ---- 成就/庆祝弹层 ---- */
+  .celeb { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+    padding:20px; background:rgba(4,7,15,.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    animation:fadeIn .25s ease; }
+  .celeb-card { max-width:360px; width:100%; text-align:center; background:linear-gradient(180deg,#141e36,#0c1322);
+    border:1px solid #31416f; border-radius:24px; padding:30px 22px 22px; box-shadow:0 24px 70px rgba(0,0,0,.6); }
+  .celeb-emoji { font-size:64px; line-height:1; animation:pop .5s cubic-bezier(.2,1.4,.4,1) both, floaty 2.4s ease-in-out .6s infinite; }
+  .celeb-card h2 { margin:14px 0 6px; font-size:22px; color:#fff;
+    background:linear-gradient(90deg,#3ad89e,#ffc75f); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .celeb-sub { color:var(--muted); font-size:13.5px; line-height:1.9; margin:0 0 18px; }
+  .celeb-sub b { color:#dbe6ff; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes pop { 0%{transform:scale(.4); opacity:0} 100%{transform:scale(1); opacity:1} }
+  @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+</style>
 </head>
 <body>
 <div id="authOverlay" style="display:none">
   <div class="auth-card">
-    <h1>📚 雅思背单词工作台</h1>
-    <div class="sub" style="text-align:center;margin:0 0 6px">每人独立进度 · 手机/电脑自动云同步</div>
+    <div class="auth-hero">
+      <span class="brand-mark">📚</span>
+      <div>
+        <h1>雅思背单词工作台</h1>
+        <div class="sub">每人独立进度 · 手机/电脑自动云同步</div>
+      </div>
+    </div>
     <div id="authForm"></div>
     <div class="auth-err" id="authMsg"></div>
   </div>
 </div>
 <div class="wrap" id="appRoot">
-  <h1>📚 雅思背单词工作台</h1>
+  <div class="brand">
+    <span class="brand-mark">📚</span>
+    <div>
+      <h1>雅思背单词工作台</h1>
+      <div class="hero-sub">判词 → 三明治三步 → 艾宾浩斯复习 · <b>多账号云同步</b></div>
+    </div>
+  </div>
   <div id="accountBar" style="display:none">
     <span class="pill" id="accountEmail"></span>
+    <span class="pill" id="lvlBadge" style="display:none"></span>
     <a class="pill" id="btnVocabTest" href="https://my.vocabularysize.com/" target="_blank" rel="noopener"
        style="margin-left:auto;border-color:var(--gold);color:var(--gold);text-decoration:none;cursor:pointer"
        title="去测一下你的词汇量水平（新窗口打开）">📊 测词汇量</a>
     <button class="ghost" id="btnLogout" style="flex:0 0 auto;min-width:64px;padding:6px 10px">退出登录</button>
   </div>
   <div class="sub" id="syncStatus"></div>
-  <div class="sub" style="color:var(--muted);border:1px dashed var(--border);border-radius:8px;padding:8px 10px">
+  <div class="sub flow" style="padding:8px 10px">
     <b>每天流程</b>：①<b>判词</b>——看英文想中文，认识→已学会，不认识→今日生词；判满 <b id="flowTarget">10</b> 个就停。
     ②<b>三明治学习</b>——每个生词走三步：听音默写 → 句子填空（英文提示+中文拐杖）→ 看释义造句并复制到对话请 AI 批改。
     ③<b>复习</b>——“复习当天”过今天的生词；“复习到期”按艾宾浩斯 1→3→7→15→30 天自动到期复习。所有朗读均为慢速。
@@ -143,6 +277,7 @@
     <div class="stat"><div class="num" id="stNew">0</div><div class="lbl">生词本(复习中)</div></div>
     <div class="stat"><div class="num" id="stDue">0</div><div class="lbl">今日到期复习</div></div>
     <div class="stat"><div class="num" id="stTotal">0</div><div class="lbl">词库总量</div></div>
+    <div class="stat streak"><div class="num" id="stStreak">0</div><div class="lbl">🔥 连续学习(天)</div></div>
   </div>
 
   <div class="nav">
@@ -187,6 +322,12 @@
         </select>
         <span class="small" style="color:var(--muted)">默认全词包按「高频→低频」权重抽，高频先背完；想先只啃高频可切「只要高频」</span>
       </div>
+      <div class="row left">
+        <span class="small">🧠 词汇量(测试结果)</span>
+        <input type="number" id="setVocab" class="numw" min="0" max="40000" step="50" placeholder="如 2800">
+        <button class="ghost" id="btnSetVocab" style="flex:0 0 auto; min-width:64px">保存</button>
+        <span class="small muted" id="vocabHint">在 VocabularySize 测完输入词汇量，自动估算英语等级</span>
+      </div>
       <div class="row left" id="packRow"></div>
       <div class="small" style="margin-top:6px">判词只从「打勾的词包」里抽；不勾的词包，里面的词不会出现。</div>
     </div>
@@ -195,10 +336,20 @@
   <div class="list">
     <h3>🗂️ 数据</h3>
     <div class="btn-row">
+      <button class="ghost" id="btnUndoKnow" style="display:none;min-width:150px"></button>
       <button class="ghost" id="btnResetDay" style="min-width:110px">重置今日</button>
       <button class="red" id="btnClear" style="min-width:110px">清空全部进度</button>
     </div>
     <div class="small" style="margin-top:8px" id="dataTip"></div>
+  </div>
+
+  <div class="celeb" id="celebOverlay" style="display:none">
+    <div class="celeb-card">
+      <div class="celeb-emoji">🎉</div>
+      <h2 id="celebTitle">今日学习完成！</h2>
+      <div class="celeb-sub" id="celebSub"></div>
+      <button class="green big" onclick="closeCeleb()">继续加油</button>
+    </div>
   </div>
 </div>
 
@@ -240,11 +391,12 @@ let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：
 let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 function newDay(target){
-  return { date: todayStr(), target: target||7, newWords:[], known:[], steps:{}, phase:'collect', reviewToday:null };
+  return { date: todayStr(), target: target||7, newWords:[], known:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null };
 }
 function baseState(){
   return { learned:[], newWords:{}, day:null,
-    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4 },
+    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null },
+    stats:{ streak:0, last:'' },
     v:3 };
 }
 function normalize(s){
@@ -257,15 +409,33 @@ function normalize(s){
   s.settings.target = upgraded? 10 : Math.max(1, Math.min(30, parseInt(s.settings.target)||10));
   s.settings.rate  = parseFloat(s.settings.rate)||0.6;
   s.settings.maxLevel = upgraded? 4 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||4));
+  const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
   // 词包勾选：升级过或首次 → 全选；之后尊重用户勾选
   if(s.settings.packs===undefined || upgraded) s.settings.packs=groups();
   else s.settings.packs=s.settings.packs.filter(g=>groups().includes(g));
+  // 打卡统计
+  s.stats = (s.stats && typeof s.stats==='object')? s.stats : {};
+  if(!Number.isInteger(s.stats.streak) || s.stats.streak<0) s.stats.streak=0;
+  if(typeof s.stats.last!=='string') s.stats.last='';
   // 每日状态
   const t = todayStr();
-  if(!s.day || s.day.date!==t) s.day = newDay(s.settings.target);
+  if(!s.day || s.day.date!==t){
+    // 跨天顺延：昨天判了但没学满3步的词，带进今天清单（已进生词本/已学会的不算）
+    const carry=[];
+    if(s.day && Array.isArray(s.day.newWords)){
+      for(const w of s.day.newWords){
+        const st=(s.day.steps && s.day.steps[w])||0;
+        if(st<3 && !s.learned.includes(w) && !(w in s.newWords)) carry.push(w);
+      }
+    }
+    s.day = newDay(s.settings.target);
+    if(carry.length) s.day.newWords = carry;
+  }
   if(!s.day.newWords) s.day.newWords=[];
   if(!s.day.known) s.day.known=[];
   if(!s.day.steps) s.day.steps={};
+  if(!s.day.celebrated) s.day.celebrated=false;
+  if(!('lastKnown' in s.day)) s.day.lastKnown=null;
   return s;
 }
 let state = baseState();   // 登录成功后由 enterApp() 用云端数据填充
@@ -368,7 +538,64 @@ function renderStats(){
   $('stNew').textContent = Object.keys(state.newWords).length;
   $('stDue').textContent = dueWords().length;
   $('stTotal').textContent = ALL.length;
+  const ss=$('stStreak'); if(ss) ss.textContent = (state.stats && state.stats.streak)||0;
 }
+// ---------- 打卡 / 词汇量等级 / 撤销误判 ----------
+function noteStudy(){   // 有实际学习动作时调用：推进连续打卡
+  if(!state.stats) state.stats={streak:0,last:''};
+  const t=todayStr();
+  if(state.stats.last===t) return;
+  state.stats.streak = (state.stats.last===addDays(t,-1) ? (state.stats.streak||0) : 0) + 1;
+  state.stats.last = t;
+}
+function cefrOf(n){
+  n=parseInt(n);
+  if(!n || n<=0) return null;
+  if(n<1500) return {code:'A1', name:'入门'};
+  if(n<2500) return {code:'A2', name:'基础'};
+  if(n<3500) return {code:'B1', name:'中级'};
+  if(n<5000) return {code:'B2', name:'中高级'};
+  if(n<7000) return {code:'C1', name:'高级'};
+  return {code:'C2', name:'精通'};
+}
+function refreshLvlBadge(){
+  const b=$('lvlBadge'); if(!b) return;
+  const n=state.settings.vocabSize;
+  const c=n? cefrOf(n):null;
+  if(c && uid){ b.style.display=''; b.textContent='🧠 词汇量约 '+n+' · '+c.code+' '+c.name; }
+  else b.style.display='none';
+}
+function refreshUndoBtn(){
+  const b=$('btnUndoKnow'); if(!b) return;
+  const d=state.day;
+  const w=d && d.lastKnown;
+  if(w && state.learned.includes(w)){
+    b.style.display=''; b.textContent='↩️ 撤销刚才的“'+w+'”';
+  }else b.style.display='none';
+}
+function undoKnow(){
+  const d=state.day; if(!d || !d.lastKnown) return;
+  const w=d.lastKnown;
+  state.learned=state.learned.filter(x=>x!==w);
+  if(Array.isArray(d.known)) d.known=d.known.filter(x=>x!==w);
+  d.lastKnown=null;
+  save(); refresh();
+}
+// ---------- 完成庆祝 ----------
+function todayWordsAllDone(){ const dl=todayNewWords(); return dl.length>0 && dl.every(w=>(state.day.steps[w]||0)>=3); }
+function checkCeleb(){
+  if(!state.day || state.day.celebrated) return;
+  if(!todayWordsAllDone()) return;
+  state.day.celebrated=true; save();
+  const ce=$('celebTitle'); if(ce) ce.textContent='今日全部完成！';
+  const cs=$('celebSub');
+  if(cs) cs.innerHTML =
+    '今日 <b>'+todayNewWords().length+'</b> 个生词全部学完 ✓<br>'+
+    '🔥 连续学习 <b>'+((state.stats&&state.stats.streak)||0)+'</b> 天　·　已学会 <b>'+state.learned.length+'</b>/'+ALL.length+' 词'+
+    (dueWords().length? '<br>还有 <b>'+dueWords().length+'</b> 个到期复习在等你' : '');
+  const co=$('celebOverlay'); if(co){ co.style.display='flex'; }
+}
+function closeCeleb(){ const co=$('celebOverlay'); if(co) co.style.display='none'; }
 function renderLists(){
   const nw=Object.keys(state.newWords);
   $('newWordList').innerHTML = nw.length
@@ -398,6 +625,13 @@ function renderLists(){
   $('dataTip').textContent = uid
     ? '进度自动云同步到账号「'+userEmail+'」；手机/电脑登录同一账号即同步。'
     : '';
+  const sv=$('setVocab'); if(sv) sv.value = state.settings.vocabSize||'';
+  const vh=$('vocabHint');
+  if(vh) vh.textContent = state.settings.vocabSize
+    ? '已登记 '+state.settings.vocabSize+' → '+cefrOf(state.settings.vocabSize).code+' '+cefrOf(state.settings.vocabSize).name+'；测完新成绩可随时更新'
+    : '在 VocabularySize 测完输入词汇量，自动估算英语等级';
+  refreshLvlBadge();
+  refreshUndoBtn();
 }
 function showWordDetail(w){
   const o=WORDMAP[w]; const r=state.newWords[w];
@@ -510,11 +744,15 @@ function collectKnownYes(){
   const o=collectQ[collectIdx];
   if(!state.learned.includes(o.word)) state.learned.push(o.word);
   if(!state.day.known.includes(o.word)) state.day.known.push(o.word);
+  state.day.lastKnown = o.word;          // 供「撤销误判」使用（仅当天有效）
+  noteStudy();
   collectIdx++; save(); renderCollect();
 }
 function collectUnknown(){ // 认识确认时改口、或主界面点不认识，都进这里
   const o=collectQ[collectIdx];
   if(!todayNewWords().includes(o.word)) state.day.newWords.push(o.word);
+  state.day.lastKnown = null;            // 既然记了生词，就不存在「误判认识」可撤销
+  noteStudy();
   collectIdx++;
   const reached = todayNewWords().length>=state.settings.target;
   save();
@@ -710,7 +948,9 @@ function sw3Done(){
     if(!inReview(o.word)) scheduleWord(o.word);
     state.day.steps[o.word]=3;
     if(state.newWords[o.word]) state.newWords[o.word].sentence=v;   // 把「我的句子」写回生词本，形成造句闭环
+    noteStudy();
     save();
+    checkCeleb();   // 若这是今天最后一个没学完的词 → 弹完成庆祝
   }
   // 找下一个未学的
   const dl=todayNewWords();
@@ -791,6 +1031,7 @@ function reviewJudge(correct){
   if(RV.locked) return; RV.locked=true;
   const w=RV.list[RV.idx];
   if(RV.mode==='due'){ if(correct) dueCorrect(w); else dueWrong(w); }
+  noteStudy();
   save();
   if(correct) RV.right.push(w); else RV.wrong.push(w);
   RV.idx++;
@@ -837,6 +1078,12 @@ $('btnApplySet').addEventListener('click',()=>{
   state.settings.target=t; state.settings.rate=r; state.settings.maxLevel=m;
   save(); refresh(); // 目标/语速/难度上限当天立即生效
 });
+$('btnSetVocab').addEventListener('click',()=>{
+  const v=parseInt($('setVocab').value,10);
+  state.settings.vocabSize=(v>0 && v<=40000)? v : null;
+  save(); refresh();
+});
+$('btnUndoKnow').addEventListener('click',undoKnow);
 $('btnResetDay').addEventListener('click',()=>{
   if(confirm('重置今日？已判词、已学习进度会清空（生词本里已安排的复习保留）。')){
     state.day=newDay(state.settings.target);
@@ -847,7 +1094,7 @@ $('btnResetDay').addEventListener('click',()=>{
 });
 $('btnClear').addEventListener('click',()=>{
   if(confirm('确定清空全部进度（已学会+生词本+今日）？不可恢复。')){
-    state={ learned:[], newWords:{}, day:null, settings:state.settings, v:3 };
+    state={ learned:[], newWords:{}, day:null, settings:state.settings, stats:state.stats, v:3 };
     state=normalize(state); save(); refresh();
   }
 });
@@ -988,6 +1235,11 @@ async function boot(){
 // ---------- 启动 ----------
 document.getElementById('btnLogout').addEventListener('click', doLogout);
 boot();
+
+// PWA：离线缓存与「添加到主屏幕」（失败静默，不影响学习）
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('pwa/sw.js',{ scope:'./' }).catch(function(){}); });
+}
 </script>
 </body>
 </html>
