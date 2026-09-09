@@ -234,6 +234,7 @@
 </style>
 </head>
 <body>
+<audio id="ttsAudio" preload="none" style="display:none"></audio>
 <div id="authOverlay" style="display:none">
   <div class="auth-card">
     <div class="auth-hero">
@@ -323,6 +324,15 @@
         <span class="small" style="color:var(--muted)">默认全词包按「高频→低频」权重抽，高频先背完；想先只啃高频可切「只要高频」</span>
       </div>
       <div class="row left">
+        <span class="small">🔊 发音引擎</span>
+        <select id="setEngine" style="width:150px">
+          <option value="auto">智能(推荐)</option>
+          <option value="sys">系统朗读</option>
+          <option value="net">在线词典</option>
+        </select>
+        <span class="small muted">安卓/国产浏览器听不到声音时，改成「在线词典」</span>
+      </div>
+      <div class="row left">
         <span class="small">🧠 词汇量(测试结果)</span>
         <input type="number" id="setVocab" class="numw" min="0" max="40000" step="50" placeholder="如 2800">
         <button class="ghost" id="btnSetVocab" style="flex:0 0 auto; min-width:64px">保存</button>
@@ -375,14 +385,43 @@ WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
 function groupLabel(g){ return g==='core' ? '基础词库' : (g==='ielts1' ? '雅思词包1' : (g==='ielts2' ? '雅思词包2' : g)); }
 
-// ---------- 朗读（慢速） ----------
+// ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
+  const eng = (state && state.settings && state.settings.ttsEngine) || 'auto';
+  if(eng==='net'){ netSpeak(text); return; }
   try{
+    if(!('speechSynthesis' in window)){ netSpeak(text); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang='en-US'; u.rate = (state && state.settings.rate) || 0.6; u.pitch=1;
-    speechSynthesis.speak(u);
-  }catch(e){}
+    u.lang='en-US'; u.rate = (state && state.settings && state.settings.rate) || 0.6; u.pitch=1;
+    let started = false;
+    const timer = setTimeout(()=>{        // 系统引擎"假成功但不出声"（常见于安卓国产浏览器）
+      if(started || eng==='sys') return;
+      try{ speechSynthesis.cancel(); }catch(e){}
+      netSpeak(text);
+    }, 1600);
+    u.onstart = ()=>{ started=true; clearTimeout(timer); };
+    u.onend   = ()=>{ clearTimeout(timer); };
+    u.onerror = ()=>{ clearTimeout(timer); if(eng!=='sys') netSpeak(text); };
+    try{ speechSynthesis.speak(u); }
+    catch(e){ clearTimeout(timer); if(eng!=='sys') netSpeak(text); }
+  }catch(e){ if(eng!=='sys') netSpeak(text); }
+}
+// 在线发音兜底：先有道词典美音，失败换 Google TTS（<audio> 不依赖系统语音引擎）
+function netSpeak(text){
+  try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
+  const au = $('ttsAudio');
+  const word = String(text||'').trim();
+  if(!au || !word) return;
+  const urls = [
+    'https://dict.youdao.com/dictvoice?type=2&audio='+encodeURIComponent(word),
+    'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q='+encodeURIComponent(word)
+  ];
+  let k = 0;
+  const tryNext = ()=>{ k++; if(k<urls.length){ au.src=urls[k]; au.play().catch(tryNext); } };
+  au.onerror = tryNext;
+  au.src = urls[0];
+  au.play().catch(tryNext);
 }
 
 // ---------- 状态 & Supabase 云同步 ----------
@@ -395,7 +434,7 @@ function newDay(target){
 }
 function baseState(){
   return { learned:[], newWords:{}, day:null,
-    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null },
+    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto' },
     stats:{ streak:0, last:'' },
     v:3 };
 }
@@ -410,6 +449,7 @@ function normalize(s){
   s.settings.rate  = parseFloat(s.settings.rate)||0.6;
   s.settings.maxLevel = upgraded? 4 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||4));
   const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
+  if(!s.settings.ttsEngine || !['auto','sys','net'].includes(s.settings.ttsEngine)) s.settings.ttsEngine='auto';
   // 词包勾选：升级过或首次 → 全选；之后尊重用户勾选
   if(s.settings.packs===undefined || upgraded) s.settings.packs=groups();
   else s.settings.packs=s.settings.packs.filter(g=>groups().includes(g));
@@ -607,6 +647,7 @@ function renderLists(){
     : '<span class="small">暂无已学会单词</span>';
   // 设置面板
   const pk=$('setRate'); if(pk) pk.value=String(state.settings.rate);
+  const pe=$('setEngine'); if(pe) pe.value=state.settings.ttsEngine||'auto';
   const pt=$('setTarget'); if(pt) pt.value=String(state.settings.target);
   const pm=$('setMaxLevel'); if(pm) pm.value=String(state.settings.maxLevel);
   const pr=$('packRow');
@@ -814,6 +855,17 @@ function renderSandwich(){
     '<div class="card">'+
       (SW.step===1? sandwichStep1Html() : SW.step===2? sandwichStep2Html() : sandwichStep3Html())+
     '</div>';
+  // 第①步新词自动先读一遍（等价于「第一次听」），并把按钮更新为「再听一次」
+  if(SW.step===1 && !SW.played && !SW.revealed && (SW.attempts||0)<2){
+    setTimeout(()=>{
+      if(SW.step===1 && !SW.played && !SW.revealed){
+        SW.played=true;
+        const b=document.querySelector('#stage .speaker');
+        if(b && b.textContent.indexOf('再听一次')<0) b.textContent='🔊 再听一次';
+        speak(SW.word);
+      }
+    }, 250);
+  }
 }
 function sandwichStep1Html(){
   const o=WORDMAP[SW.word];
@@ -826,11 +878,16 @@ function sandwichStep1Html(){
   return '<div class="progress">第①步 听音辨词：点🔊听发音，<b>不看拼写</b>把单词打出来</div>'+
     '<input type="text" id="sw1In" placeholder="听音后拼写这个单词" autocomplete="off" onkeydown="if(event.key===\'Enter\')sw1Check()">'+
     '<div class="btn-row">'+
-      '<button class="speaker" onclick="speak(\''+esc(o.word)+'\')">🔊 再听一次</button>'+
+      '<button class="speaker" onclick="swPlay(this)">🔊 '+(SW.played?'再听一次':'听一次发音')+'</button>'+
       '<button class="ghost" onclick="sw1GiveUp()">听不出，看答案</button>'+
       '<button class="green" onclick="sw1Check()">提交</button>'+
     '</div>'+
     '<div class="fb" id="sw1Fb"></div>';
+}
+function swPlay(btn){          // 第①步的听音按钮：点了才算「听过一次」，之后再点=再听一次
+  SW.played=true;
+  if(btn) btn.textContent='🔊 再听一次';
+  speak(SW.word);
 }
 function sw1Check(){
   const o=WORDMAP[SW.word];
@@ -1075,8 +1132,10 @@ $('btnApplySet').addEventListener('click',()=>{
   const t=Math.max(1,Math.min(30,parseInt($('setTarget').value)||7));
   const r=parseFloat($('setRate').value)||0.6;
   const m=Math.max(1,Math.min(4,parseInt($('setMaxLevel').value)||2));
+  const en=$('setEngine').value;
   state.settings.target=t; state.settings.rate=r; state.settings.maxLevel=m;
-  save(); refresh(); // 目标/语速/难度上限当天立即生效
+  state.settings.ttsEngine=(['auto','sys','net'].includes(en)?en:'auto');
+  save(); refresh(); // 目标/语速/难度上限/发音引擎当天立即生效
 });
 $('btnSetVocab').addEventListener('click',()=>{
   const v=parseInt($('setVocab').value,10);
