@@ -16,6 +16,7 @@
 <script src="js/words.js"></script>
 <script src="js/words_ielts1.js"></script>
 <script src="js/words_ielts2.js"></script>
+<script src="js/words_ielts3.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
 <style>
@@ -433,7 +434,7 @@ const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ return g==='core' ? '基础词库' : (g==='ielts1' ? '雅思词包1' : (g==='ielts2' ? '雅思词包2' : g)); }
+function groupLabel(g){ return g==='core' ? '基础词库' : (g==='ielts1' ? '雅思词包1' : (g==='ielts2' ? '雅思词包2' : (g==='ielts3' ? '雅思词包3' : g))); }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
