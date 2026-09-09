@@ -20,6 +20,7 @@
 <script src="js/words_ielts4.js"></script>
 <script src="js/words_ielts5.js"></script>
 <script src="js/words_ielts6.js"></script>
+<script src="js/words_ielts7.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
 <style>
@@ -437,7 +438,7 @@ const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6'}; return L[g]||g; }
+function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7'}; return L[g]||g; }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
@@ -872,16 +873,28 @@ function renderNav(){
 // 模块1：判词（出英文 → 想中文 → 认识/不认识，累计7个生词截止）
 // =========================================================
 let collectQ=[]; let collectIdx=0;
-// 抽取权重：level 越低（越高频）权重越大 → 判词先遇到高频、高频先被筛完；
-// 同时中/低频也按小比例混入，不会完全被高频挤掉。
-// level1基础=8  level2进阶高频=6  level3高阶=3  level4学术=1
-const LEVEL_WEIGHT = {1:8, 2:6, 3:3, 4:1};
+// 判词抽词：先把每个已启用词包（= 每个词库文件）的词分别打乱，
+// 再以「随机起点 + 轮转」合并 → 每次出的词既随机、又不集中在某一个文件/词包里。
+// 想只背高频/只背某个词包：用设置里的「难度上限」「词包勾选」来控制范围。
 function collectCandidates(){
   const max = state.settings.maxLevel;
-  const pools=ALL.filter(w=> state.settings.packs.includes(w.pack) && !state.learned.includes(w.word) && !inReview(w.word) && !todayNewWords().includes(w.word) && (w.level||1)<=max);
-  collectQ=pools.slice().sort((a,b)=>
-    Math.random()/(LEVEL_WEIGHT[a.level||1]||1) - Math.random()/(LEVEL_WEIGHT[b.level||1]||1));
-  collectIdx=0;
+  const enabled = new Set(state.settings.packs);
+  const pool = ALL.filter(w => enabled.has(w.pack) && !state.learned.includes(w.word) && !inReview(w.word) && !todayNewWords().includes(w.word) && (w.level||1)<=max);
+  const byPack = {};
+  pool.forEach(w => { (byPack[w.pack] = byPack[w.pack] || []).push(w); });
+  const packNames = Object.keys(byPack);
+  shuffle(packNames);                                   // 随机决定今天从哪个词包先出
+  packNames.forEach(g => shuffle(byPack[g]));           // 每个词包内部随机
+  collectQ = [];
+  let any = true;
+  while(any){                                           // 轮转：A B C A B C…
+    any = false;
+    for(let i=0;i<packNames.length;i++){
+      const arr = byPack[packNames[i]];
+      if(arr && arr.length){ collectQ.push(arr.pop()); any = true; }
+    }
+  }
+  collectIdx = 0;
 }
 function renderCollect(){
   paint();
