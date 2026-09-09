@@ -239,6 +239,19 @@
   .nw-pager button { flex:0 0 auto; min-width:0; width:36px; padding:7px 0; font-size:16px; border-radius:10px; }
   .nw-pager .nw-info { font-size:12.5px; color:var(--muted); min-width:86px; text-align:center; letter-spacing:.3px; }
   .nw-pager button:disabled { opacity:.3; }
+
+  /* ---- 词库管理 ---- */
+  .wb-btn { display:inline-block; font-size:12px; margin:0 4px 2px 0; padding:3px 9px; border-radius:9px;
+    cursor:pointer; border:1px solid var(--border); background:rgba(255,255,255,.04); color:#b9c5e6; }
+  .wb-btn:hover { border-color:var(--accent); color:#eef2ff; }
+  .wb-btn.warn:hover { border-color:var(--red); color:var(--red); }
+  .wb-tag { font-size:11px; color:var(--muted); margin-left:4px; }
+  #wbRes .roww { margin:2px 0; }
+
+  /* ---- 庆祝彩带 ---- */
+  .confetti { position:fixed; inset:0; z-index:205; pointer-events:none; overflow:hidden; }
+  .confetti i { position:absolute; top:-16px; width:9px; height:15px; border-radius:2px; will-change:transform; animation:cf linear forwards; }
+  @keyframes cf { to { transform:translateY(108vh) rotate(760deg); opacity:.25; } }
 </style>
 </head>
 <body>
@@ -306,6 +319,14 @@
   </div>
 
   <div class="list">
+    <h3>🔎 词库管理（手动增删） <span class="toggle" onclick="document.getElementById('wbBox').classList.toggle('open')">展开/收起</span></h3>
+    <div class="settings" id="wbBox">
+      <input type="text" id="wbSearch" placeholder="输入英文单词搜索…（可手动加/移出 已学会 或 生词本）" autocomplete="off">
+      <div id="wbRes" class="small" style="margin-top:8px;line-height:2"></div>
+    </div>
+  </div>
+
+  <div class="list">
     <h3>⚙️ 设置 <span class="toggle" onclick="toggleSettings()">展开/收起</span></h3>
     <div class="settings" id="settingsBox">
       <div class="row left">
@@ -344,6 +365,11 @@
         <button class="ghost" id="btnSetVocab" style="flex:0 0 auto; min-width:64px">保存</button>
         <span class="small muted" id="vocabHint">在 VocabularySize 测完输入词汇量，自动估算英语等级</span>
       </div>
+      <div class="row left">
+        <label style="font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="setRemind" checked> 连续学习 25 分钟提醒休息
+        </label>
+      </div>
       <div class="row left" id="packRow"></div>
       <div class="small" style="margin-top:6px">判词只从「打勾的词包」里抽；不勾的词包，里面的词不会出现。</div>
     </div>
@@ -359,6 +385,15 @@
     <div class="small" style="margin-top:8px" id="dataTip"></div>
   </div>
 
+  <div class="list">
+    <h3>🧪 词汇量测量</h3>
+    <div class="btn-row">
+      <button class="ghost" id="btnQuiz" style="min-width:110px">🧪 抽样自测(~80词)</button>
+      <button class="ghost" id="btnScreen" style="min-width:130px">🔍 高频全量摸底</button>
+    </div>
+    <div class="small muted" style="margin-top:8px" id="measureTip"></div>
+  </div>
+
   <div class="celeb" id="celebOverlay" style="display:none">
     <div class="celeb-card">
       <div class="celeb-emoji">🎉</div>
@@ -367,6 +402,15 @@
       <button class="green big" onclick="closeCeleb()">继续加油</button>
     </div>
   </div>
+  <div class="celeb" id="breakOverlay" style="display:none">
+    <div class="celeb-card">
+      <div class="celeb-emoji">🧘</div>
+      <h2>学了挺久了，歇一下</h2>
+      <div class="celeb-sub">连续学习 25 分钟了。起来喝水、看看远处，保护眼睛和专注力。</div>
+      <button class="green big" onclick="closeBreak()">好，休息好了</button>
+    </div>
+  </div>
+  <div class="confetti" id="celebConfetti"></div>
 </div>
 
 <script>
@@ -436,13 +480,14 @@ let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：
 let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 function newDay(target){
-  return { date: todayStr(), target: target||7, newWords:[], known:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null };
+  return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0 };
 }
 function baseState(){
   return { learned:[], newWords:{}, day:null,
-    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto' },
+    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true },
     stats:{ streak:0, last:'' },
     relearn:{},
+    screen:null,
     v:3 };
 }
 function normalize(s){
@@ -457,6 +502,7 @@ function normalize(s){
   s.settings.maxLevel = upgraded? 4 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||4));
   const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
   if(!s.settings.ttsEngine || !['auto','sys','net'].includes(s.settings.ttsEngine)) s.settings.ttsEngine='auto';
+  if(typeof s.settings.breakReminder!=='boolean') s.settings.breakReminder = true;
   // 词包勾选：升级过或首次 → 全选；之后尊重用户勾选
   if(s.settings.packs===undefined || upgraded) s.settings.packs=groups();
   else s.settings.packs=s.settings.packs.filter(g=>groups().includes(g));
@@ -492,6 +538,12 @@ function normalize(s){
   if(!s.day.steps) s.day.steps={};
   if(!s.day.celebrated) s.day.celebrated=false;
   if(!('lastKnown' in s.day)) s.day.lastKnown=null;
+  if(!Array.isArray(s.day.fuzzy)) s.day.fuzzy=[];
+  if(!Number.isInteger(s.day.revR)||s.day.revR<0) s.day.revR=0;
+  if(!Number.isInteger(s.day.revW)||s.day.revW<0) s.day.revW=0;
+  // 高频摸底进度（screening）做基础校验
+  if(!s.screen || !Array.isArray(s.screen.list)) s.screen=null;
+  else { s.screen.idx=Math.max(0, parseInt(s.screen.idx)||0); s.screen.known=Math.max(0,parseInt(s.screen.known)||0); s.screen.fuzzy=Math.max(0,parseInt(s.screen.fuzzy)||0); s.screen.unknown=Math.max(0,parseInt(s.screen.unknown)||0); }
   return s;
 }
 let state = baseState();   // 登录成功后由 enterApp() 用云端数据填充
@@ -620,12 +672,23 @@ function renderStats(){
 }
 // ---------- 打卡 / 词汇量等级 / 撤销误判 ----------
 function noteStudy(){   // 有实际学习动作时调用：推进连续打卡
+  markActive();
   if(!state.stats) state.stats={streak:0,last:''};
   const t=todayStr();
   if(state.stats.last===t) return;
   state.stats.streak = (state.stats.last===addDays(t,-1) ? (state.stats.streak||0) : 0) + 1;
   state.stats.last = t;
 }
+// ---------- 休息提醒（25 分钟） ----------
+let _lastAct = 0, _breakShown = false;
+function markActive(){ _lastAct = Date.now(); if(_breakShown){ _breakShown=false; const b=$('breakOverlay'); if(b) b.style.display='none'; } }
+function closeBreak(){ _breakShown = true; const b=$('breakOverlay'); if(b) b.style.display='none'; }
+setInterval(function(){
+  if(!uid || !state.settings || state.settings.breakReminder===false) return;
+  if(_lastAct && (Date.now()-_lastAct) > 25*60*1000 && !_breakShown){
+    _breakShown=true; const b=$('breakOverlay'); if(b) b.style.display='flex';
+  }
+}, 30000);
 function cefrOf(n){
   n=parseInt(n);
   if(!n || n<=0) return null;
@@ -656,23 +719,45 @@ function undoKnow(){
   const w=d.lastKnown;
   state.learned=state.learned.filter(x=>x!==w);
   if(Array.isArray(d.known)) d.known=d.known.filter(x=>x!==w);
+  if(Array.isArray(d.fuzzy)) d.fuzzy=d.fuzzy.filter(x=>x!==w);
   if(state.relearn && state.relearn[w]) delete state.relearn[w];   // 同步清掉回炉登记
   d.lastKnown=null;
   save(); refresh();
 }
-// ---------- 完成庆祝 ----------
+// ---------- 完成庆祝 + 彩带动效 ----------
 function todayWordsAllDone(){ const dl=todayNewWords(); return dl.length>0 && dl.every(w=>(state.day.steps[w]||0)>=3); }
+function showConfetti(){
+  const c=$('celebConfetti'); if(!c) return;
+  c.innerHTML='';
+  const colors=['#5a8dff','#8f6bff','#3ad89e','#ffc75f','#ff8f8f','#93b4ff'];
+  for(let i=0;i<50;i++){
+    const p=document.createElement('i');
+    p.style.left=(Math.random()*100)+'vw';
+    p.style.background=colors[i%colors.length];
+    p.style.animationDuration=(1.8+Math.random()*1.6)+'s';
+    p.style.animationDelay=(Math.random()*0.8)+'s';
+    p.style.transform='rotate('+(Math.random()*360)+'deg)';
+    c.appendChild(p);
+  }
+  setTimeout(()=>{ if(c) c.innerHTML=''; }, 4200);
+}
 function checkCeleb(){
   if(!state.day || state.day.celebrated) return;
   if(!todayWordsAllDone()) return;
   state.day.celebrated=true; save();
   const ce=$('celebTitle'); if(ce) ce.textContent='今日全部完成！';
+  const d=state.day, z=d.fuzzy? d.fuzzy.length:0;
+  const knownT=(d.known||[]).length, revT=(d.revR||0)+(d.revW||0);
+  const revPct = revT? Math.round((d.revR||0)/revT*100) : null;
   const cs=$('celebSub');
   if(cs) cs.innerHTML =
-    '今日 <b>'+todayNewWords().length+'</b> 个生词全部学完 ✓<br>'+
-    '🔥 连续学习 <b>'+((state.stats&&state.stats.streak)||0)+'</b> 天　·　已学会 <b>'+state.learned.length+'</b>/'+ALL.length+' 词'+
-    (dueWords().length? '<br>还有 <b>'+dueWords().length+'</b> 个到期复习在等你' : '');
+    '📊 <b>今日日报</b><br>'+
+    '判词：确定认识 <b>'+(knownT-z)+'</b> · 半熟 <b>'+z+'</b> · 今日生词 <b>'+todayNewWords().length+'</b> / '+state.settings.target+' 目标<br>'+
+    '三明治：全部完成 <b>'+learningTodayCount()+'</b> 个'+
+    (revT? '<br>复习：答对 <b>'+(d.revR||0)+'</b>/'+revT+'（'+revPct+'%）' : '')+
+    '<br>🔥 连续 <b>'+(state.stats?state.stats.streak:0)+'</b> 天 · 已学会 <b>'+state.learned.length+'</b> / '+ALL.length+' 词';
   const co=$('celebOverlay'); if(co){ co.style.display='flex'; }
+  showConfetti();
 }
 function closeCeleb(){ const co=$('celebOverlay'); if(co) co.style.display='none'; }
 // ---------- 生词本分页列表（一页 10 个，可左右箭头/左右滑动翻页） ----------
@@ -710,6 +795,7 @@ function renderLists(){
   // 设置面板
   const pk=$('setRate'); if(pk) pk.value=String(state.settings.rate);
   const pe=$('setEngine'); if(pe) pe.value=state.settings.ttsEngine||'auto';
+  const rb=$('setRemind'); if(rb) rb.checked = state.settings.breakReminder!==false;
   const pt=$('setTarget'); if(pt) pt.value=String(state.settings.target);
   const pm=$('setMaxLevel'); if(pm) pm.value=String(state.settings.maxLevel);
   const pr=$('packRow');
@@ -735,6 +821,12 @@ function renderLists(){
     : '在 VocabularySize 测完输入词汇量，自动估算英语等级';
   refreshLvlBadge();
   refreshUndoBtn();
+  const mt=$('measureTip');
+  if(mt && state.screen && state.screen.list && state.screen.idx < state.screen.list.length){
+    mt.textContent='高频摸底进行中：已判 '+state.screen.idx+' / '+state.screen.list.length+'，可随时点「高频全量摸底」继续。';
+  }else if(mt && !mt.textContent.trim()){
+    mt.textContent='① 抽样自测：5~8 分钟快速估词库掌握率；② 高频摸底：把 level1+2 的 '+screenPool().length+' 个高频词全部筛一遍（可分批，进度自动保存）。';
+  }
 }
 function showWordDetail(w){
   const o=WORDMAP[w]; const r=state.newWords[w];
@@ -826,6 +918,7 @@ function renderCollectWord(){
       '<div class="btn-row">'+
         '<button class="speaker" onclick="speak(\''+esc(o.word)+'\')" title="慢速朗读">🔊</button>'+
         '<button class="green" onclick="collectTapKnow()">✅ 我认识</button>'+
+        '<button class="gold" onclick="collectFuzzy()">😐 半熟</button>'+
         '<button class="red" onclick="collectUnknown()">❌ 不认识</button>'+
       '</div>'+
       '<div class="fb" id="collectFb"></div>'+
@@ -840,7 +933,30 @@ function collectTapKnow(){ // 先亮出中文让他确认，避免误判成已�
       '<div class="zh">中文意思：'+esc(o.zh)+'</div>'+
       '<div class="btn-row">'+
         '<button class="green" onclick="collectKnownYes()">✔ 是这个意思 → 已学会</button>'+
+        '<button class="gold" onclick="collectFuzzy()">😐 其实半懂</button>'+
         '<button class="red" onclick="collectUnknown()">✘ 其实不认识 → 记生词</button>'+
+      '</div>'+
+    '</div>';
+}
+function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安排 7 天后回炉再确认
+  const o=collectQ[collectIdx];
+  const d=state.day; d.fuzzy=d.fuzzy||[]; d.known=d.known||[];
+  if(!d.fuzzy.includes(o.word)) d.fuzzy.push(o.word);
+  if(!d.known.includes(o.word)) d.known.push(o.word);
+  if(!state.learned.includes(o.word)) state.learned.push(o.word);
+  relearnInit(o.word);
+  if(state.relearn[o.word]) state.relearn[o.word].next = addDays(todayStr(), 7);
+  state.day.lastKnown = o.word;
+  noteStudy();
+  collectIdx++; save();
+  $('stage').innerHTML =
+    '<div class="card">'+
+      '<div class="zh">😐 已标记「半熟」</div>'+
+      '<div class="def">先进「已学会」，<b>7 天后</b>会出现在「复习到期 → 已学会可回炉」里请你再确认一次。答对就长期保留，答错就多安排一轮。</div>'+
+      '<div class="hint">其实不认识的话，点「改回」重新判。</div>'+
+      '<div class="btn-row">'+
+        '<button class="red" onclick="undoKnow()">↩️ 改回（其实不熟）</button>'+
+        '<button class="big" onclick="renderCollect()">继续判词 →</button>'+
       '</div>'+
     '</div>';
 }
@@ -1183,6 +1299,8 @@ function reviewJudge(correct){
   const w=RV.list[RV.idx];
   if(RV.mode==='due'){ if(correct) dueCorrect(w); else dueWrong(w); }
   else if(RV.mode==='again'){ if(correct) relearnCorrect(w); else relearnWrong(w); }
+  state.day.revR=(state.day.revR||0)+(correct?1:0);   // 今日复习统计（日报用）
+  state.day.revW=(state.day.revW||0)+(correct?0:1);
   noteStudy();
   save();
   if(correct) RV.right.push(w); else RV.wrong.push(w);
@@ -1194,29 +1312,233 @@ function reviewCheck(){
   const o=WORDMAP[w];
   const v=($('rzIn').value||'').trim().toLowerCase().replace(/[.!?,;:]$/,'');
   if(!v) return;
+  const full=o.example.replace('___', o.word);
   if(v===o.word.toLowerCase()){
     const rec=state.newWords[w];
     const sent=(rec && rec.sentence) ? '<div class="small" style="margin-top:5px">你当时的句子：'+esc(rec.sentence)+'</div>' : '';
     $('rzFb').innerHTML='<span class="ok">✔ '+esc(o.word)+' —— '+esc(o.zh)+'</span>'+sent;
-    speak(o.word);
-    setTimeout(()=>reviewJudge(true), 1500);
+    speak(full);          // 例句整句朗读，练听力
+    setTimeout(()=>reviewJudge(true), 1900);
   }else{
     $('rzFb').innerHTML='<span class="bad">❌ 正确答案：'+esc(o.word)+'（'+esc(o.zh)+'）</span>';
-    speak(o.word);
-    setTimeout(()=>reviewJudge(false), 1400);
+    speak(full);
+    setTimeout(()=>reviewJudge(false), 1800);
   }
 }
 function reviewDontKnow(){
   const w=RV.list[RV.idx];
   const o=WORDMAP[w];
   $('rzFb').innerHTML='<span class="bad">正确答案：'+esc(o.word)+'（'+esc(o.zh)+'）</span>';
-  speak(o.word);
-  setTimeout(()=>reviewJudge(false), 1200);
+  speak(o.example.replace('___', o.word));
+  setTimeout(()=>reviewJudge(false), 1600);
 }
 function reviewRedoWrong(){
   RV.list=RV.wrong.slice(); RV.idx=0; RV.right=[]; RV.wrong=[]; RV.locked=false;
   renderReview();
 }
+
+// =========================================================
+// 词库管理（手动增删 / 搜索）
+// =========================================================
+function wbList(){
+  const box=$('wbSearch'), out=$('wbRes');
+  if(!box || !out) return;
+  const q=box.value.trim().toLowerCase();
+  if(!q){ out.innerHTML='<span class="muted">输入英文单词开始搜索（可把想提前学的词加进今日生词本）</span>'; return; }
+  const hits=ALL.filter(w=>w.word.toLowerCase().indexOf(q)===0 || w.word.toLowerCase().includes(q)).slice(0,40);
+  if(!hits.length){ out.innerHTML='<span class="muted">没有匹配的单词，词库共 '+ALL.length+' 词</span>'; return; }
+  out.innerHTML = hits.map(w=>{
+    const word=w.word;
+    const lv=state.learned.includes(word), nw=!!state.newWords[word];
+    const tag= lv?'<span class="wb-tag">✓已学会</span>':(nw?'<span class="wb-tag">📌生词本</span>':'<span class="wb-tag">· 未学</span>');
+    const b1= lv
+      ? '<span class="wb-btn warn" onclick="wbRmLearned(\''+esc(word)+'\')">移出已学会</span>'
+      : '<span class="wb-btn" onclick="wbAddLearned(\''+esc(word)+'\')">设为已学会</span>';
+    const b2= nw
+      ? '<span class="wb-btn warn" onclick="wbRmNew(\''+esc(word)+'\')">移出生词本</span>'
+      : '<span class="wb-btn" onclick="wbAddNew(\''+esc(word)+'\')">加入今日生词</span>';
+    return '<div class="roww"><b>'+esc(word)+'</b> <span class="muted">'+esc(w.ipa||'')+' '+esc(w.zh||'')+'</span> '+tag+
+      '<br>'+b1+' '+b2+'</div>';
+  }).join('');
+}
+function wbAddLearned(w){
+  if(!state.learned.includes(w)){ state.learned.push(w); relearnInit(w); }
+  save(); paint(); wbList();
+}
+function wbRmLearned(w){
+  state.learned=state.learned.filter(x=>x!==w);
+  const d=state.day;
+  if(Array.isArray(d.known)) d.known=d.known.filter(x=>x!==w);
+  if(Array.isArray(d.fuzzy)) d.fuzzy=d.fuzzy.filter(x=>x!==w);
+  if(state.relearn && state.relearn[w]) delete state.relearn[w];
+  save(); paint(); wbList();
+}
+function wbAddNew(w){
+  wbRmLearned(w);                       // 手动进生词本=当作还没掌握
+  if(!state.newWords[w]) scheduleWord(w);
+  const d=state.day;
+  if(!d.newWords.includes(w)) d.newWords.push(w);
+  d.steps[w]=0;
+  save(); paint(); wbList();
+}
+function wbRmNew(w){
+  if(state.newWords[w]) delete state.newWords[w];
+  const d=state.day;
+  d.newWords=d.newWords.filter(x=>x!==w);
+  if(d.steps) delete d.steps[w];
+  save(); paint(); wbList();
+}
+
+// =========================================================
+// 词汇量测量：A.抽样自测（短）  B.高频全量摸底（可续传）
+// 口径说明：测的是「这套雅思核心词库的掌握率」，与外部网站"泛词汇量"不可直接比。
+// =========================================================
+let QZ=null;                 // 抽样自测运行时状态
+const QUIZ_N = 80;
+function quizSample(n){
+  const byLv={}; ALL.forEach(w=>{ const l=w.level||1; (byLv[l]=byLv[l]||[]).push(w); });
+  const q=[]; const used=new Set();
+  Object.keys(byLv).sort().forEach(lv=>{
+    const pool=byLv[lv];
+    const want=Math.max(1, Math.round(n*pool.length/ALL.length));
+    shuffle(pool).slice(0,want).forEach(w=>{ q.push(w); used.add(w.word); });
+  });
+  if(q.length<n){ shuffle(ALL.filter(w=>!used.has(w.word))).slice(0,n-q.length).forEach(w=>q.push(w)); }
+  return shuffle(q).slice(0,n);
+}
+function startQuiz(){
+  MOD='quiz';
+  QZ={ list:quizSample(QUIZ_N), idx:0, score:0, known:0, fuzzy:0, unknown:0 };
+  quizShow();
+}
+function quizShow(){
+  paint();
+  if(!QZ || QZ.idx>=QZ.list.length){ quizEnd(); return; }
+  const o=QZ.list[QZ.idx];
+  $('stage').innerHTML =
+    '<div class="progress">🧪 词汇量自测 · 第 '+(QZ.idx+1)+'/'+QZ.list.length+' 个（约剩 '+Math.ceil((QZ.list.length-QZ.idx)*4/60)+' 分钟）</div>'+
+    '<div class="bar"><div style="width:'+(QZ.idx/QZ.list.length*100)+'%"></div></div>'+
+    '<div class="card">'+
+      '<div class="hint">看英文，心里想中文意思（不许看词典哦）</div>'+
+      '<div class="en-word">'+esc(o.word)+'</div>'+
+      '<div class="btn-row">'+
+        '<button class="speaker" onclick="speak(\''+esc(o.word)+'\')">🔊</button>'+
+        '<button class="green" onclick="quizAnswer(1)">✅ 认识</button>'+
+        '<button class="gold" onclick="quizAnswer(0.5)">😐 半熟</button>'+
+        '<button class="red" onclick="quizAnswer(0)">❌ 不认识</button>'+
+      '</div>'+
+      '<div class="btn-row"><button class="ghost" onclick="quizQuit()">退出（放弃本次）</button></div>'+
+    '</div>';
+  markActive();
+}
+function quizAnswer(a){
+  if(!QZ) return;
+  QZ.idx++; QZ.score+=a;
+  if(a===1) QZ.known++; else if(a===0.5) QZ.fuzzy++; else QZ.unknown++;
+  if(QZ.idx>=QZ.list.length) quizEnd(); else quizShow();
+}
+function quizQuit(){ QZ=null; MOD='collect'; refresh(); }
+function quizEnd(){
+  const n=QZ.list.length, rate=QZ.score/n;
+  const err=1.96*Math.sqrt(rate*(1-rate)/n);
+  const bank=Math.round(rate*ALL.length);
+  MOD='collect'; refresh();
+  const tip=$('measureTip');
+  $('stage').innerHTML =
+    '<div class="card">'+
+      '<div class="zh">🧪 自测完成</div>'+
+      '<div class="def left">抽样 '+n+' 词（按难度分层）：<br>'+
+        '· 认识 '+QZ.known+' 个 · 半熟 '+QZ.fuzzy+' 个 · 不认识 '+QZ.unknown+' 个</div>'+
+      '<div class="def" style="font-size:18px">掌握率约 <b style="color:var(--green)">'+Math.round(rate*100)+'%</b>'+
+        '<span class="small muted">（±'+Math.round(err*100)+'%）</span></div>'+
+      '<div class="def">按抽样推算：本词库约 <b>'+bank+'</b> / '+ALL.length+' 个词你已认识。</div>'+
+      '<div class="hint left">注意：这是<b>雅思核心词库掌握率</b>口径，和外站"泛词汇量"（1800 那种）不是同一个数字，不能直接对比。<br>把词库陆续扩到 6000 后，这个数字会更能反映你的雅思词汇水平。</div>'+
+      '<div class="btn-row"><button class="green" onclick="openModule(\'collect\')">好的</button></div>'+
+    '</div>';
+  if(tip) tip.textContent = '上次抽样自测（'+todayStr()+'）：掌握率约 '+Math.round(rate*100)+'%，预计词库已会 '+bank+' 词。';
+  QZ=null;
+}
+// ---------- 高频全量摸底（level1+2，可续传） ----------
+function screenPool(){ return ALL.filter(w=>(w.level||1)<=2); }
+function startScreen(){
+  MOD='quiz';
+  const list=shuffle(screenPool().filter(w=> !state.learned.includes(w.word) && !state.newWords[w.word]).map(w=>w.word));
+  if(!list.length){ alert('高频词已经全部筛完啦！'); openModule('collect'); return; }
+  state.screen={ list:list, idx:0, known:0, fuzzy:0, unknown:0, poolTotal:screenPool().length };
+  save();
+  screenShow();
+}
+function resumeScreen(){
+  if(state.screen && state.screen.list && state.screen.idx < state.screen.list.length){
+    MOD='quiz'; screenShow();
+  }else startScreen();
+}
+function screenShow(){
+  paint();
+  const s=state.screen;
+  if(!s || s.idx>=s.list.length){ screenEnd(); return; }
+  const word=s.list[s.idx], o=WORDMAP[word];
+  const doneTotal=s.known+s.fuzzy+s.unknown;
+  $('stage').innerHTML =
+    '<div class="progress">🔍 高频摸底（level1+2）· 已判 '+doneTotal+'，本次还需判 '+(s.list.length-s.idx)+' 个<br>'+
+    '<span class="small">进度会自动保存，可随时退出明天继续</span></div>'+
+    '<div class="bar"><div style="width:'+((s.idx/(s.list.length||1))*100)+'%"></div></div>'+
+    '<div class="card">'+
+      '<div class="hint">看英文想中文——把你"本来就会的高频词"清点出来</div>'+
+      '<div class="en-word">'+esc(o.word)+'</div>'+
+      '<div class="btn-row">'+
+        '<button class="speaker" onclick="speak(\''+esc(word)+'\')">🔊</button>'+
+        '<button class="green" onclick="screenAnswer(1)">✅ 认识</button>'+
+        '<button class="gold" onclick="screenAnswer(0.5)">😐 半熟</button>'+
+        '<button class="red" onclick="screenAnswer(0)">❌ 不认识</button>'+
+      '</div>'+
+      '<div class="btn-row"><button class="ghost" onclick="screenQuit()">暂存进度，退出</button></div>'+
+    '</div>';
+  markActive();
+}
+function screenAnswer(a){
+  const s=state.screen; if(!s) return;
+  const word=s.list[s.idx];
+  if(a===1){               // 认识 → 当场标记已学会，以后不再重复问
+    if(!state.learned.includes(word)){ state.learned.push(word); relearnInit(word); }
+    s.known++;
+  }else if(a===0.5){       // 半熟 → 也算认识，但 7 天后回炉再确认
+    if(!state.learned.includes(word)){ state.learned.push(word); }
+    relearnInit(word);
+    if(state.relearn[word]) state.relearn[word].next = addDays(todayStr(), 7);
+    s.fuzzy++;
+  }else{ s.unknown++; }    // 不认识 → 保留，以后会进三明治学习
+  s.idx++;
+  save();
+  if(s.idx>=s.list.length) screenEnd(); else screenShow();
+}
+function screenQuit(){
+  MOD='collect'; refresh();
+  const tip=$('measureTip');
+  if(tip) tip.textContent='高频摸底已暂存（已判 '+((state.screen&&state.screen.idx)||0)+' / '+(state.screen?state.screen.list.length:0)+'），点「高频全量摸底」继续。';
+}
+function screenEnd(){
+  const s=state.screen; if(!s) return;
+  const P=s.poolTotal || screenPool().length;
+  const pool=screenPool();
+  const learnedNow=pool.filter(w=>state.learned.includes(w.word) || !!state.newWords[w.word]).length;
+  const unknown=P-learnedNow;
+  const rate= P? learnedNow/P : 0;
+  MOD='collect'; refresh();
+  const tip=$('measureTip');
+  $('stage').innerHTML =
+    '<div class="card">'+
+      '<div class="zh">🔍 高频摸底完成</div>'+
+      '<div class="def left">高频段（level1+2）共 <b>'+P+'</b> 词：<br>'+
+      '· 已掌握（认识/复习中）<b>'+(learnedNow)+'</b> · 还需学习 <b>'+unknown+'</b></div>'+
+      '<div class="def" style="font-size:18px">高频掌握率约 <b style="color:var(--green)">'+Math.round(rate*100)+'%</b></div>'+
+      '<div class="def">这 '+unknown+' 个不认识的词，会出现在以后每天的「判词/三明治」里被逐个学掉。</div>'+
+      '<div class="hint">高频段认识率，是判断"日常英语够不够用"更靠谱的指标。</div>'+
+      '<div class="btn-row"><button class="green" onclick="screenClear()">完成（清掉摸底进度）</button></div>'+
+    '</div>';
+  if(tip) tip.textContent='上次高频摸底（'+todayStr()+'）：'+P+' 词中掌握率 '+Math.round(rate*100)+'%。';
+}
+function screenClear(){ state.screen=null; save(); openModule('collect'); }
 
 // =========================================================
 // 设置 & 数据 & 事件
@@ -1238,6 +1560,11 @@ $('btnSetVocab').addEventListener('click',()=>{
   save(); refresh();
 });
 $('btnUndoKnow').addEventListener('click',undoKnow);
+// 词库管理 / 测量 / 休息提醒 控件
+$('wbSearch').addEventListener('input', wbList);
+$('btnQuiz').addEventListener('click', startQuiz);
+$('btnScreen').addEventListener('click', resumeScreen);
+$('setRemind').addEventListener('change', function(e){ state.settings.breakReminder = e.target.checked; save(); });
 $('btnResetDay').addEventListener('click',()=>{
   if(confirm('重置今日？已判词、已学习进度会清空（生词本里已安排的复习保留）。')){
     state.day=newDay(state.settings.target);
