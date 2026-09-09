@@ -1,6 +1,6 @@
 // 雅思背单词工作台 · 离线缓存 Service Worker
 // 只缓存本站静态文件（页面/词库/库），Supabase 的请求一律放行走网络。
-const CACHE = 'ev-shell-v4';
+const CACHE = 'ev-shell-v5';
 const ASSETS = [
   '../',
   '../index.html',
@@ -10,6 +10,7 @@ const ASSETS = [
   '../js/words_ielts3.js',
   '../js/words_ielts4.js',
   '../js/words_ielts5.js',
+  '../js/words_ielts6.js',
   '../js/config.js',
   '../lib/supabase.min.js',
   '../pwa/manifest.webmanifest',
