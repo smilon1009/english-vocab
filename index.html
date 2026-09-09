@@ -21,6 +21,7 @@
 <script src="js/words_ielts5.js"></script>
 <script src="js/words_ielts6.js"></script>
 <script src="js/words_ielts7.js"></script>
+<script src="js/words_ielts8.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
 <style>
@@ -438,7 +439,7 @@ const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7'}; return L[g]||g; }
+function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7','ielts8':'雅思词包8'}; return L[g]||g; }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
@@ -839,11 +840,24 @@ function renderLists(){
     mt.textContent='① 抽样自测：5~8 分钟快速估词库掌握率；② 高频摸底：把 level1+2 的 '+screenPool().length+' 个高频词全部筛一遍（可分批，进度自动保存）。';
   }
 }
+// ---------- 词条可选扩展字段（syn 同义词[] / root 词根）的展示 ----------
+function wordExtras(o, asLines){
+  const out=[];
+  if(o && o.root) out.push((asLines?'词根：':'🔗 词根：')+o.root);
+  if(o && Array.isArray(o.syn) && o.syn.length) out.push((asLines?'同义词：':'🔁 同义：')+o.syn.join('、'));
+  return out;
+}
+function wordExtrasHtml(o){
+  const ex=wordExtras(o,false);
+  return ex.length? '<div class="small muted" style="margin-top:6px;line-height:1.9">'+ex.join('<br>')+'</div>' : '';
+}
 function showWordDetail(w){
   const o=WORDMAP[w]; const r=state.newWords[w];
   if(!o) return;
-  const lines=[w+'（'+o.zh+'）', '音标：'+o.ipa+' · '+o.pos, '下次复习：'+(r?r.next:'-')];
+  const lines=[w+'（'+o.zh+'）', '音标：'+o.ipa+' · '+o.pos, '英文释义：'+o.def, '例句：'+o.example.replace('___', w)];
+  if(r) lines.push('下次复习：'+r.next);
   if(r && r.sentence) lines.push('我的句子：'+r.sentence);
+  wordExtras(o,true).forEach(s=>lines.push(s));
   alert(lines.join('\n'));
 }
 function renderNav(){
@@ -1008,6 +1022,7 @@ function collectUnknown(){ // 认识确认时改口、或主界面点不认识�
       '<div style="text-align:center" class="ipa">'+esc(o.ipa)+' · '+esc(o.pos)+' · '+esc(o.zh)+'</div>'+
       '<div class="def"><span class="en">'+esc(o.def)+'</span></div>'+
       '<div class="example">'+fmtExample(o)+'</div>'+
+      wordExtrasHtml(o)+
       '<div class="btn-row"><button class="speaker" onclick="speak(\''+esc(o.word)+'\')">🔊</button>'+
         '<button class="big" onclick="collectAfterReveal('+(reached?1:0)+')">'+(reached?'看今日成果':'下一个')+'</button></div>'+
     '</div>';
