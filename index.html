@@ -25,6 +25,7 @@
 <script src="js/words_ielts9.js"></script>
 <script src="js/config.js"></script>
 <script src="lib/supabase.min.js"></script>
+<script src="lib/marked.min.js"></script>
 <style>
   :root {
     --bg:#060a13; --panel:#0f1628; --card:#141e36; --card2:#1b2a4e;
@@ -247,13 +248,12 @@
   .nw-pager .nw-info { font-size:12.5px; color:var(--muted); min-width:86px; text-align:center; letter-spacing:.3px; }
   .nw-pager button:disabled { opacity:.3; }
 
-  /* ---- 词库管理 ---- */
+  /* ---- 查词卡片（复用 wb-btn / wb-tag）---- */
   .wb-btn { display:inline-block; font-size:12px; margin:0 4px 2px 0; padding:3px 9px; border-radius:9px;
     cursor:pointer; border:1px solid var(--border); background:rgba(255,255,255,.04); color:#b9c5e6; }
   .wb-btn:hover { border-color:var(--accent); color:#eef2ff; }
   .wb-btn.warn:hover { border-color:var(--red); color:var(--red); }
   .wb-tag { font-size:11px; color:var(--muted); margin-left:4px; }
-  #wbRes .roww { margin:2px 0; }
 
   /* ---- 庆祝彩带 ---- */
   .confetti { position:fixed; inset:0; z-index:205; pointer-events:none; overflow:hidden; }
@@ -274,6 +274,43 @@
   .nb-tools { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
   .nb-tools button { flex:0 0 auto; padding:4px 9px; font-size:12px; box-shadow:none; }
   .nb-edit textarea { font-size:14px; margin-top:7px; }
+</style>
+<style>
+  /* ================= 📔 计划 tab：markdown 正文 + 今日打卡 ================= */
+  .plan-count { font-size:22px; font-weight:800; color:var(--accent); margin-top:2px; }
+  .plan-count b { color:var(--gold); }
+  .plan-checks { margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .plan-check { display:flex; align-items:center; gap:9px; font-size:15px; cursor:pointer;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:10px 12px; }
+  .plan-check input { width:17px; height:17px; flex:0 0 auto; accent-color:var(--accent); }
+  .plan-check.done { border-color:var(--green); color:var(--green); }
+  .plan-check.auto { cursor:default; opacity:.9; }
+  .plan-md { background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:18px 20px; text-align:left; line-height:1.75; font-size:15px; overflow-wrap:break-word; }
+  .plan-md h1 { font-size:20px; margin:0 0 10px; }
+  .plan-md h2 { font-size:17px; margin:20px 0 8px; color:var(--accent2); border-bottom:1px solid var(--border); padding-bottom:5px; }
+  .plan-md h3 { font-size:15px; margin:16px 0 6px; color:var(--accent2); }
+  .plan-md p { margin:8px 0; }
+  .plan-md ul, .plan-md ol { margin:8px 0; padding-left:22px; }
+  .plan-md li { margin:4px 0; }
+  .plan-md blockquote { margin:10px 0; padding:8px 14px; border-left:3px solid var(--accent);
+    background:rgba(90,141,255,.07); border-radius:0 8px 8px 0; color:#cbd5ee; }
+  .plan-md blockquote p { margin:4px 0; }
+  .plan-md table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; display:block; overflow-x:auto; }
+  .plan-md th, .plan-md td { border:1px solid var(--border); padding:7px 10px; text-align:left; vertical-align:top; }
+  .plan-md th { background:var(--panel); color:var(--accent2); font-weight:600; }
+  .plan-md tr:nth-child(even) td { background:rgba(255,255,255,.015); }
+  .plan-md code { background:#0d1322; border:1px solid var(--border); border-radius:5px; padding:1px 5px; font-size:13px; color:var(--gold); }
+  .plan-md pre { background:#0d1322; border:1px solid var(--border); border-radius:10px; padding:12px; overflow-x:auto; }
+  .plan-md pre code { border:none; background:none; padding:0; color:var(--text); }
+  .plan-md a { color:var(--accent2); }
+  .plan-md hr { border:none; border-top:1px solid var(--border); margin:16px 0; }
+  .plan-md strong { color:#fff; }
+  .plan-md h1:first-child, .plan-md h2:first-child { margin-top:0; }
+  .plan-edit textarea { width:100%; min-height:340px; box-sizing:border-box; resize:vertical;
+    background:#0d1322; color:var(--text); border:1px solid var(--border); border-radius:10px;
+    padding:12px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:14px; line-height:1.6; }
+  .plan-edit textarea:focus { outline:none; border-color:var(--accent); }
 </style>
 </head>
 <body>
@@ -331,6 +368,8 @@
     <div class="navbtn" data-m="reviewToday"><b>🔄 复习当天</b><span class="c" id="navRT">今天的7个</span></div>
     <div class="navbtn" data-m="reviewDue"><b>📅 复习到期</b><span class="c" id="navRD">艾宾浩斯到期</span></div>
     <div class="navbtn" data-m="notes"><b>📒 造句笔记</b><span class="c" id="navNotes">0 条</span></div>
+    <div class="navbtn" data-m="plan"><b>📔 计划</b><span class="c" id="navPlan">目标·死线·打卡</span></div>
+    <div class="navbtn" data-m="dict"><b>🔍 查词</b><span class="c" id="navDict">查词/释义</span></div>
   </div>
 
   <div id="stage"></div>
@@ -339,14 +378,6 @@
     <h3>📌 生词本（艾宾浩斯 1→3→7→15→30 复习中）</h3>
     <div id="newWordList"><span class="small">暂无</span></div>
     <div class="nw-pager" id="newWordPager"></div>
-  </div>
-
-  <div class="list">
-    <h3>🔎 词库管理（手动增删） <span class="toggle" onclick="document.getElementById('wbBox').classList.toggle('open')">展开/收起</span></h3>
-    <div class="settings" id="wbBox">
-      <input type="text" id="wbSearch" placeholder="输入英文单词搜索…（可手动加/移出 已学会 或 生词本）" autocomplete="off">
-      <div id="wbRes" class="small" style="margin-top:8px;line-height:2"></div>
-    </div>
   </div>
 
   <div class="list">
@@ -455,6 +486,7 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 const WORDMAP = {};           // word -> 词条（按 word 去重）
 const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
+const WORD_LC = ALL.map(w => w.word.toLowerCase());   // 与 ALL 同序的小写词头索引（查词用，只建一次）
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
 function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7','ielts8':'雅思词包8','ielts9':'雅思词包9'}; return L[g]||g; }
 
@@ -499,8 +531,9 @@ function netSpeak(text){
 
 // ---------- 状态 & Supabase 云同步 ----------
 const CACHE_PREFIX = 'en_vocab_v3:';      // 每用户本地缓存 key 前缀
+const PLAN_CACHE_PREFIX = 'en_vocab_plan_v1:';   // 每用户计划文档的本地缓存前缀
 let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：不能叫 supabase，会与 CDN 库的全局重名）
-let dirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
+let dirty = false, planDirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 function newDay(target){
   return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0, speedRevDone:false, miss:[] };
@@ -510,6 +543,7 @@ function baseState(){
     settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
     stats:{ streak:0, last:'' },
     relearn:{},
+    checkins:{},
     screen:null,
     v:3 };
 }
@@ -518,6 +552,7 @@ function normalize(s){
   const upgraded = !s.v || s.v<3;  // v3 起：新增词包自动全开、默认每日10词、默认全难度
   s.v = 3;
   s.learned = Array.isArray(s.learned)? s.learned : [];
+  const learnedNow = new Set(s.learned);   // 本次 normalize 的局部镜像（供下方跨天顺延判断用）
   s.newWords = (s.newWords && typeof s.newWords==='object')? s.newWords : {};
   // 造句笔记本：按词建档，每个词存一组 {date,my,err,fix,tip,raw} 记录（新的追加在后）
   if(!s.notes || typeof s.notes!=='object' || Array.isArray(s.notes)) s.notes={};
@@ -539,6 +574,17 @@ function normalize(s){
   s.stats = (s.stats && typeof s.stats==='object')? s.stats : {};
   if(!Number.isInteger(s.stats.streak) || s.stats.streak<0) s.stats.streak=0;
   if(typeof s.stats.last!=='string') s.stats.last='';
+  // 计划打卡（按日期存：shadow 跟读 / wb 工作台 / diary 日记，均布尔）
+  if(!s.checkins || typeof s.checkins!=='object' || Array.isArray(s.checkins)) s.checkins={};
+  for(const d in s.checkins){
+    const o=s.checkins[d];
+    if(!o || typeof o!=='object' || Array.isArray(o)){ delete s.checkins[d]; continue; }
+    const k={};
+    if(o.shadow) k.shadow=true;
+    if(o.wb) k.wb=true;
+    if(o.diary) k.diary=true;
+    if(k.shadow||k.wb||k.diary) s.checkins[d]=k; else delete s.checkins[d];
+  }
   // 已学会·可回炉：老数据里的已学会词补一次回炉登记（30 天后起）
   s.relearn = (s.relearn && typeof s.relearn==='object')? s.relearn : {};
   if(Array.isArray(s.learned)){
@@ -556,7 +602,7 @@ function normalize(s){
     if(s.day && Array.isArray(s.day.newWords)){
       for(const w of s.day.newWords){
         const st=(s.day.steps && s.day.steps[w])||0;
-        if(st<3 && !s.learned.includes(w) && !(w in s.newWords)) carry.push(w);
+        if(st<3 && !learnedNow.has(w) && !(w in s.newWords)) carry.push(w);
       }
     }
     s.day = newDay(s.settings.target);
@@ -575,9 +621,26 @@ function normalize(s){
   // 高频摸底进度（screening）做基础校验
   if(!s.screen || !Array.isArray(s.screen.list)) s.screen=null;
   else { s.screen.idx=Math.max(0, parseInt(s.screen.idx)||0); s.screen.known=Math.max(0,parseInt(s.screen.known)||0); s.screen.fuzzy=Math.max(0,parseInt(s.screen.fuzzy)||0); s.screen.unknown=Math.max(0,parseInt(s.screen.unknown)||0); }
+  rebuildLearnedSet(s);   // 权威重建：任何整体替换 state 的地方都会经过 normalize
   return s;
 }
 let state = baseState();   // 登录成功后由 enterApp() 用云端数据填充
+
+// ---------- 「已学会」的 Set 镜像（性能）----------
+// state.learned 是数组，.includes() 是 O(n)，出现在抽词/渲染等热路径上。
+// 这里维护一个只存在于内存、不参与序列化的 Set 镜像（state 会被 JSON.stringify 缓存并 upsert 到云）。
+// ⚠️ 不变量：① 任何整体替换 state 的地方都必须经过 normalize()（由它重建本 Set）；
+//            ② 任何对 state.learned 的增删都必须走 learnedAdd / learnedRemove。
+let learnedSet = new Set();
+function rebuildLearnedSet(src){ learnedSet = new Set(((src || state).learned) || []); }
+function learnedAdd(w){
+  if(!learnedSet.has(w)) learnedSet.add(w);
+  if(!state.learned.includes(w)) state.learned.push(w);
+}
+function learnedRemove(w){
+  if(learnedSet.has(w)) learnedSet.delete(w);
+  if(state.learned.includes(w)) state.learned = state.learned.filter(x=>x!==w);
+}
 
 // ---------- 本地缓存 ----------
 function cacheKey(){ return uid ? CACHE_PREFIX + uid : null; }
@@ -585,12 +648,25 @@ function cacheRead(){
   try{ const k=cacheKey(); return k ? JSON.parse(localStorage.getItem(k)||'null') : null; }catch(e){ return null; }
 }
 function cacheWrite(){ try{ if(cacheKey()) localStorage.setItem(cacheKey(), JSON.stringify(state)); }catch(e){} }
+function planCacheKey(){ return uid ? PLAN_CACHE_PREFIX + uid : null; }
+function planCacheRead(){
+  try{ const k=planCacheKey(); const o=k ? JSON.parse(localStorage.getItem(k)||'null') : null; return (o && typeof o==='object' && !Array.isArray(o))? o : null; }catch(e){ return null; }
+}
+function planCacheWrite(){ try{ if(planCacheKey() && PLAN) localStorage.setItem(planCacheKey(), JSON.stringify(PLAN.docs||{})); }catch(e){} }
 
 // ---------- 云同步：save() 全站调用点不变，写本地缓存 + 防抖推送到 Supabase ----------
+// state → user_state（单行 JSONB）；计划文档 → user_plan（一行一篇）。两者共用一套防抖/重试/同步指示灯。
 function save(){
   if(!uid || !booted) return;
   cacheWrite();
   dirty = true; renderSyncStatus();
+  scheduleFlush();
+}
+function savePlan(id){                 // id = PLAN_DOCS 里的 doc_id；不传则仅重推已标记的
+  if(!uid || !booted) return;
+  if(id) PLAN.dirtyIds[id] = 1;
+  planCacheWrite();
+  planDirty = true; renderSyncStatus();
   scheduleFlush();
 }
 function scheduleFlush(){
@@ -599,28 +675,42 @@ function scheduleFlush(){
 }
 async function flush(){
   if(syncTimer){ clearTimeout(syncTimer); syncTimer = null; }
-  if(!uid || !dirty || !navigator.onLine) return;
-  dirty = false; renderSyncStatus();
+  if(!uid || (!dirty && !planDirty) || !navigator.onLine) return;
+  const doState = dirty, doPlan = planDirty;
+  dirty = false; planDirty = false; renderSyncStatus();
+  const now = new Date().toISOString();
   try{
-    const { error } = await sb.from('user_state').upsert(
-      { user_id: uid, state, updated_at: new Date().toISOString() },
-      { onConflict: 'user_id' });
-    if(error) throw error;
+    if(doState){
+      const { error } = await sb.from('user_state').upsert(
+        { user_id: uid, state, updated_at: now }, { onConflict: 'user_id' });
+      if(error) throw error;
+    }
+    if(doPlan){
+      const ids = Object.keys(PLAN.dirtyIds||{});
+      if(ids.length){
+        const rows = ids.map(id => ({ user_id: uid, doc_id: id, content: (PLAN.docs && PLAN.docs[id]) || '', updated_at: now }));
+        const { error } = await sb.from('user_plan').upsert(rows, { onConflict: 'user_id,doc_id' });
+        if(error) throw error;
+        PLAN.dirtyIds = {};
+      }
+    }
     syncOk = true;
     if(retryTimer){ clearTimeout(retryTimer); retryTimer = null; }
   }catch(e){
-    dirty = true; syncOk = false;   // 保留脏标记，后台每 4 秒自动重试
+    if(doState) dirty = true;        // 保留脏标记，后台每 4 秒自动重试
+    if(doPlan)  planDirty = true;    // dirtyIds 不清空 → 下次重推同一批
+    syncOk = false;
     if(!retryTimer) retryTimer = setTimeout(flush, 4000);
   }
   renderSyncStatus();
 }
-window.addEventListener('online',  ()=>{ if(dirty) flush(); });
+window.addEventListener('online',  ()=>{ if(dirty || planDirty) flush(); });
 window.addEventListener('offline', ()=>{ renderSyncStatus(); });
-window.addEventListener('pagehide', ()=>{ if(dirty && navigator.onLine) flush(); });
+window.addEventListener('pagehide', ()=>{ if((dirty || planDirty) && navigator.onLine) flush(); });
 
 // ---------- 派生数据 ----------
 function inReview(word){ return (word in state.newWords); }
-function unseen(){ return ALL.filter(w => !state.learned.includes(w.word) && !inReview(w.word)); }
+function unseen(){ return ALL.filter(w => !learnedSet.has(w.word) && !inReview(w.word)); }
 function todayNewWords(){ return state.day.newWords.slice(); }
 function scheduledToday(){ return todayNewWords().filter(w=>inReview(w)); }
 function dueWords(){
@@ -636,7 +726,7 @@ function scheduleWord(word){ // 三明治学完一个词
 function dueCorrect(word){ // 复习到期答对
   const rec=state.newWords[word];
   rec.stage++;
-  if(rec.stage>=INTERVALS.length){ delete state.newWords[word]; if(!state.learned.includes(word)){ state.learned.push(word); relearnInit(word); } }
+  if(rec.stage>=INTERVALS.length){ delete state.newWords[word]; if(!learnedSet.has(word)){ learnedAdd(word); relearnInit(word); } }
   else rec.next=addDays(todayStr(), INTERVALS[rec.stage]);
 }
 function dueWrong(word){ // 复习到期答错：回第1天
@@ -678,6 +768,8 @@ function openModule(m){
   else if(m==='reviewToday') openReviewToday();
   else if(m==='reviewDue') openReviewDue();
   else if(m==='notes') openNotes();
+  else if(m==='plan') openPlan();
+  else if(m==='dict') openDict();
   window.scrollTo(0,0);
 }
 function refresh(){ openModule(MOD); }
@@ -687,7 +779,7 @@ function renderSyncStatus(){
   const u=esc(userEmail);
   let html;
   if(!navigator.onLine)                html='<span style="color:var(--gold)">● 离线：进度暂存本机，联网后自动同步 · '+u+'</span>';
-  else if(!syncOk && dirty)            html='<span style="color:var(--gold)">● 云同步中… · '+u+'</span>';
+  else if(!syncOk && (dirty || planDirty)) html='<span style="color:var(--gold)">● 云同步中… · '+u+'</span>';
   else if(!syncOk)                     html='<span style="color:var(--red)">● 云同步失败，将自动重试 · '+u+'</span>';
   else                                 html='<span style="color:var(--green)">● 已同步到云 · '+u+'</span>';
   el.innerHTML = html;
@@ -708,6 +800,9 @@ function noteStudy(){   // 有实际学习动作时调用：推进连续打卡
   markActive();
   if(!state.stats) state.stats={streak:0,last:''};
   const t=todayStr();
+  if(!state.checkins) state.checkins={};
+  if(!state.checkins[t]) state.checkins[t]={};
+  state.checkins[t].wb = true;            // 计划 tab：今日「工作台」自动打卡
   if(state.stats.last===t) return;
   state.stats.streak = (state.stats.last===addDays(t,-1) ? (state.stats.streak||0) : 0) + 1;
   state.stats.last = t;
@@ -743,14 +838,14 @@ function refreshUndoBtn(){
   const b=$('btnUndoKnow'); if(!b) return;
   const d=state.day;
   const w=d && d.lastKnown;
-  if(w && state.learned.includes(w)){
+  if(w && learnedSet.has(w)){
     b.style.display=''; b.textContent='↩️ 撤销刚才的“'+w+'”';
   }else b.style.display='none';
 }
 function undoKnow(){
   const d=state.day; if(!d || !d.lastKnown) return;
   const w=d.lastKnown;
-  state.learned=state.learned.filter(x=>x!==w);
+  learnedRemove(w);
   if(Array.isArray(d.known)) d.known=d.known.filter(x=>x!==w);
   if(Array.isArray(d.fuzzy)) d.fuzzy=d.fuzzy.filter(x=>x!==w);
   if(state.relearn && state.relearn[w]) delete state.relearn[w];   // 同步清掉回炉登记
@@ -899,7 +994,9 @@ function renderNav(){
     sandwich: dlen? ('已学 '+learningTodayCount()+'/'+dlen) : '等先判词',
     reviewToday: sched? ('今天 '+sched+' 个') : '暂无',
     reviewDue: due? ('到期 '+due+' 个') : (again? ('回炉 '+again+' 个') : '今天无'),
-    notes: noteCount()? ('共 '+noteCount()+' 条') : '暂无'
+    notes: noteCount()? ('共 '+noteCount()+' 条') : '暂无',
+    plan: todayDoneCount()+'/3 今日打卡',
+    dict: '查词/释义'
   };
   document.querySelectorAll('.navbtn').forEach(b=>{
     const m=b.dataset.m;
@@ -908,7 +1005,7 @@ function renderNav(){
     if(m==='sandwich' && dlen===0) b.disabled=true;
     if(m==='reviewToday' && sched===0) b.disabled=true;
     if(m==='reviewDue' && due===0 && again===0) b.disabled=true;
-    $('nav'+({collect:'Collect',sandwich:'Sandwich',reviewToday:'RT',reviewDue:'RD',notes:'Notes'}[m])).textContent = navInfo[m];
+    $('nav'+({collect:'Collect',sandwich:'Sandwich',reviewToday:'RT',reviewDue:'RD',notes:'Notes',plan:'Plan',dict:'Dict'}[m])).textContent = navInfo[m];
   });
 }
 
@@ -922,7 +1019,8 @@ let collectQ=[]; let collectIdx=0;
 function collectCandidates(){
   const max = state.settings.maxLevel;
   const enabled = new Set(state.settings.packs);
-  const pool = ALL.filter(w => enabled.has(w.pack) && !state.learned.includes(w.word) && !inReview(w.word) && !todayNewWords().includes(w.word) && (w.level||1)<=max);
+  const today = new Set(todayNewWords());   // 提到 filter 外，避免每个词都重新 slice 一次
+  const pool = ALL.filter(w => enabled.has(w.pack) && !learnedSet.has(w.word) && !inReview(w.word) && !today.has(w.word) && (w.level||1)<=max);
   const byPack = {};
   pool.forEach(w => { (byPack[w.pack] = byPack[w.pack] || []).push(w); });
   const packNames = Object.keys(byPack);
@@ -1009,7 +1107,7 @@ function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安�
   const d=state.day; d.fuzzy=d.fuzzy||[]; d.known=d.known||[];
   if(!d.fuzzy.includes(o.word)) d.fuzzy.push(o.word);
   if(!d.known.includes(o.word)) d.known.push(o.word);
-  if(!state.learned.includes(o.word)) state.learned.push(o.word);
+  if(!learnedSet.has(o.word)) learnedAdd(o.word);
   relearnInit(o.word);
   if(state.relearn[o.word]) state.relearn[o.word].next = addDays(todayStr(), FUZZY_REVIEW_DAYS);   // 半熟：3 天后回炉确认
   state.day.lastKnown = o.word;
@@ -1028,7 +1126,7 @@ function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安�
 }
 function collectKnownYes(){
   const o=collectQ[collectIdx];
-  if(!state.learned.includes(o.word)){ state.learned.push(o.word); relearnInit(o.word); }
+  if(!learnedSet.has(o.word)){ learnedAdd(o.word); relearnInit(o.word); }
   if(!state.day.known.includes(o.word)) state.day.known.push(o.word);
   state.day.lastKnown = o.word;          // 供「撤销误判」使用（仅当天有效）
   noteStudy();
@@ -1647,40 +1745,103 @@ function nbClearAll(){
 }
 
 // =========================================================
-// 词库管理（手动增删 / 搜索）
+// 🔍 查词：英文按词头（完全＞前缀＞子串）、中文按释义查；复用一个词条卡片
 // =========================================================
-function wbList(){
-  const box=$('wbSearch'), out=$('wbRes');
-  if(!box || !out) return;
-  const q=box.value.trim().toLowerCase();
-  if(!q){ out.innerHTML='<span class="muted">输入英文单词开始搜索（可把想提前学的词加进今日生词本）</span>'; return; }
-  const hits=ALL.filter(w=>w.word.toLowerCase().indexOf(q)===0 || w.word.toLowerCase().includes(q)).slice(0,40);
-  if(!hits.length){ out.innerHTML='<span class="muted">没有匹配的单词，词库共 '+ALL.length+' 词</span>'; return; }
-  out.innerHTML = hits.map(w=>{
-    const word=w.word;
-    const lv=state.learned.includes(word), nw=!!state.newWords[word];
-    const tag= lv?'<span class="wb-tag">✓已学会</span>':(nw?'<span class="wb-tag">📌生词本</span>':'<span class="wb-tag">· 未学</span>');
-    const b1= lv
-      ? '<span class="wb-btn warn" onclick="wbRmLearned(\''+esc(word)+'\')">移出已学会</span>'
-      : '<span class="wb-btn" onclick="wbAddLearned(\''+esc(word)+'\')">设为已学会</span>';
-    const b2= nw
-      ? '<span class="wb-btn warn" onclick="wbRmNew(\''+esc(word)+'\')">移出生词本</span>'
-      : '<span class="wb-btn" onclick="wbAddNew(\''+esc(word)+'\')">加入今日生词</span>';
-    return '<div class="roww"><b>'+esc(word)+'</b> <span class="muted">'+esc(w.ipa||'')+' '+esc(w.zh||'')+'</span> '+tag+
-      '<br>'+b1+' '+b2+'</div>';
-  }).join('');
+const DICT_CAP = 40;
+let DICT = { q:'', timer:null };
+
+function openDict(){ renderDict(); }
+function renderDict(){
+  paint();
+  $('stage').innerHTML =
+    '<div class="card left">'+
+      '<div class="hint" style="margin:0 0 8px">🔍 查词 · 英文按前缀优先（如 abandon）；中文按释义（如 放弃）</div>'+
+      '<input type="text" id="dictSearch" placeholder="输入英文单词或中文…" autocomplete="off" value="'+esc(DICT.q)+'">'+
+      '<div id="dictRes" style="margin-top:10px"></div>'+
+    '</div>';
+  renderDictResults();
+  const inp=$('dictSearch');
+  if(inp){
+    inp.focus();
+    inp.addEventListener('input', ()=>{                 // 120ms 防抖，避免每次按键全量扫描
+      clearTimeout(DICT.timer);
+      DICT.timer = setTimeout(()=>{ DICT.q = inp.value; renderDictResults(); }, 120);
+    });
+  }
+}
+function renderDictResults(){
+  const out=$('dictRes'); if(!out) return;              // 不在查词页时安全早退
+  const q=(DICT.q||'').trim();
+  if(!q){ out.innerHTML='<span class="small muted">输入英文单词开始搜索；输入中文（如「放弃」）可按释义查。</span>'; return; }
+  const hits=dictSearch(q);
+  if(!hits.length){ out.innerHTML=dictEmpty(q); return; }
+  out.innerHTML = '<div class="small muted" style="margin-bottom:6px">找到 '+hits.length+' 条'+
+    (hits.length>=DICT_CAP? ('（仅显示前 '+DICT_CAP+' 条）') : '')+'</div>'+ hits.map(dictCard).join('');
+}
+function dictSearch(q){                                 // 返回按相关度排序的词条数组
+  const lc=q.toLowerCase(), out=[];
+  for(let i=0;i<ALL.length;i++){
+    const wl=WORD_LC[i]; let r=-1;
+    if(wl===lc) r=0;                                    // 完全匹配
+    else if(wl.startsWith(lc)) r=1;                     // 英文前缀
+    else if(wl.includes(lc)) r=2;                       // 英文子串
+    else if((ALL[i].zh||'').includes(q)) r=3;           // 中文释义
+    if(r>=0) out.push({ w:ALL[i], r });
+  }
+  out.sort((a,b)=>a.r-b.r);                             // 稳定排序：同档保持词库顺序
+  return out.slice(0,DICT_CAP).map(x=>x.w);
+}
+function dictCard(o){
+  if(!o) return '';
+  const word=o.word;
+  const lv=learnedSet.has(word), nw=!!state.newWords[word];
+  const tag= lv?'<span class="wb-tag">✓已学会</span>':(nw?'<span class="wb-tag">📌生词本</span>':'<span class="wb-tag">· 未学</span>');
+  // 用 data-w 传参，避免 esc() 不转义单引号造成内联 handler 断裂
+  const b1= lv
+    ? '<span class="wb-btn warn" data-w="'+esc(word)+'" onclick="wbRmLearned(this.dataset.w)">移出已学会</span>'
+    : '<span class="wb-btn" data-w="'+esc(word)+'" onclick="wbAddLearned(this.dataset.w)">设为已学会</span>';
+  const b2= nw
+    ? '<span class="wb-btn warn" data-w="'+esc(word)+'" onclick="wbRmNew(this.dataset.w)">移出生词本</span>'
+    : '<span class="wb-btn" data-w="'+esc(word)+'" onclick="wbAddNew(this.dataset.w)">加入今日生词</span>';
+  return '<div class="card left" style="margin:10px 0;padding:14px 16px">'+
+    '<div class="row left" style="margin:0;gap:8px;flex-wrap:wrap;align-items:center">'+
+      '<b class="en-word" style="font-size:24px;margin:0">'+esc(word)+'</b>'+
+      '<button class="speaker" data-w="'+esc(word)+'" onclick="speak(this.dataset.w)" title="慢速朗读" style="flex:0 0 auto">🔊</button>'+
+      '<span class="ipa" style="margin:0">'+esc(o.ipa||'')+'</span>'+
+      '<span class="pill">'+esc(o.pos||'')+'</span>'+
+      '<span class="pill">'+esc(groupLabel(o.pack))+'</span>'+
+      '<span class="pill">Lv'+(o.level||1)+'</span>'+ tag +
+    '</div>'+
+    '<div class="zh" style="font-size:17px;margin:8px 0 4px">'+esc(o.zh||'')+'</div>'+
+    (o.def? '<div class="def" style="font-size:14px;margin:4px 0">'+esc(o.def)+'</div>' : '')+
+    (o.example? '<div class="example" style="font-size:14px;margin:4px 0">'+esc(String(o.example).replace('___', word))+'</div>' : '')+
+    wordExtrasHtml(o)+
+    '<div style="margin-top:8px">'+b1+' '+b2+'</div>'+
+  '</div>';
+}
+function dictEmpty(q){
+  const e=encodeURIComponent(q);
+  return '<div class="card left" style="margin-top:8px">'+
+    '<div class="zh">词库里没有「'+esc(q)+'」</div>'+
+    '<div class="hint">可能是拼写错误，或这个词还没收进词库。去外部词典查一下：</div>'+
+    '<div class="btn-row" style="justify-content:flex-start">'+
+      '<a class="wb-btn" style="text-decoration:none" href="https://dict.youdao.com/result?word='+e+'&lang=en" target="_blank" rel="noopener">📖 有道词典</a>'+
+      '<a class="wb-btn" style="text-decoration:none" href="https://dictionary.cambridge.org/dictionary/english-chinese-simplified/'+e+'" target="_blank" rel="noopener">📘 剑桥词典</a>'+
+    '</div>'+
+    '<div class="small muted" style="margin-top:8px">词库共 '+ALL.length+' 词</div>'+
+  '</div>';
 }
 function wbAddLearned(w){
-  if(!state.learned.includes(w)){ state.learned.push(w); relearnInit(w); }
-  save(); paint(); wbList();
+  if(!learnedSet.has(w)){ learnedAdd(w); relearnInit(w); }
+  save(); paint(); renderDictResults();
 }
 function wbRmLearned(w){
-  state.learned=state.learned.filter(x=>x!==w);
+  learnedRemove(w);
   const d=state.day;
   if(Array.isArray(d.known)) d.known=d.known.filter(x=>x!==w);
   if(Array.isArray(d.fuzzy)) d.fuzzy=d.fuzzy.filter(x=>x!==w);
   if(state.relearn && state.relearn[w]) delete state.relearn[w];
-  save(); paint(); wbList();
+  save(); paint(); renderDictResults();
 }
 function wbAddNew(w){
   wbRmLearned(w);                       // 手动进生词本=当作还没掌握
@@ -1688,14 +1849,14 @@ function wbAddNew(w){
   const d=state.day;
   if(!d.newWords.includes(w)) d.newWords.push(w);
   d.steps[w]=0;
-  save(); paint(); wbList();
+  save(); paint(); renderDictResults();
 }
 function wbRmNew(w){
   if(state.newWords[w]) delete state.newWords[w];
   const d=state.day;
   d.newWords=d.newWords.filter(x=>x!==w);
   if(d.steps) delete d.steps[w];
-  save(); paint(); wbList();
+  save(); paint(); renderDictResults();
 }
 
 // =========================================================
@@ -1771,7 +1932,7 @@ function quizEnd(){
 function screenPool(){ return ALL.filter(w=>(w.level||1)<=2); }
 function startScreen(){
   MOD='quiz';
-  const list=shuffle(screenPool().filter(w=> !state.learned.includes(w.word) && !state.newWords[w.word]).map(w=>w.word));
+  const list=shuffle(screenPool().filter(w=> !learnedSet.has(w.word) && !state.newWords[w.word]).map(w=>w.word));
   if(!list.length){ alert('高频词已经全部筛完啦！'); openModule('collect'); return; }
   state.screen={ list:list, idx:0, known:0, fuzzy:0, unknown:0, poolTotal:screenPool().length };
   save();
@@ -1809,10 +1970,10 @@ function screenAnswer(a){
   const s=state.screen; if(!s) return;
   const word=s.list[s.idx];
   if(a===1){               // 认识 → 当场标记已学会，以后不再重复问
-    if(!state.learned.includes(word)){ state.learned.push(word); relearnInit(word); }
+    if(!learnedSet.has(word)){ learnedAdd(word); relearnInit(word); }
     s.known++;
   }else if(a===0.5){       // 半熟 → 也算认识，但 7 天后回炉再确认
-    if(!state.learned.includes(word)){ state.learned.push(word); }
+    if(!learnedSet.has(word)){ learnedAdd(word); }
     relearnInit(word);
     if(state.relearn[word]) state.relearn[word].next = addDays(todayStr(), FUZZY_REVIEW_DAYS);   // 半熟：3 天后回炉确认
     s.fuzzy++;
@@ -1830,7 +1991,7 @@ function screenEnd(){
   const s=state.screen; if(!s) return;
   const P=s.poolTotal || screenPool().length;
   const pool=screenPool();
-  const learnedNow=pool.filter(w=>state.learned.includes(w.word) || !!state.newWords[w.word]).length;
+  const learnedNow=pool.filter(w=>learnedSet.has(w.word) || !!state.newWords[w.word]).length;
   const unknown=P-learnedNow;
   const rate= P? learnedNow/P : 0;
   MOD='collect'; refresh();
@@ -1848,6 +2009,222 @@ function screenEnd(){
   if(tip) tip.textContent='上次高频摸底（'+todayStr()+'）：'+P+' 词中掌握率 '+Math.round(rate*100)+'%。';
 }
 function screenClear(){ state.screen=null; save(); openModule('collect'); }
+
+// =========================================================
+// 📔 计划：每个账号自己的计划文档（存 Supabase user_plan）+ 今日三件事打卡
+// 个人文档（英语专线/每日执行/日记）存在各自账号里、可在 App 内编辑；
+// 「说明」仍读仓库、只读。仓库 plan/*.md 作为新用户的种子模板。
+// 「工作台」打卡由 noteStudy() 在学习动作发生时自动写入 checkins[日期].wb。
+// =========================================================
+const IELTS_DATE = '2027-06-01';   // 雅思首考（plan/英语专线.md 记为 2027.06，改这里即可）
+const PLAN_DOCS = [
+  { id:'英语专线', file:'plan/英语专线.md', personal:true },
+  { id:'每日执行', file:'plan/每日执行.md', personal:true },
+  { id:'日记',     file:'plan/english_diary.md', personal:true },
+  { id:'说明',     file:'plan/README.md', personal:false }
+];
+const PLAN_BLANK = {
+  '英语专线':
+    '# 英语专线\n\n## 起点与目标\n- 起点（日期 / 词汇量）：\n- 目标（比如 雅思 6.5）：\n\n## 时间轴\n| 时间 | 动作 | 目标 |\n|---|---|---|\n|  |  |  |\n\n## 预算\n\n',
+  '每日执行':
+    '# 每日执行\n\n## 每天固定三件事\n1. **跟读 shadowing 30min**：\n2. **词汇工作台**：判词攒满 10 个生词 → 三明治三步 → 复习当天 + 复习到期。\n3. **睡前英文日记 10min**：写到「日记」这一篇里。\n\n## 每周\n- \n',
+  '日记':
+    '# English Tech Diary\n\n> 每天用英文写一小段技术内容，格式：原句 / 错处 / 术语；写完让 AI 批改。\n\n## '+todayStr()+'\n\n[ORIGINAL]\n\n\n[ERRORS]\n\n\n[TERMS]\n\n'
+};
+let PLAN = { show:'英语专线', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
+
+function planDone(d){
+  d = d || todayStr();
+  const c = (state.checkins && state.checkins[d]) || {};
+  return { shadow:!!c.shadow, wb:(!!c.wb || (!!state.stats && state.stats.last===d)), diary:!!c.diary };
+}
+function planDoneCount(d){ const p=planDone(d); return (p.shadow?1:0)+(p.wb?1:0)+(p.diary?1:0); }
+function todayDoneCount(){ return planDoneCount(); }
+function planStreak(){   // 从今天往回数「三件全齐」的连续天数（今天还没齐也不清零）
+  let n=0, d=todayStr();
+  if(planDoneCount(d)===3) n++;
+  d=addDays(d,-1);
+  for(let i=0;i<400;i++){ if(planDoneCount(d)===3){ n++; d=addDays(d,-1); } else break; }
+  return n;
+}
+function planDaysToExam(){
+  const ms = new Date(IELTS_DATE+'T00:00:00') - new Date(todayStr()+'T00:00:00');
+  return Math.max(0, Math.round(ms/86400000));
+}
+function planPersonalDocs(){ return PLAN_DOCS.filter(d=>d.personal); }
+function planSeeded(){ return planPersonalDocs().some(d=>Object.prototype.hasOwnProperty.call(PLAN.docs, d.id)); }
+function planDocText(id){ return typeof PLAN.docs[id]==='string' ? PLAN.docs[id] : ''; }
+
+function openPlan(){ renderPlan(); }
+
+async function loadPlan(){          // 懒加载：仅在打开「计划」tab 时读一次云端
+  if(PLAN.loaded) return true;
+  try{
+    const { data, error } = await sb.from('user_plan').select('doc_id,content').eq('user_id', uid);
+    if(error) throw error;
+    PLAN.docs = {};
+    (data||[]).forEach(r => { if(r && r.doc_id) PLAN.docs[r.doc_id] = (typeof r.content==='string') ? r.content : ''; });
+    PLAN.loaded = true; PLAN.err = false;
+    planCacheWrite();
+    return true;
+  }catch(e){
+    const c = planCacheRead();
+    if(c){ PLAN.docs = c; PLAN.loaded = true; PLAN.err = false; return true; }   // 离线：用本机缓存兜底
+    PLAN.loaded = false; PLAN.err = true; return false;                          // 离线且无缓存
+  }
+}
+async function planSeed(useTemplate){   // 首次：用仓库模板 或 空白模板
+  for(const d of planPersonalDocs()){
+    let text = '';
+    if(useTemplate){
+      try{ const r = await fetch(d.file, { cache:'no-cache' }); text = r.ok ? await r.text() : ''; }catch(e){ text=''; }
+    }
+    PLAN.docs[d.id] = text || PLAN_BLANK[d.id] || '';
+    savePlan(d.id);          // 标记待同步 + 写本机缓存 + 防抖推送
+  }
+  PLAN.loaded = true; PLAN.err = false;
+  renderPlan();
+}
+async function fetchPlanShared(file){   // 「说明」等共享文档仍读仓库
+  if(PLAN.shared[file]) return;
+  try{ const r = await fetch(file, { cache:'no-cache' }); if(!r.ok) throw new Error('HTTP '+r.status); PLAN.shared[file] = await r.text(); }
+  catch(e){ PLAN.shared[file] = '__ERR__'; }
+}
+function planCheckHtml(key, label, checked, auto){
+  return '<label class="plan-check'+(checked?' done':'')+(auto?' auto':'')+'">'+
+    '<input type="checkbox"'+(checked?' checked':'')+(auto?' disabled':'')+
+      (auto? '' : ' onchange="planToggle(\''+key+'\',this.checked)"')+'>'+
+    '<span>'+esc(label)+'</span></label>';
+}
+function renderPlan(){
+  paint();
+  const done = planDone(), dc = planDoneCount();
+  const pct = Math.min(100, Math.round(state.learned.length/(ALL.length||1)*1000)/10);
+  const tab = d=> '<span class="crumb'+(d.id===PLAN.show?' active':'')+'" onclick="planShow(\''+d.id+'\')">'+esc(d.id)+'</span>';
+  $('stage').innerHTML =
+    '<div class="card left" style="padding:16px 18px">'+
+      '<div class="row left" style="justify-content:space-between;gap:12px;margin:0">'+
+        '<div><div class="small">雅思首考倒计时（目标 2027.06 · 6.5）</div>'+
+          '<div class="plan-count">还有 <b>'+planDaysToExam()+'</b> 天</div></div>'+
+        '<div style="text-align:right"><div class="small">词汇进度</div>'+
+          '<div class="plan-count"><b>'+state.learned.length+'</b> / '+ALL.length+'</div></div>'+
+      '</div>'+
+      '<div class="bar"><div style="width:'+pct+'%"></div></div>'+
+      '<div class="plan-checks">'+
+        planCheckHtml('shadow','早晨 欧路跟读 30min', done.shadow, false)+
+        planCheckHtml('wb','词汇工作台（自动判定）', done.wb, true)+
+        planCheckHtml('diary','睡前 英文技术日记 10min', done.diary, false)+
+      '</div>'+
+      '<div class="small" style="margin-top:8px">今日完成 <b>'+dc+'/3</b> · 连续三件全齐 <b>'+planStreak()+'</b> 天'+
+        (done.wb? '' : ' · 工作台未打卡：去判词/复习/造句后自动点亮')+'</div>'+
+    '</div>'+
+    '<div class="crumbs">'+PLAN_DOCS.map(tab).join('')+'</div>'+
+    '<div id="planBody"></div>';
+  paintPlanBody(PLAN_DOCS.find(d=>d.id===PLAN.show) || PLAN_DOCS[0]);
+}
+function planSetHtml(el, md){
+  if(!el) return;
+  let html;
+  try{ html = (window.marked ? window.marked.parse(md) : '<pre>'+esc(md)+'</pre>'); }
+  catch(e){ html = '<pre>'+esc(md)+'</pre>'; }
+  el.innerHTML = html;
+  // 链接改写：plan 内部 *.md → 应用内切子标签；其余/外部 → 新窗口
+  el.querySelectorAll('a[href]').forEach(a=>{
+    const href = a.getAttribute('href') || '';
+    const m = /^(?:\.\/)?([^\/]+\.md)$/.exec(href);
+    let name = null;
+    if(m){ try{ name = decodeURIComponent(m[1]); }catch(e){ name = m[1]; } }
+    if(name){
+      const target = PLAN_DOCS.find(d=>d.file.split('/').pop()===name);
+      if(target){ a.setAttribute('href','#'); a.removeAttribute('target');
+        a.addEventListener('click', ev=>{ ev.preventDefault(); planShow(target.id); }); return; }
+    }
+    a.setAttribute('target','_blank'); a.setAttribute('rel','noopener');
+  });
+}
+function planErrHtml(){
+  if(location.protocol==='file:')
+    return '<div class="plan-md"><div class="hint" style="margin:0">⚠️ 计划存在云端，需通过网址打开：当前 file:// 方式浏览器不允许读取。请用 <b>https://smilon1009.github.io/english-vocab/</b>。</div></div>';
+  return '<div class="plan-md"><div class="hint" style="margin:0">⚠️ 暂时读不到你的计划：可能离线、且本机还没有缓存。联网后刷新即可。</div></div>';
+}
+function planChooserHtml(){
+  return '<div class="card left">'+
+    '<div class="zh" style="font-size:18px;margin-bottom:6px">📔 你的计划还没有内容</div>'+
+    '<div class="def" style="font-size:15px">选一个开始方式，之后随时可以编辑。计划只存在你自己的账号里，别人看不到。</div>'+
+    '<div class="btn-row" style="flex-direction:column;align-items:stretch">'+
+      '<button class="big" onclick="planSeed(true)">📄 用仓库里的模板</button>'+
+      '<button class="ghost big" onclick="planSeed(false)">✏️ 从空白模板开始自己写</button>'+
+    '</div>'+
+    '<div class="hint" style="margin-top:8px">「用仓库模板」会把仓库 <code>plan/</code> 里的示例计划复制一份到你的账号（适合主人）；新用户建议「从空白开始」。</div>'+
+  '</div>';
+}
+function renderPlanDoc(wrap, cur){
+  if(PLAN.editing===cur.id){
+    const buf = (PLAN.editBuf!=null) ? PLAN.editBuf : planDocText(cur.id);
+    wrap.innerHTML =
+      '<div class="card left plan-edit">'+
+        '<div class="small" style="margin:0 0 8px">编辑「'+esc(cur.id)+'」 · markdown，保存后自动云同步（切换上方标签会丢弃未保存的修改）</div>'+
+        '<textarea id="planEdit" spellcheck="false">'+esc(buf)+'</textarea>'+
+        '<div class="btn-row">'+
+          '<button class="green" onclick="planSaveEdit(\''+cur.id+'\')">💾 保存</button>'+
+          '<button class="ghost" onclick="planCancelEdit()">取消</button>'+
+        '</div>'+
+      '</div>';
+    const ta=$('planEdit');
+    if(ta){ ta.addEventListener('input', ()=>{ PLAN.editBuf = ta.value; }); ta.focus(); }
+    return;
+  }
+  const md = planDocText(cur.id);
+  const head =
+    '<div class="row left" style="justify-content:space-between;gap:8px;margin:0 0 8px">'+
+      '<div class="small">'+esc(cur.id)+' · 你自己的计划（保存在你的账号里）</div>'+
+      '<button class="ghost" style="flex:0 0 auto;padding:6px 12px;font-size:13px" onclick="planStartEdit(\''+cur.id+'\')">✏️ 编辑</button>'+
+    '</div>';
+  if(!md.trim()){
+    wrap.innerHTML = head + '<div class="plan-md"><div class="hint" style="margin:0">还没有内容，点右上角「✏️ 编辑」开始写。</div></div>';
+    return;
+  }
+  wrap.innerHTML = head + '<div class="plan-md" id="planMdBox"></div>';
+  planSetHtml($('planMdBox'), md);
+}
+async function paintPlanBody(cur){
+  const wrap = $('planBody'); if(!wrap) return;
+  if(cur.personal){
+    wrap.innerHTML = '<div class="plan-md"><div class="hint" style="margin:0">载入你的计划…</div></div>';
+    const ok = await loadPlan();
+    if(wrap !== $('planBody') || PLAN.show!==cur.id) return;   // 期间已切走/重渲染 → 丢弃本次结果
+    if(!ok){ wrap.innerHTML = planErrHtml(); return; }
+    if(!planSeeded()){ wrap.innerHTML = planChooserHtml(); return; }
+    renderPlanDoc(wrap, cur);
+    return;
+  }
+  await fetchPlanShared(cur.file);
+  if(wrap !== $('planBody') || PLAN.show!==cur.id) return;
+  const md = PLAN.shared[cur.file];
+  if(typeof md!=='string' || md==='__ERR__'){ wrap.innerHTML = planErrHtml(); return; }
+  wrap.innerHTML = '<div class="plan-md" id="planMdBox"></div>';
+  planSetHtml($('planMdBox'), md);
+}
+function planToggle(key, on){
+  const t = todayStr();
+  if(!state.checkins) state.checkins={};
+  const c = state.checkins[t] || (state.checkins[t]={});
+  c[key] = !!on;
+  save(); renderPlan();
+}
+function planShow(id){
+  if(!PLAN_DOCS.some(d=>d.id===id)) return;
+  PLAN.show = id; PLAN.editing = false; PLAN.editBuf = null; renderPlan();
+}
+function planStartEdit(id){ PLAN.editing = id; PLAN.editBuf = null; renderPlan(); }
+function planCancelEdit(){ PLAN.editing = false; PLAN.editBuf = null; renderPlan(); }
+function planSaveEdit(id){
+  const ta = $('planEdit'); if(!ta) return;
+  PLAN.docs[id] = ta.value;
+  PLAN.editing = false; PLAN.editBuf = null;
+  savePlan(id);
+  renderPlan();
+}
 
 // =========================================================
 // 设置 & 数据 & 事件
@@ -1869,8 +2246,7 @@ $('btnSetVocab').addEventListener('click',()=>{
   save(); refresh();
 });
 $('btnUndoKnow').addEventListener('click',undoKnow);
-// 词库管理 / 测量 / 休息提醒 控件
-$('wbSearch').addEventListener('input', wbList);
+// 测量 / 休息提醒 控件
 $('btnQuiz').addEventListener('click', startQuiz);
 $('btnScreen').addEventListener('click', resumeScreen);
 $('setRemind').addEventListener('change', function(e){ state.settings.breakReminder = e.target.checked; save(); });
@@ -1897,6 +2273,9 @@ function resetRuntime(){   // 切换账号时清掉上一个用户留在内存�
   SW={word:null,step:1,attempts:0,revealed:false,nextWord:null};
   RV={mode:'today',list:[],idx:0,right:[],wrong:[],locked:false};
   NB={ q:'', edit:null, show:{} };
+  PLAN={ show:'英语专线', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
+  planDirty=false;
+  rebuildLearnedSet();   // 防御性重建（随后 enterApp 会用 normalize 覆盖）
 }
 function authErrMsg(e){
   const m=(e && e.message) || String(e);
@@ -1962,7 +2341,7 @@ async function authDoReset(){
   }catch(e){ setAuthMsg(authErrMsg(e)); }
 }
 async function doLogout(){
-  if(dirty && navigator.onLine) await flush();
+  if((dirty || planDirty) && navigator.onLine) await flush();
   uid=null; userEmail=''; booted=false;
   const ab=$('accountBar'); if(ab) ab.style.display='none';
   try{ await sb.auth.signOut(); }catch(e){}

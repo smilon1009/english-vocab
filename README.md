@@ -19,15 +19,20 @@
 > 双击脚本只是「帮你打开默认浏览器并跳转到上面的网址」，不用装任何东西、不用后台常驻进程。
 > 登录后**顶部有一行「📊 测词汇量」链接**，点击会打开 VocabularySize（https://my.vocabularysize.com/ ）在**新窗口**测你的词汇量，方便定期评估水平。
 
-## 📔 学习计划
+## 📔 学习计划（每个账号一份，可自己编辑）
 
-工作台负责"每天怎么背"，计划文档负责"为什么这么背、学到什么程度、什么时候考试"，见 **[`plan/`](./plan/README.md)**：
+工作台负责"每天怎么背"，计划文档负责"为什么这么背、学到什么程度、什么时候考试"。
 
-| 文件 | 内容 |
-|---|---|
-| [`plan/英语专线.md`](./plan/英语专线.md) | 总纲：起点 → 目标 → 时间轴 → 死线（雅思 6.5） |
-| [`plan/每日执行.md`](./plan/每日执行.md) | 每日/每周固定动作：跟读、工作台流程、日记 |
-| [`plan/english_diary.md`](./plan/english_diary.md) | 睡前英文技术日记（写作输出） |
+**「📔 计划」tab**（登录后顶部导航）里有两种文档：
+
+| 文档 | 存哪 | 谁能改 |
+|---|---|---|
+| 英语专线 / 每日执行 / 日记 | **你自己的账号**（Supabase `user_plan` 表） | 你，App 内直接编辑（✏️ 编辑 → 保存，自动云同步） |
+| 说明 | 本仓库 [`plan/README.md`](./plan/README.md) | 只读 |
+
+- 顶部显示 **雅思首考倒计时** 与 **词汇进度条**；下方对「今日三件事」打卡——**早晨跟读 30min**、**词汇工作台**（有学习动作后自动点亮）、**睡前英文日记 10min**。打卡记录随进度一起云同步。
+- **每个账号的计划互相独立**：第一次打开「计划」时会让你二选一——「用仓库里的模板」（复制一份 `plan/` 里的示例，适合主人）或「从空白模板开始自己写」（新用户推荐）。之后随时可在 App 内编辑，保存在你自己的账号里，别人看不到。
+- 仓库里的 [`plan/`](./plan/README.md) 现在只当**种子模板 / 备份**用，不再直接展示给所有人。
 
 ## 多人使用（每人一个账号，进度互相独立）
 
@@ -42,7 +47,7 @@
 
 ## 数据存哪 / 隐私
 
-- 每个人的进度（已学会、生词本、每日状态）存在 **Supabase 云数据库**里，一行一条，**行级安全策略保证只能读写自己的那一行**——不同账号互相看不到、外人更看不到。
+- 每个人的进度（已学会、生词本、每日状态）和**自己的计划文档**存在 **Supabase 云数据库**里，一行一条，**行级安全策略保证只能读写自己的那一行**——不同账号互相看不到、外人更看不到。
 - 这个 GitHub 仓库只放网页源码和公开雅思词库，**不含任何用户学习数据**。
 
 ## 🗂 仓库结构（每个文件干什么）
@@ -67,10 +72,11 @@ english-vocab/
 │   └── config.js             #   ⚠️ Supabase 配置：Project URL + anon public key（部署前填一次）
 │
 ├── lib/                      # 第三方库（下载到本地，不依赖外部 CDN）
-│   └── supabase.min.js       #   supabase-js v2 官方客户端库（登录 + 云数据库）
+│   ├── supabase.min.js       #   supabase-js v2 官方客户端库（登录 + 云数据库）
+│   └── marked.min.js         #   marked v12 官方 markdown 解析库（「计划」tab 渲染文档用）
 │
 ├── database/
-│   └── schema.sql            # Supabase 建表 SQL：user_state 表 + 3 条行级安全策略
+│   └── schema.sql            # Supabase 建表 SQL：user_state + user_plan 两张表，各 3 条行级安全策略
 │
 ├── pwa/                      # 手机「添加到主屏幕」+ 离线缓存
 │   ├── icon.svg              #   网站图标（渐变书本 logo）
@@ -103,7 +109,8 @@ english-vocab/
 ### 第 3 步：建数据表
 1. 左侧 **SQL Editor** → New query。
 2. 把仓库里的 **`database/schema.sql`** 全部内容粘贴进去 → **Run**。
-3. 应看到 `Success. No rows returned`。表 `user_state` + 3 条安全策略就建好了。
+3. 应看到 `Success. No rows returned`。两张表（`user_state` 存学习进度、`user_plan` 存每人的计划文档）+ 各自的 3 条安全策略就建好了。
+   - 若你之前已建过 `user_state`，重新粘贴运行一遍即可：脚本是**幂等的**，只会补建缺的 `user_plan`。
 
 ### 第 4 步：填 `js/config.js`
 1. 左侧 **Settings → API**。
@@ -152,7 +159,7 @@ english-vocab/
   - **词汇量等级**：登记 VocabularySize 测试结果，自动估算 CEFR 等级并显示在账号栏
   - **PWA**：末尾注册 `pwa/sw.js`，支持「添加到主屏幕」与离线打开
   - **三态判词**：判词支持「认识 / 😐半熟 / 不认识」；半熟词直接入已学会但 7 天后回炉再确认，避免一次判死
-  - **词库管理**：可搜索词库手动「设为已学会 / 移出已学会 / 加入今日生词 / 移出生词本」
+  - **🔍 查词（独立标签）**：英文按词头（完全＞前缀＞子串）、中文按释义双向查词；结果卡片含音标、词性、中文、英文释义、例句、同义词/词根，可**一键朗读**，并能就地把词「设为已学会 / 移出已学会 / 加入今日生词 / 移出生词本」。本词库查不到的词给**有道/剑桥词典**外链。输入 120ms 防抖、词头预建小写索引（取代了旧的「词库管理」搜索框）
   - **日报卡**：今日全部学完的庆祝弹层里展示当天判词/三明治/复习正确率小结
   - **休息提醒**：连续学习 25 分钟弹出休息提示（设置里可关）
   - **例句朗读**：复习判分后自动朗读整句例句，顺带练听力
@@ -164,6 +171,7 @@ english-vocab/
   - **睡前速记引导**：今日生词全部学完时，庆祝卡提示"睡前速记 → 复习当天"（仍是拼写输出）；「复习到期」无到期时也显示该入口
   - **当日错词补刀**：当天任何复习答错的词自动记录，复习完成页出现"⚔️ 当日错词补刀"入口，答对即清、答错留待明日队列
   - **词库扩容计划**：当前约 **2125 词**（words.js 500 + 雅思包①~⑨）。日常高频(level1)已基本补全，level2 高频持续推进中；目标雅思 ~6000。判词抽词已改为**跨词包轮转随机**，任何文件/词包都不会在每日任务里成批扎堆。后续 `words_ielts10/…` 继续。逻辑无需改动：`index.html` 逐个引入、按 `WORDS` 全局数组自动并入去重，新词包自动默认启用、可手动关停
+  - **计划 tab（每账号一份）**：把计划文档（英语专线/每日执行/日记）**按账号**存在 Supabase `user_plan` 表，可在 App 内用 textarea 编辑并自动云同步；首次打开二选一（用仓库模板 / 从空白开始）。顶部显示雅思倒计时 + 词汇进度条 + 今日三件事打卡；渲染用本地 `marked.min.js`。共享的「说明」仍读仓库、只读
 
 ### `js/` 目录
 | 文件 | 作用 |
@@ -184,11 +192,12 @@ english-vocab/
 | 文件 | 作用 |
 |---|---|
 | `lib/supabase.min.js` | supabase-js 官方库（压缩版）。已下载到仓库本地引入，**不依赖外部 CDN**，避免部分地区加载失败 |
+| `lib/marked.min.js` | marked v12 官方 markdown 解析库（压缩版，本地引入）。「计划」tab 把 markdown 文档渲染成带表格的富文本用它 |
 
 ### `database/` 目录
 | 文件 | 作用 |
 |---|---|
-| `database/schema.sql` | 粘贴到 Supabase SQL Editor 运行一次：创建 `user_state` 表（`id / user_id / state jsonb / updated_at`）+ 开启 RLS + 3 条策略（每个账号只能 select / insert / update 自己的 `user_id` 那一行） |
+| `database/schema.sql` | 粘贴到 Supabase SQL Editor 运行一次（幂等，可重复跑）：① `user_state` 表（`id / user_id / state jsonb / updated_at`）存学习进度；② `user_plan` 表（`user_id / doc_id / content text / updated_at`，主键 `user_id,doc_id`）存每个账号自己的计划文档。两张表都开启 RLS + 3 条策略（每个账号只能 select / insert / update 自己的行） |
 
 ### `pwa/` 目录
 | 文件 | 作用 |
@@ -215,7 +224,7 @@ english-vocab/
 - **GitHub Pages**：公开仓库 + "Deploy from a branch"（root 目录）自动部署
 - **Supabase（BaaS）**：
   - **Auth**：邮箱+密码注册/登录/找回密码，`onAuthStateChange` 监听会话
-  - **PostgreSQL 数据库**：一张 `user_state` 表，进度整包存成 JSONB 列
+  - **PostgreSQL 数据库**：`user_state` 表（进度整包存成 JSONB 列）+ `user_plan` 表（每账号的计划文档，一行一篇）
   - **RLS（Row Level Security）**：数据库端强制"只能读写自己那一行"，前端拿的是公开 anon key 也不怕
 - **本地缓存 + 离线优先**：localStorage 每账号一份缓存，断网可用，联网自动补传
 - **Web Speech API + 在线发音兜底**：优先 `speechSynthesis` 慢速朗读；安卓/国产浏览器无声或 1.6s 未出声时，自动转有道词典/Google TTS 在线音频（可在设置里手动选「在线词典」）
@@ -223,6 +232,7 @@ english-vocab/
 - **Clipboard API**：造句步骤一键复制文本去 AI 批改
 - **PWA（渐进式 Web 应用）**：`manifest.webmanifest` + Service Worker → 可「添加到主屏幕」当 App 用、断网也能打开界面（学习数据仍实时走 Supabase）
 - **词库扩容机制**：词包文件按 `WORDS.push` 追加、自动去重合并，扩词不改任何业务逻辑；当前库约 2125 词、分批发往 ~6000；判词跨词包轮转随机抽取；词条可选 `syn/root` 扩展字段已接入展示
+- **客户端 markdown 渲染**：计划文档用本地 `marked.min.js`（v12）在浏览器里转成 HTML（支持 GFM 表格），全程不走外部 CDN
 
 ## ❓ 常见问题
 

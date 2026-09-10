@@ -1,6 +1,6 @@
 // 雅思背单词工作台 · 离线缓存 Service Worker
 // 只缓存本站静态文件（页面/词库/库），Supabase 的请求一律放行走网络。
-const CACHE = 'ev-shell-v8';
+const CACHE = 'ev-shell-v9';
 const ASSETS = [
   '../',
   '../index.html',
@@ -16,6 +16,11 @@ const ASSETS = [
   '../js/words_ielts9.js',
   '../js/config.js',
   '../lib/supabase.min.js',
+  '../lib/marked.min.js',
+  '../plan/README.md',
+  '../plan/英语专线.md',
+  '../plan/每日执行.md',
+  '../plan/english_diary.md',
   '../pwa/manifest.webmanifest',
   '../pwa/icon.svg'
 ];
@@ -52,6 +57,22 @@ self.addEventListener('fetch', (e) => {
           return r;
         })
         .catch(() => caches.match('../index.html').then((r) => r || Response.error()))
+    );
+    return;
+  }
+
+  // 计划文档：网络优先（plan/*.md 常被编辑，需立即看到最新），离线回退缓存
+  if (u.pathname.indexOf('/plan/') >= 0) {
+    e.respondWith(
+      fetch(req)
+        .then((r) => {
+          if (r && r.status === 200) {
+            const cp = r.clone();
+            caches.open(CACHE).then((c) => c.put(req, cp));
+          }
+          return r;
+        })
+        .catch(() => caches.match(req).then((r) => r || Response.error()))
     );
     return;
   }
