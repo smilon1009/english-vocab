@@ -1,0 +1,8390 @@
+{
+  "activeEntries": 2125,
+  "note": "Coverage is diagnostic only. A headword is not added to the learning app until its meaning, part of speech, pronunciation, example, answer form and difficulty have been reviewed.",
+  "ngsl": {
+    "totalHeadwords": 2801,
+    "exactHeadwordsPresent": 1460,
+    "familyRepresented": 1474,
+    "exactCoveragePercent": 52.1,
+    "familyCoveragePercent": 52.6,
+    "missingHeadwords": [
+      {
+        "band": "1000",
+        "headword": "be"
+      },
+      {
+        "band": "1000",
+        "headword": "and"
+      },
+      {
+        "band": "1000",
+        "headword": "of"
+      },
+      {
+        "band": "1000",
+        "headword": "to"
+      },
+      {
+        "band": "1000",
+        "headword": "a"
+      },
+      {
+        "band": "1000",
+        "headword": "in"
+      },
+      {
+        "band": "1000",
+        "headword": "have"
+      },
+      {
+        "band": "1000",
+        "headword": "it"
+      },
+      {
+        "band": "1000",
+        "headword": "you"
+      },
+      {
+        "band": "1000",
+        "headword": "he"
+      },
+      {
+        "band": "1000",
+        "headword": "for"
+      },
+      {
+        "band": "1000",
+        "headword": "they"
+      },
+      {
+        "band": "1000",
+        "headword": "not"
+      },
+      {
+        "band": "1000",
+        "headword": "that"
+      },
+      {
+        "band": "1000",
+        "headword": "we"
+      },
+      {
+        "band": "1000",
+        "headword": "on"
+      },
+      {
+        "band": "1000",
+        "headword": "with"
+      },
+      {
+        "band": "1000",
+        "headword": "this"
+      },
+      {
+        "band": "1000",
+        "headword": "i"
+      },
+      {
+        "band": "1000",
+        "headword": "do"
+      },
+      {
+        "band": "1000",
+        "headword": "as"
+      },
+      {
+        "band": "1000",
+        "headword": "at"
+      },
+      {
+        "band": "1000",
+        "headword": "she"
+      },
+      {
+        "band": "1000",
+        "headword": "but"
+      },
+      {
+        "band": "1000",
+        "headword": "from"
+      },
+      {
+        "band": "1000",
+        "headword": "by"
+      },
+      {
+        "band": "1000",
+        "headword": "will"
+      },
+      {
+        "band": "1000",
+        "headword": "or"
+      },
+      {
+        "band": "1000",
+        "headword": "say"
+      },
+      {
+        "band": "1000",
+        "headword": "go"
+      },
+      {
+        "band": "1000",
+        "headword": "so"
+      },
+      {
+        "band": "1000",
+        "headword": "all"
+      },
+      {
+        "band": "1000",
+        "headword": "if"
+      },
+      {
+        "band": "1000",
+        "headword": "one"
+      },
+      {
+        "band": "1000",
+        "headword": "would"
+      },
+      {
+        "band": "1000",
+        "headword": "about"
+      },
+      {
+        "band": "1000",
+        "headword": "can"
+      },
+      {
+        "band": "1000",
+        "headword": "which"
+      },
+      {
+        "band": "1000",
+        "headword": "there"
+      },
+      {
+        "band": "1000",
+        "headword": "know"
+      },
+      {
+        "band": "1000",
+        "headword": "more"
+      },
+      {
+        "band": "1000",
+        "headword": "get"
+      },
+      {
+        "band": "1000",
+        "headword": "who"
+      },
+      {
+        "band": "1000",
+        "headword": "like"
+      },
+      {
+        "band": "1000",
+        "headword": "when"
+      },
+      {
+        "band": "1000",
+        "headword": "think"
+      },
+      {
+        "band": "1000",
+        "headword": "make"
+      },
+      {
+        "band": "1000",
+        "headword": "see"
+      },
+      {
+        "band": "1000",
+        "headword": "what"
+      },
+      {
+        "band": "1000",
+        "headword": "up"
+      },
+      {
+        "band": "1000",
+        "headword": "some"
+      },
+      {
+        "band": "1000",
+        "headword": "other"
+      },
+      {
+        "band": "1000",
+        "headword": "out"
+      },
+      {
+        "band": "1000",
+        "headword": "good"
+      },
+      {
+        "band": "1000",
+        "headword": "people"
+      },
+      {
+        "band": "1000",
+        "headword": "take"
+      },
+      {
+        "band": "1000",
+        "headword": "no"
+      },
+      {
+        "band": "1000",
+        "headword": "well"
+      },
+      {
+        "band": "1000",
+        "headword": "because"
+      },
+      {
+        "band": "1000",
+        "headword": "very"
+      },
+      {
+        "band": "1000",
+        "headword": "just"
+      },
+      {
+        "band": "1000",
+        "headword": "come"
+      },
+      {
+        "band": "1000",
+        "headword": "could"
+      },
+      {
+        "band": "1000",
+        "headword": "use"
+      },
+      {
+        "band": "1000",
+        "headword": "than"
+      },
+      {
+        "band": "1000",
+        "headword": "now"
+      },
+      {
+        "band": "1000",
+        "headword": "then"
+      },
+      {
+        "band": "1000",
+        "headword": "also"
+      },
+      {
+        "band": "1000",
+        "headword": "into"
+      },
+      {
+        "band": "1000",
+        "headword": "only"
+      },
+      {
+        "band": "1000",
+        "headword": "look"
+      },
+      {
+        "band": "1000",
+        "headword": "want"
+      },
+      {
+        "band": "1000",
+        "headword": "give"
+      },
+      {
+        "band": "1000",
+        "headword": "first"
+      },
+      {
+        "band": "1000",
+        "headword": "new"
+      },
+      {
+        "band": "1000",
+        "headword": "over"
+      },
+      {
+        "band": "1000",
+        "headword": "any"
+      },
+      {
+        "band": "1000",
+        "headword": "after"
+      },
+      {
+        "band": "1000",
+        "headword": "day"
+      },
+      {
+        "band": "1000",
+        "headword": "where"
+      },
+      {
+        "band": "1000",
+        "headword": "thing"
+      },
+      {
+        "band": "1000",
+        "headword": "most"
+      },
+      {
+        "band": "1000",
+        "headword": "should"
+      },
+      {
+        "band": "1000",
+        "headword": "need"
+      },
+      {
+        "band": "1000",
+        "headword": "much"
+      },
+      {
+        "band": "1000",
+        "headword": "how"
+      },
+      {
+        "band": "1000",
+        "headword": "mean"
+      },
+      {
+        "band": "1000",
+        "headword": "even"
+      },
+      {
+        "band": "1000",
+        "headword": "may"
+      },
+      {
+        "band": "1000",
+        "headword": "here"
+      },
+      {
+        "band": "1000",
+        "headword": "many"
+      },
+      {
+        "band": "1000",
+        "headword": "last"
+      },
+      {
+        "band": "1000",
+        "headword": "tell"
+      },
+      {
+        "band": "1000",
+        "headword": "really"
+      },
+      {
+        "band": "1000",
+        "headword": "call"
+      },
+      {
+        "band": "1000",
+        "headword": "before"
+      },
+      {
+        "band": "1000",
+        "headword": "down"
+      },
+      {
+        "band": "1000",
+        "headword": "life"
+      },
+      {
+        "band": "1000",
+        "headword": "long"
+      },
+      {
+        "band": "1000",
+        "headword": "between"
+      },
+      {
+        "band": "1000",
+        "headword": "feel"
+      },
+      {
+        "band": "1000",
+        "headword": "too"
+      },
+      {
+        "band": "1000",
+        "headword": "write"
+      },
+      {
+        "band": "1000",
+        "headword": "same"
+      },
+      {
+        "band": "1000",
+        "headword": "lot"
+      },
+      {
+        "band": "1000",
+        "headword": "both"
+      },
+      {
+        "band": "1000",
+        "headword": "own"
+      },
+      {
+        "band": "1000",
+        "headword": "part"
+      },
+      {
+        "band": "1000",
+        "headword": "little"
+      },
+      {
+        "band": "1000",
+        "headword": "ask"
+      },
+      {
+        "band": "1000",
+        "headword": "meet"
+      },
+      {
+        "band": "1000",
+        "headword": "start"
+      },
+      {
+        "band": "1000",
+        "headword": "talk"
+      },
+      {
+        "band": "1000",
+        "headword": "something"
+      },
+      {
+        "band": "1000",
+        "headword": "put"
+      },
+      {
+        "band": "1000",
+        "headword": "another"
+      },
+      {
+        "band": "1000",
+        "headword": "become"
+      },
+      {
+        "band": "1000",
+        "headword": "each"
+      },
+      {
+        "band": "1000",
+        "headword": "off"
+      },
+      {
+        "band": "1000",
+        "headword": "next"
+      },
+      {
+        "band": "1000",
+        "headword": "end"
+      },
+      {
+        "band": "1000",
+        "headword": "live"
+      },
+      {
+        "band": "1000",
+        "headword": "why"
+      },
+      {
+        "band": "1000",
+        "headword": "while"
+      },
+      {
+        "band": "1000",
+        "headword": "play"
+      },
+      {
+        "band": "1000",
+        "headword": "must"
+      },
+      {
+        "band": "1000",
+        "headword": "home"
+      },
+      {
+        "band": "1000",
+        "headword": "never"
+      },
+      {
+        "band": "1000",
+        "headword": "house"
+      },
+      {
+        "band": "1000",
+        "headword": "group"
+      },
+      {
+        "band": "1000",
+        "headword": "around"
+      },
+      {
+        "band": "1000",
+        "headword": "book"
+      },
+      {
+        "band": "1000",
+        "headword": "seem"
+      },
+      {
+        "band": "1000",
+        "headword": "let"
+      },
+      {
+        "band": "1000",
+        "headword": "again"
+      },
+      {
+        "band": "1000",
+        "headword": "kind"
+      },
+      {
+        "band": "1000",
+        "headword": "every"
+      },
+      {
+        "band": "1000",
+        "headword": "during"
+      },
+      {
+        "band": "1000",
+        "headword": "big"
+      },
+      {
+        "band": "1000",
+        "headword": "set"
+      },
+      {
+        "band": "1000",
+        "headword": "begin"
+      },
+      {
+        "band": "1000",
+        "headword": "under"
+      },
+      {
+        "band": "1000",
+        "headword": "turn"
+      },
+      {
+        "band": "1000",
+        "headword": "few"
+      },
+      {
+        "band": "1000",
+        "headword": "bring"
+      },
+      {
+        "band": "1000",
+        "headword": "state"
+      },
+      {
+        "band": "1000",
+        "headword": "money"
+      },
+      {
+        "band": "1000",
+        "headword": "fact"
+      },
+      {
+        "band": "1000",
+        "headword": "name"
+      },
+      {
+        "band": "1000",
+        "headword": "read"
+      },
+      {
+        "band": "1000",
+        "headword": "business"
+      },
+      {
+        "band": "1000",
+        "headword": "without"
+      },
+      {
+        "band": "1000",
+        "headword": "information"
+      },
+      {
+        "band": "1000",
+        "headword": "pay"
+      },
+      {
+        "band": "1000",
+        "headword": "build"
+      },
+      {
+        "band": "1000",
+        "headword": "service"
+      },
+      {
+        "band": "1000",
+        "headword": "against"
+      },
+      {
+        "band": "1000",
+        "headword": "yes"
+      },
+      {
+        "band": "1000",
+        "headword": "love"
+      },
+      {
+        "band": "1000",
+        "headword": "away"
+      },
+      {
+        "band": "1000",
+        "headword": "close"
+      },
+      {
+        "band": "1000",
+        "headword": "program"
+      },
+      {
+        "band": "1000",
+        "headword": "thank"
+      },
+      {
+        "band": "1000",
+        "headword": "far"
+      },
+      {
+        "band": "1000",
+        "headword": "today"
+      },
+      {
+        "band": "1000",
+        "headword": "cost"
+      },
+      {
+        "band": "1000",
+        "headword": "less"
+      },
+      {
+        "band": "1000",
+        "headword": "room"
+      },
+      {
+        "band": "1000",
+        "headword": "until"
+      },
+      {
+        "band": "1000",
+        "headword": "form"
+      },
+      {
+        "band": "1000",
+        "headword": "once"
+      },
+      {
+        "band": "1000",
+        "headword": "member"
+      },
+      {
+        "band": "1000",
+        "headword": "bad"
+      },
+      {
+        "band": "1000",
+        "headword": "whether"
+      },
+      {
+        "band": "1000",
+        "headword": "side"
+      },
+      {
+        "band": "1000",
+        "headword": "term"
+      },
+      {
+        "band": "1000",
+        "headword": "least"
+      },
+      {
+        "band": "1000",
+        "headword": "age"
+      },
+      {
+        "band": "1000",
+        "headword": "speak"
+      },
+      {
+        "band": "1000",
+        "headword": "rather"
+      },
+      {
+        "band": "1000",
+        "headword": "party"
+      },
+      {
+        "band": "1000",
+        "headword": "stand"
+      },
+      {
+        "band": "1000",
+        "headword": "yet"
+      },
+      {
+        "band": "1000",
+        "headword": "rate"
+      },
+      {
+        "band": "1000",
+        "headword": "care"
+      },
+      {
+        "band": "1000",
+        "headword": "sort"
+      },
+      {
+        "band": "1000",
+        "headword": "ever"
+      },
+      {
+        "band": "1000",
+        "headword": "anything"
+      },
+      {
+        "band": "1000",
+        "headword": "fall"
+      },
+      {
+        "band": "1000",
+        "headword": "water"
+      },
+      {
+        "band": "1000",
+        "headword": "send"
+      },
+      {
+        "band": "1000",
+        "headword": "soon"
+      },
+      {
+        "band": "1000",
+        "headword": "test"
+      },
+      {
+        "band": "1000",
+        "headword": "grow"
+      },
+      {
+        "band": "1000",
+        "headword": "nothing"
+      },
+      {
+        "band": "1000",
+        "headword": "matter"
+      },
+      {
+        "band": "1000",
+        "headword": "office"
+      },
+      {
+        "band": "1000",
+        "headword": "stop"
+      },
+      {
+        "band": "1000",
+        "headword": "bit"
+      },
+      {
+        "band": "1000",
+        "headword": "answer"
+      },
+      {
+        "band": "1000",
+        "headword": "sit"
+      },
+      {
+        "band": "1000",
+        "headword": "half"
+      },
+      {
+        "band": "1000",
+        "headword": "food"
+      },
+      {
+        "band": "1000",
+        "headword": "ago"
+      },
+      {
+        "band": "1000",
+        "headword": "per"
+      },
+      {
+        "band": "1000",
+        "headword": "top"
+      },
+      {
+        "band": "1000",
+        "headword": "among"
+      },
+      {
+        "band": "1000",
+        "headword": "win"
+      },
+      {
+        "band": "1000",
+        "headword": "note"
+      },
+      {
+        "band": "1000",
+        "headword": "drive"
+      },
+      {
+        "band": "1000",
+        "headword": "along"
+      },
+      {
+        "band": "1000",
+        "headword": "sound"
+      },
+      {
+        "band": "1000",
+        "headword": "political"
+      },
+      {
+        "band": "1000",
+        "headword": "sale"
+      },
+      {
+        "band": "1000",
+        "headword": "body"
+      },
+      {
+        "band": "1000",
+        "headword": "general"
+      },
+      {
+        "band": "1000",
+        "headword": "toward"
+      },
+      {
+        "band": "1000",
+        "headword": "sense"
+      },
+      {
+        "band": "1000",
+        "headword": "add"
+      },
+      {
+        "band": "1000",
+        "headword": "rule"
+      },
+      {
+        "band": "1000",
+        "headword": "sell"
+      },
+      {
+        "band": "1000",
+        "headword": "short"
+      },
+      {
+        "band": "1000",
+        "headword": "everything"
+      },
+      {
+        "band": "1000",
+        "headword": "near"
+      },
+      {
+        "band": "1000",
+        "headword": "human"
+      },
+      {
+        "band": "1000",
+        "headword": "activity"
+      },
+      {
+        "band": "1000",
+        "headword": "film"
+      },
+      {
+        "band": "1000",
+        "headword": "war"
+      },
+      {
+        "band": "1000",
+        "headword": "someone"
+      },
+      {
+        "band": "1000",
+        "headword": "above"
+      },
+      {
+        "band": "1000",
+        "headword": "event"
+      },
+      {
+        "band": "1000",
+        "headword": "carry"
+      },
+      {
+        "band": "1000",
+        "headword": "forward"
+      },
+      {
+        "band": "1000",
+        "headword": "die"
+      },
+      {
+        "band": "1000",
+        "headword": "himself"
+      },
+      {
+        "band": "1000",
+        "headword": "else"
+      },
+      {
+        "band": "1000",
+        "headword": "action"
+      },
+      {
+        "band": "1000",
+        "headword": "step"
+      },
+      {
+        "band": "1000",
+        "headword": "phone"
+      },
+      {
+        "band": "1000",
+        "headword": "themselves"
+      },
+      {
+        "band": "1000",
+        "headword": "date"
+      },
+      {
+        "band": "1000",
+        "headword": "model"
+      },
+      {
+        "band": "1000",
+        "headword": "front"
+      },
+      {
+        "band": "1000",
+        "headword": "outside"
+      },
+      {
+        "band": "1000",
+        "headword": "behind"
+      },
+      {
+        "band": "1000",
+        "headword": "economic"
+      },
+      {
+        "band": "1000",
+        "headword": "site"
+      },
+      {
+        "band": "1000",
+        "headword": "land"
+      },
+      {
+        "band": "1000",
+        "headword": "finally"
+      },
+      {
+        "band": "1000",
+        "headword": "sign"
+      },
+      {
+        "band": "1000",
+        "headword": "travel"
+      },
+      {
+        "band": "1000",
+        "headword": "death"
+      },
+      {
+        "band": "1000",
+        "headword": "nice"
+      },
+      {
+        "band": "1000",
+        "headword": "act"
+      },
+      {
+        "band": "1000",
+        "headword": "round"
+      },
+      {
+        "band": "1000",
+        "headword": "accord"
+      },
+      {
+        "band": "1000",
+        "headword": "list"
+      },
+      {
+        "band": "1000",
+        "headword": "fund"
+      },
+      {
+        "band": "1000",
+        "headword": "kid"
+      },
+      {
+        "band": "1000",
+        "headword": "certainly"
+      },
+      {
+        "band": "1000",
+        "headword": "itself"
+      },
+      {
+        "band": "1000",
+        "headword": "news"
+      },
+      {
+        "band": "1000",
+        "headword": "vote"
+      },
+      {
+        "band": "1000",
+        "headword": "percent"
+      },
+      {
+        "band": "1000",
+        "headword": "stage"
+      },
+      {
+        "band": "1000",
+        "headword": "total"
+      },
+      {
+        "band": "1000",
+        "headword": "material"
+      },
+      {
+        "band": "1000",
+        "headword": "due"
+      },
+      {
+        "band": "1000",
+        "headword": "upon"
+      },
+      {
+        "band": "1000",
+        "headword": "lie"
+      },
+      {
+        "band": "1000",
+        "headword": "pick"
+      },
+      {
+        "band": "1000",
+        "headword": "animal"
+      },
+      {
+        "band": "1000",
+        "headword": "current"
+      },
+      {
+        "band": "1000",
+        "headword": "leader"
+      },
+      {
+        "band": "1000",
+        "headword": "fine"
+      },
+      {
+        "band": "1000",
+        "headword": "former"
+      },
+      {
+        "band": "1000",
+        "headword": "particularly"
+      },
+      {
+        "band": "1000",
+        "headword": "response"
+      },
+      {
+        "band": "1000",
+        "headword": "voice"
+      },
+      {
+        "band": "1000",
+        "headword": "piece"
+      },
+      {
+        "band": "1000",
+        "headword": "apply"
+      },
+      {
+        "band": "1000",
+        "headword": "president"
+      },
+      {
+        "band": "1000",
+        "headword": "simply"
+      },
+      {
+        "band": "1000",
+        "headword": "cell"
+      },
+      {
+        "band": "1000",
+        "headword": "attack"
+      },
+      {
+        "band": "1000",
+        "headword": "recently"
+      },
+      {
+        "band": "1000",
+        "headword": "financial"
+      },
+      {
+        "band": "1000",
+        "headword": "miss"
+      },
+      {
+        "band": "1000",
+        "headword": "art"
+      },
+      {
+        "band": "1000",
+        "headword": "pause"
+      },
+      {
+        "band": "1000",
+        "headword": "everyone"
+      },
+      {
+        "band": "1000",
+        "headword": "page"
+      },
+      {
+        "band": "1000",
+        "headword": "represent"
+      },
+      {
+        "band": "1000",
+        "headword": "section"
+      },
+      {
+        "band": "1000",
+        "headword": "myself"
+      },
+      {
+        "band": "1000",
+        "headword": "exactly"
+      },
+      {
+        "band": "1000",
+        "headword": "plant"
+      },
+      {
+        "band": "1000",
+        "headword": "worker"
+      },
+      {
+        "band": "1000",
+        "headword": "press"
+      },
+      {
+        "band": "1000",
+        "headword": "whatever"
+      },
+      {
+        "band": "1000",
+        "headword": "thus"
+      },
+      {
+        "band": "1000",
+        "headword": "management"
+      },
+      {
+        "band": "1000",
+        "headword": "hit"
+      },
+      {
+        "band": "1000",
+        "headword": "indeed"
+      },
+      {
+        "band": "1000",
+        "headword": "fit"
+      },
+      {
+        "band": "1000",
+        "headword": "guy"
+      },
+      {
+        "band": "1000",
+        "headword": "size"
+      },
+      {
+        "band": "1000",
+        "headword": "production"
+      },
+      {
+        "band": "1000",
+        "headword": "drug"
+      },
+      {
+        "band": "1000",
+        "headword": "tomorrow"
+      },
+      {
+        "band": "1000",
+        "headword": "director"
+      },
+      {
+        "band": "1000",
+        "headword": "clearly"
+      },
+      {
+        "band": "1000",
+        "headword": "lack"
+      },
+      {
+        "band": "1000",
+        "headword": "race"
+      },
+      {
+        "band": "1000",
+        "headword": "purpose"
+      },
+      {
+        "band": "1000",
+        "headword": "department"
+      },
+      {
+        "band": "1000",
+        "headword": "holiday"
+      },
+      {
+        "band": "1000",
+        "headword": "mark"
+      },
+      {
+        "band": "1000",
+        "headword": "item"
+      },
+      {
+        "band": "1000",
+        "headword": "cent"
+      },
+      {
+        "band": "1000",
+        "headword": "stuff"
+      },
+      {
+        "band": "1000",
+        "headword": "anyone"
+      },
+      {
+        "band": "1000",
+        "headword": "analysis"
+      },
+      {
+        "band": "1000",
+        "headword": "military"
+      },
+      {
+        "band": "1000",
+        "headword": "club"
+      },
+      {
+        "band": "1000",
+        "headword": "below"
+      },
+      {
+        "band": "1000",
+        "headword": "nation"
+      },
+      {
+        "band": "1000",
+        "headword": "nearly"
+      },
+      {
+        "band": "1000",
+        "headword": "statement"
+      },
+      {
+        "band": "1000",
+        "headword": "link"
+      },
+      {
+        "band": "1000",
+        "headword": "marry"
+      },
+      {
+        "band": "1000",
+        "headword": "strike"
+      },
+      {
+        "band": "1000",
+        "headword": "mile"
+      },
+      {
+        "band": "1000",
+        "headword": "unit"
+      },
+      {
+        "band": "1000",
+        "headword": "card"
+      },
+      {
+        "band": "1000",
+        "headword": "quickly"
+      },
+      {
+        "band": "1000",
+        "headword": "aim"
+      },
+      {
+        "band": "1000",
+        "headword": "television"
+      },
+      {
+        "band": "1000",
+        "headword": "treat"
+      },
+      {
+        "band": "1000",
+        "headword": "loss"
+      },
+      {
+        "band": "1000",
+        "headword": "shall"
+      },
+      {
+        "band": "1000",
+        "headword": "yourself"
+      },
+      {
+        "band": "1000",
+        "headword": "worth"
+      },
+      {
+        "band": "1000",
+        "headword": "score"
+      },
+      {
+        "band": "1000",
+        "headword": "potential"
+      },
+      {
+        "band": "1000",
+        "headword": "relation"
+      },
+      {
+        "band": "1000",
+        "headword": "touch"
+      },
+      {
+        "band": "1000",
+        "headword": "file"
+      },
+      {
+        "band": "1000",
+        "headword": "bar"
+      },
+      {
+        "band": "1000",
+        "headword": "generally"
+      },
+      {
+        "band": "1000",
+        "headword": "operation"
+      },
+      {
+        "band": "1000",
+        "headword": "seat"
+      },
+      {
+        "band": "1000",
+        "headword": "associate"
+      },
+      {
+        "band": "1000",
+        "headword": "style"
+      },
+      {
+        "band": "1000",
+        "headword": "quarter"
+      },
+      {
+        "band": "1000",
+        "headword": "propose"
+      },
+      {
+        "band": "1000",
+        "headword": "adult"
+      },
+      {
+        "band": "1000",
+        "headword": "obviously"
+      },
+      {
+        "band": "1000",
+        "headword": "unclear"
+      },
+      {
+        "band": "1000",
+        "headword": "bill"
+      },
+      {
+        "band": "1000",
+        "headword": "separate"
+      },
+      {
+        "band": "1000",
+        "headword": "central"
+      },
+      {
+        "band": "1000",
+        "headword": "anyway"
+      },
+      {
+        "band": "1000",
+        "headword": "speech"
+      },
+      {
+        "band": "1000",
+        "headword": "officer"
+      },
+      {
+        "band": "1000",
+        "headword": "throughout"
+      },
+      {
+        "band": "1000",
+        "headword": "guess"
+      },
+      {
+        "band": "1000",
+        "headword": "fun"
+      },
+      {
+        "band": "1000",
+        "headword": "basis"
+      },
+      {
+        "band": "1000",
+        "headword": "author"
+      },
+      {
+        "band": "1000",
+        "headword": "male"
+      },
+      {
+        "band": "1000",
+        "headword": "previous"
+      },
+      {
+        "band": "1000",
+        "headword": "okay"
+      },
+      {
+        "band": "1000",
+        "headword": "newspaper"
+      },
+      {
+        "band": "1000",
+        "headword": "everybody"
+      },
+      {
+        "band": "1000",
+        "headword": "professional"
+      },
+      {
+        "band": "1000",
+        "headword": "mine"
+      },
+      {
+        "band": "1000",
+        "headword": "ring"
+      },
+      {
+        "band": "1000",
+        "headword": "extend"
+      },
+      {
+        "band": "1000",
+        "headword": "daily"
+      },
+      {
+        "band": "1000",
+        "headword": "clothes"
+      },
+      {
+        "band": "1000",
+        "headword": "track"
+      },
+      {
+        "band": "1000",
+        "headword": "female"
+      },
+      {
+        "band": "1000",
+        "headword": "original"
+      },
+      {
+        "band": "1000",
+        "headword": "dream"
+      },
+      {
+        "band": "1000",
+        "headword": "nor"
+      },
+      {
+        "band": "1000",
+        "headword": "university"
+      },
+      {
+        "band": "1000",
+        "headword": "easily"
+      },
+      {
+        "band": "1000",
+        "headword": "agency"
+      },
+      {
+        "band": "1000",
+        "headword": "dollar"
+      },
+      {
+        "band": "1000",
+        "headword": "ahead"
+      },
+      {
+        "band": "1000",
+        "headword": "yeah"
+      },
+      {
+        "band": "1000",
+        "headword": "proposal"
+      },
+      {
+        "band": "1000",
+        "headword": "conversation"
+      },
+      {
+        "band": "1000",
+        "headword": "somebody"
+      },
+      {
+        "band": "1000",
+        "headword": "pound"
+      },
+      {
+        "band": "1000",
+        "headword": "magazine"
+      },
+      {
+        "band": "1000",
+        "headword": "communication"
+      },
+      {
+        "band": "1000",
+        "headword": "agent"
+      },
+      {
+        "band": "1000",
+        "headword": "traditional"
+      },
+      {
+        "band": "1000",
+        "headword": "herself"
+      },
+      {
+        "band": "1000",
+        "headword": "the"
+      },
+      {
+        "band": "2000",
+        "headword": "unless"
+      },
+      {
+        "band": "2000",
+        "headword": "stick"
+      },
+      {
+        "band": "2000",
+        "headword": "request"
+      },
+      {
+        "band": "2000",
+        "headword": "none"
+      },
+      {
+        "band": "2000",
+        "headword": "block"
+      },
+      {
+        "band": "2000",
+        "headword": "warm"
+      },
+      {
+        "band": "2000",
+        "headword": "scene"
+      },
+      {
+        "band": "2000",
+        "headword": "content"
+      },
+      {
+        "band": "2000",
+        "headword": "safe"
+      },
+      {
+        "band": "2000",
+        "headword": "effective"
+      },
+      {
+        "band": "2000",
+        "headword": "beat"
+      },
+      {
+        "band": "2000",
+        "headword": "telephone"
+      },
+      {
+        "band": "2000",
+        "headword": "committee"
+      },
+      {
+        "band": "2000",
+        "headword": "stress"
+      },
+      {
+        "band": "2000",
+        "headword": "radio"
+      },
+      {
+        "band": "2000",
+        "headword": "administration"
+      },
+      {
+        "band": "2000",
+        "headword": "text"
+      },
+      {
+        "band": "2000",
+        "headword": "ride"
+      },
+      {
+        "band": "2000",
+        "headword": "directly"
+      },
+      {
+        "band": "2000",
+        "headword": "otherwise"
+      },
+      {
+        "band": "2000",
+        "headword": "title"
+      },
+      {
+        "band": "2000",
+        "headword": "executive"
+      },
+      {
+        "band": "2000",
+        "headword": "sample"
+      },
+      {
+        "band": "2000",
+        "headword": "sex"
+      },
+      {
+        "band": "2000",
+        "headword": "video"
+      },
+      {
+        "band": "2000",
+        "headword": "weather"
+      },
+      {
+        "band": "2000",
+        "headword": "straight"
+      },
+      {
+        "band": "2000",
+        "headword": "appeal"
+      },
+      {
+        "band": "2000",
+        "headword": "flat"
+      },
+      {
+        "band": "2000",
+        "headword": "absolutely"
+      },
+      {
+        "band": "2000",
+        "headword": "flow"
+      },
+      {
+        "band": "2000",
+        "headword": "additional"
+      },
+      {
+        "band": "2000",
+        "headword": "collection"
+      },
+      {
+        "band": "2000",
+        "headword": "hang"
+      },
+      {
+        "band": "2000",
+        "headword": "negative"
+      },
+      {
+        "band": "2000",
+        "headword": "band"
+      },
+      {
+        "band": "2000",
+        "headword": "tour"
+      },
+      {
+        "band": "2000",
+        "headword": "ship"
+      },
+      {
+        "band": "2000",
+        "headword": "sentence"
+      },
+      {
+        "band": "2000",
+        "headword": "print"
+      },
+      {
+        "band": "2000",
+        "headword": "nobody"
+      },
+      {
+        "band": "2000",
+        "headword": "speed"
+      },
+      {
+        "band": "2000",
+        "headword": "display"
+      },
+      {
+        "band": "2000",
+        "headword": "slightly"
+      },
+      {
+        "band": "2000",
+        "headword": "user"
+      },
+      {
+        "band": "2000",
+        "headword": "dinner"
+      },
+      {
+        "band": "2000",
+        "headword": "federal"
+      },
+      {
+        "band": "2000",
+        "headword": "launch"
+      },
+      {
+        "band": "2000",
+        "headword": "favor"
+      },
+      {
+        "band": "2000",
+        "headword": "partner"
+      },
+      {
+        "band": "2000",
+        "headword": "spot"
+      },
+      {
+        "band": "2000",
+        "headword": "eventually"
+      },
+      {
+        "band": "2000",
+        "headword": "heat"
+      },
+      {
+        "band": "2000",
+        "headword": "excite"
+      },
+      {
+        "band": "2000",
+        "headword": "reader"
+      },
+      {
+        "band": "2000",
+        "headword": "grant"
+      },
+      {
+        "band": "2000",
+        "headword": "pain"
+      },
+      {
+        "band": "2000",
+        "headword": "sector"
+      },
+      {
+        "band": "2000",
+        "headword": "chief"
+      },
+      {
+        "band": "2000",
+        "headword": "cool"
+      },
+      {
+        "band": "2000",
+        "headword": "south"
+      },
+      {
+        "band": "2000",
+        "headword": "surface"
+      },
+      {
+        "band": "2000",
+        "headword": "edge"
+      },
+      {
+        "band": "2000",
+        "headword": "struggle"
+      },
+      {
+        "band": "2000",
+        "headword": "extent"
+      },
+      {
+        "band": "2000",
+        "headword": "fully"
+      },
+      {
+        "band": "2000",
+        "headword": "roll"
+      },
+      {
+        "band": "2000",
+        "headword": "photograph"
+      },
+      {
+        "band": "2000",
+        "headword": "entire"
+      },
+      {
+        "band": "2000",
+        "headword": "presence"
+      },
+      {
+        "band": "2000",
+        "headword": "gas"
+      },
+      {
+        "band": "2000",
+        "headword": "net"
+      },
+      {
+        "band": "2000",
+        "headword": "defense"
+      },
+      {
+        "band": "2000",
+        "headword": "scale"
+      },
+      {
+        "band": "2000",
+        "headword": "introduction"
+      },
+      {
+        "band": "2000",
+        "headword": "north"
+      },
+      {
+        "band": "2000",
+        "headword": "senior"
+      },
+      {
+        "band": "2000",
+        "headword": "photo"
+      },
+      {
+        "band": "2000",
+        "headword": "map"
+      },
+      {
+        "band": "2000",
+        "headword": "left"
+      },
+      {
+        "band": "2000",
+        "headword": "technique"
+      },
+      {
+        "band": "2000",
+        "headword": "tool"
+      },
+      {
+        "band": "2000",
+        "headword": "smoke"
+      },
+      {
+        "band": "2000",
+        "headword": "reaction"
+      },
+      {
+        "band": "2000",
+        "headword": "lesson"
+      },
+      {
+        "band": "2000",
+        "headword": "mass"
+      },
+      {
+        "band": "2000",
+        "headword": "schedule"
+      },
+      {
+        "band": "2000",
+        "headword": "speaker"
+      },
+      {
+        "band": "2000",
+        "headword": "expression"
+      },
+      {
+        "band": "2000",
+        "headword": "plus"
+      },
+      {
+        "band": "2000",
+        "headword": "extremely"
+      },
+      {
+        "band": "2000",
+        "headword": "owner"
+      },
+      {
+        "band": "2000",
+        "headword": "plane"
+      },
+      {
+        "band": "2000",
+        "headword": "lady"
+      },
+      {
+        "band": "2000",
+        "headword": "cultural"
+      },
+      {
+        "band": "2000",
+        "headword": "payment"
+      },
+      {
+        "band": "2000",
+        "headword": "unfortunately"
+      },
+      {
+        "band": "2000",
+        "headword": "contribution"
+      },
+      {
+        "band": "2000",
+        "headword": "secret"
+      },
+      {
+        "band": "2000",
+        "headword": "apparently"
+      },
+      {
+        "band": "2000",
+        "headword": "union"
+      },
+      {
+        "band": "2000",
+        "headword": "suggestion"
+      },
+      {
+        "band": "2000",
+        "headword": "mostly"
+      },
+      {
+        "band": "2000",
+        "headword": "pop"
+      },
+      {
+        "band": "2000",
+        "headword": "currently"
+      },
+      {
+        "band": "2000",
+        "headword": "path"
+      },
+      {
+        "band": "2000",
+        "headword": "topic"
+      },
+      {
+        "band": "2000",
+        "headword": "beach"
+      },
+      {
+        "band": "2000",
+        "headword": "flower"
+      },
+      {
+        "band": "2000",
+        "headword": "crisis"
+      },
+      {
+        "band": "2000",
+        "headword": "boat"
+      },
+      {
+        "band": "2000",
+        "headword": "aid"
+      },
+      {
+        "band": "2000",
+        "headword": "fan"
+      },
+      {
+        "band": "2000",
+        "headword": "kitchen"
+      },
+      {
+        "band": "2000",
+        "headword": "twice"
+      },
+      {
+        "band": "2000",
+        "headword": "length"
+      },
+      {
+        "band": "2000",
+        "headword": "investigation"
+      },
+      {
+        "band": "2000",
+        "headword": "package"
+      },
+      {
+        "band": "2000",
+        "headword": "weapon"
+      },
+      {
+        "band": "2000",
+        "headword": "relatively"
+      },
+      {
+        "band": "2000",
+        "headword": "host"
+      },
+      {
+        "band": "2000",
+        "headword": "district"
+      },
+      {
+        "band": "2000",
+        "headword": "tire"
+      },
+      {
+        "band": "2000",
+        "headword": "lunch"
+      },
+      {
+        "band": "2000",
+        "headword": "pool"
+      },
+      {
+        "band": "2000",
+        "headword": "battle"
+      },
+      {
+        "band": "2000",
+        "headword": "hardly"
+      },
+      {
+        "band": "2000",
+        "headword": "award"
+      },
+      {
+        "band": "2000",
+        "headword": "coach"
+      },
+      {
+        "band": "2000",
+        "headword": "consideration"
+      },
+      {
+        "band": "2000",
+        "headword": "code"
+      },
+      {
+        "band": "2000",
+        "headword": "possibly"
+      },
+      {
+        "band": "2000",
+        "headword": "threat"
+      },
+      {
+        "band": "2000",
+        "headword": "impossible"
+      },
+      {
+        "band": "2000",
+        "headword": "religious"
+      },
+      {
+        "band": "2000",
+        "headword": "environmental"
+      },
+      {
+        "band": "2000",
+        "headword": "volume"
+      },
+      {
+        "band": "2000",
+        "headword": "location"
+      },
+      {
+        "band": "2000",
+        "headword": "tape"
+      },
+      {
+        "band": "2000",
+        "headword": "sum"
+      },
+      {
+        "band": "2000",
+        "headword": "murder"
+      },
+      {
+        "band": "2000",
+        "headword": "soldier"
+      },
+      {
+        "band": "2000",
+        "headword": "hate"
+      },
+      {
+        "band": "2000",
+        "headword": "shock"
+      },
+      {
+        "band": "2000",
+        "headword": "carefully"
+      },
+      {
+        "band": "2000",
+        "headword": "recall"
+      },
+      {
+        "band": "2000",
+        "headword": "wine"
+      },
+      {
+        "band": "2000",
+        "headword": "theater"
+      },
+      {
+        "band": "2000",
+        "headword": "cycle"
+      },
+      {
+        "band": "2000",
+        "headword": "totally"
+      },
+      {
+        "band": "2000",
+        "headword": "visitor"
+      },
+      {
+        "band": "2000",
+        "headword": "construction"
+      },
+      {
+        "band": "2000",
+        "headword": "dear"
+      },
+      {
+        "band": "2000",
+        "headword": "moreover"
+      },
+      {
+        "band": "2000",
+        "headword": "onto"
+      },
+      {
+        "band": "2000",
+        "headword": "historical"
+      },
+      {
+        "band": "2000",
+        "headword": "oppose"
+      },
+      {
+        "band": "2000",
+        "headword": "route"
+      },
+      {
+        "band": "2000",
+        "headword": "bind"
+      },
+      {
+        "band": "2000",
+        "headword": "tonight"
+      },
+      {
+        "band": "2000",
+        "headword": "bomb"
+      },
+      {
+        "band": "2000",
+        "headword": "hurt"
+      },
+      {
+        "band": "2000",
+        "headword": "council"
+      },
+      {
+        "band": "2000",
+        "headword": "editor"
+      },
+      {
+        "band": "2000",
+        "headword": "normally"
+      },
+      {
+        "band": "2000",
+        "headword": "sight"
+      },
+      {
+        "band": "2000",
+        "headword": "gift"
+      },
+      {
+        "band": "2000",
+        "headword": "delivery"
+      },
+      {
+        "band": "2000",
+        "headword": "guest"
+      },
+      {
+        "band": "2000",
+        "headword": "anybody"
+      },
+      {
+        "band": "2000",
+        "headword": "bedroom"
+      },
+      {
+        "band": "2000",
+        "headword": "quote"
+      },
+      {
+        "band": "2000",
+        "headword": "basically"
+      },
+      {
+        "band": "2000",
+        "headword": "violence"
+      },
+      {
+        "band": "2000",
+        "headword": "mainly"
+      },
+      {
+        "band": "2000",
+        "headword": "manner"
+      },
+      {
+        "band": "2000",
+        "headword": "gun"
+      },
+      {
+        "band": "2000",
+        "headword": "occasion"
+      },
+      {
+        "band": "2000",
+        "headword": "affair"
+      },
+      {
+        "band": "2000",
+        "headword": "civil"
+      },
+      {
+        "band": "2000",
+        "headword": "load"
+      },
+      {
+        "band": "2000",
+        "headword": "troop"
+      },
+      {
+        "band": "2000",
+        "headword": "technical"
+      },
+      {
+        "band": "2000",
+        "headword": "arrangement"
+      },
+      {
+        "band": "2000",
+        "headword": "prison"
+      },
+      {
+        "band": "2000",
+        "headword": "switch"
+      },
+      {
+        "band": "2000",
+        "headword": "corporate"
+      },
+      {
+        "band": "2000",
+        "headword": "fairly"
+      },
+      {
+        "band": "2000",
+        "headword": "wood"
+      },
+      {
+        "band": "2000",
+        "headword": "tough"
+      },
+      {
+        "band": "2000",
+        "headword": "tear"
+      },
+      {
+        "band": "2000",
+        "headword": "representative"
+      },
+      {
+        "band": "2000",
+        "headword": "shake"
+      },
+      {
+        "band": "2000",
+        "headword": "ought"
+      },
+      {
+        "band": "2000",
+        "headword": "ad"
+      },
+      {
+        "band": "2000",
+        "headword": "fee"
+      },
+      {
+        "band": "2000",
+        "headword": "hall"
+      },
+      {
+        "band": "2000",
+        "headword": "regulation"
+      },
+      {
+        "band": "2000",
+        "headword": "studio"
+      },
+      {
+        "band": "2000",
+        "headword": "proper"
+      },
+      {
+        "band": "2000",
+        "headword": "industrial"
+      },
+      {
+        "band": "2000",
+        "headword": "error"
+      },
+      {
+        "band": "2000",
+        "headword": "arrest"
+      },
+      {
+        "band": "2000",
+        "headword": "asset"
+      },
+      {
+        "band": "2000",
+        "headword": "necessarily"
+      },
+      {
+        "band": "2000",
+        "headword": "frame"
+      },
+      {
+        "band": "2000",
+        "headword": "slowly"
+      },
+      {
+        "band": "2000",
+        "headword": "bond"
+      },
+      {
+        "band": "2000",
+        "headword": "hire"
+      },
+      {
+        "band": "2000",
+        "headword": "hole"
+      },
+      {
+        "band": "2000",
+        "headword": "chain"
+      },
+      {
+        "band": "2000",
+        "headword": "literature"
+      },
+      {
+        "band": "2000",
+        "headword": "threaten"
+      },
+      {
+        "band": "2000",
+        "headword": "division"
+      },
+      {
+        "band": "2000",
+        "headword": "amaze"
+      },
+      {
+        "band": "2000",
+        "headword": "root"
+      },
+      {
+        "band": "2000",
+        "headword": "channel"
+      },
+      {
+        "band": "2000",
+        "headword": "recommendation"
+      },
+      {
+        "band": "2000",
+        "headword": "rank"
+      },
+      {
+        "band": "2000",
+        "headword": "typical"
+      },
+      {
+        "band": "2000",
+        "headword": "west"
+      },
+      {
+        "band": "2000",
+        "headword": "provision"
+      },
+      {
+        "band": "2000",
+        "headword": "entirely"
+      },
+      {
+        "band": "2000",
+        "headword": "strongly"
+      },
+      {
+        "band": "2000",
+        "headword": "combination"
+      },
+      {
+        "band": "2000",
+        "headword": "abuse"
+      },
+      {
+        "band": "2000",
+        "headword": "principal"
+      },
+      {
+        "band": "2000",
+        "headword": "master"
+      },
+      {
+        "band": "2000",
+        "headword": "definitely"
+      },
+      {
+        "band": "2000",
+        "headword": "previously"
+      },
+      {
+        "band": "2000",
+        "headword": "wed"
+      },
+      {
+        "band": "2000",
+        "headword": "rent"
+      },
+      {
+        "band": "2000",
+        "headword": "shot"
+      },
+      {
+        "band": "2000",
+        "headword": "appearance"
+      },
+      {
+        "band": "2000",
+        "headword": "reasonable"
+      },
+      {
+        "band": "2000",
+        "headword": "till"
+      },
+      {
+        "band": "2000",
+        "headword": "judgment"
+      },
+      {
+        "band": "2000",
+        "headword": "odd"
+      },
+      {
+        "band": "2000",
+        "headword": "definition"
+      },
+      {
+        "band": "2000",
+        "headword": "elect"
+      },
+      {
+        "band": "2000",
+        "headword": "comparison"
+      },
+      {
+        "band": "2000",
+        "headword": "characteristic"
+      },
+      {
+        "band": "2000",
+        "headword": "license"
+      },
+      {
+        "band": "2000",
+        "headword": "permit"
+      },
+      {
+        "band": "2000",
+        "headword": "seriously"
+      },
+      {
+        "band": "2000",
+        "headword": "wild"
+      },
+      {
+        "band": "2000",
+        "headword": "commission"
+      },
+      {
+        "band": "2000",
+        "headword": "association"
+      },
+      {
+        "band": "2000",
+        "headword": "instrument"
+      },
+      {
+        "band": "2000",
+        "headword": "investor"
+      },
+      {
+        "band": "2000",
+        "headword": "row"
+      },
+      {
+        "band": "2000",
+        "headword": "youth"
+      },
+      {
+        "band": "2000",
+        "headword": "fuel"
+      },
+      {
+        "band": "2000",
+        "headword": "expectation"
+      },
+      {
+        "band": "2000",
+        "headword": "sexual"
+      },
+      {
+        "band": "2000",
+        "headword": "increasingly"
+      },
+      {
+        "band": "2000",
+        "headword": "ourselves"
+      },
+      {
+        "band": "2000",
+        "headword": "sheet"
+      },
+      {
+        "band": "2000",
+        "headword": "cast"
+      },
+      {
+        "band": "2000",
+        "headword": "conservative"
+      },
+      {
+        "band": "2000",
+        "headword": "relief"
+      },
+      {
+        "band": "2000",
+        "headword": "explanation"
+      },
+      {
+        "band": "2000",
+        "headword": "arise"
+      },
+      {
+        "band": "2000",
+        "headword": "musical"
+      },
+      {
+        "band": "2000",
+        "headword": "dad"
+      },
+      {
+        "band": "2000",
+        "headword": "stretch"
+      },
+      {
+        "band": "2000",
+        "headword": "tiny"
+      },
+      {
+        "band": "2000",
+        "headword": "fruit"
+      },
+      {
+        "band": "2000",
+        "headword": "mail"
+      },
+      {
+        "band": "2000",
+        "headword": "researcher"
+      },
+      {
+        "band": "2000",
+        "headword": "selection"
+      },
+      {
+        "band": "2000",
+        "headword": "anywhere"
+      },
+      {
+        "band": "2000",
+        "headword": "participant"
+      },
+      {
+        "band": "2000",
+        "headword": "vision"
+      },
+      {
+        "band": "2000",
+        "headword": "specifically"
+      },
+      {
+        "band": "2000",
+        "headword": "entry"
+      },
+      {
+        "band": "2000",
+        "headword": "fellow"
+      },
+      {
+        "band": "2000",
+        "headword": "chemical"
+      },
+      {
+        "band": "2000",
+        "headword": "capture"
+      },
+      {
+        "band": "2000",
+        "headword": "tip"
+      },
+      {
+        "band": "2000",
+        "headword": "peak"
+      },
+      {
+        "band": "2000",
+        "headword": "chairman"
+      },
+      {
+        "band": "2000",
+        "headword": "yard"
+      },
+      {
+        "band": "2000",
+        "headword": "significantly"
+      },
+      {
+        "band": "2000",
+        "headword": "ideal"
+      },
+      {
+        "band": "2000",
+        "headword": "folk"
+      },
+      {
+        "band": "2000",
+        "headword": "surely"
+      },
+      {
+        "band": "2000",
+        "headword": "somewhat"
+      },
+      {
+        "band": "2000",
+        "headword": "kiss"
+      },
+      {
+        "band": "2000",
+        "headword": "presentation"
+      },
+      {
+        "band": "2000",
+        "headword": "joint"
+      },
+      {
+        "band": "2000",
+        "headword": "poll"
+      },
+      {
+        "band": "2000",
+        "headword": "reduction"
+      },
+      {
+        "band": "2000",
+        "headword": "bore"
+      },
+      {
+        "band": "2000",
+        "headword": "mission"
+      },
+      {
+        "band": "2000",
+        "headword": "somehow"
+      },
+      {
+        "band": "2000",
+        "headword": "tone"
+      },
+      {
+        "band": "2000",
+        "headword": "phase"
+      },
+      {
+        "band": "2000",
+        "headword": "rush"
+      },
+      {
+        "band": "2000",
+        "headword": "latter"
+      },
+      {
+        "band": "2000",
+        "headword": "ban"
+      },
+      {
+        "band": "2000",
+        "headword": "frequently"
+      },
+      {
+        "band": "2000",
+        "headword": "helpful"
+      },
+      {
+        "band": "2000",
+        "headword": "attractive"
+      },
+      {
+        "band": "2000",
+        "headword": "impression"
+      },
+      {
+        "band": "2000",
+        "headword": "unable"
+      },
+      {
+        "band": "2000",
+        "headword": "joke"
+      },
+      {
+        "band": "2000",
+        "headword": "column"
+      },
+      {
+        "band": "2000",
+        "headword": "electronic"
+      },
+      {
+        "band": "2000",
+        "headword": "properly"
+      },
+      {
+        "band": "2000",
+        "headword": "ill"
+      },
+      {
+        "band": "2000",
+        "headword": "kick"
+      },
+      {
+        "band": "2000",
+        "headword": "closely"
+      },
+      {
+        "band": "2000",
+        "headword": "multiple"
+      },
+      {
+        "band": "2000",
+        "headword": "county"
+      },
+      {
+        "band": "2000",
+        "headword": "unlike"
+      },
+      {
+        "band": "2000",
+        "headword": "mobile"
+      },
+      {
+        "band": "2000",
+        "headword": "chart"
+      },
+      {
+        "band": "2000",
+        "headword": "hell"
+      },
+      {
+        "band": "2000",
+        "headword": "everywhere"
+      },
+      {
+        "band": "2000",
+        "headword": "advise"
+      },
+      {
+        "band": "2000",
+        "headword": "east"
+      },
+      {
+        "band": "2000",
+        "headword": "voter"
+      },
+      {
+        "band": "2000",
+        "headword": "meanwhile"
+      },
+      {
+        "band": "2000",
+        "headword": "furthermore"
+      },
+      {
+        "band": "2000",
+        "headword": "scientific"
+      },
+      {
+        "band": "2000",
+        "headword": "absence"
+      },
+      {
+        "band": "2000",
+        "headword": "professor"
+      },
+      {
+        "band": "2000",
+        "headword": "intention"
+      },
+      {
+        "band": "2000",
+        "headword": "gap"
+      },
+      {
+        "band": "2000",
+        "headword": "widely"
+      },
+      {
+        "band": "2000",
+        "headword": "minimum"
+      },
+      {
+        "band": "2000",
+        "headword": "northern"
+      },
+      {
+        "band": "2000",
+        "headword": "estate"
+      },
+      {
+        "band": "2000",
+        "headword": "equally"
+      },
+      {
+        "band": "2000",
+        "headword": "shut"
+      },
+      {
+        "band": "2000",
+        "headword": "resolve"
+      },
+      {
+        "band": "2000",
+        "headword": "critic"
+      },
+      {
+        "band": "2000",
+        "headword": "prior"
+      },
+      {
+        "band": "2000",
+        "headword": "phrase"
+      },
+      {
+        "band": "2000",
+        "headword": "vast"
+      },
+      {
+        "band": "2000",
+        "headword": "producer"
+      },
+      {
+        "band": "2000",
+        "headword": "regional"
+      },
+      {
+        "band": "2000",
+        "headword": "draft"
+      },
+      {
+        "band": "2000",
+        "headword": "slip"
+      },
+      {
+        "band": "2000",
+        "headword": "politician"
+      },
+      {
+        "band": "2000",
+        "headword": "seed"
+      },
+      {
+        "band": "2000",
+        "headword": "breakfast"
+      },
+      {
+        "band": "2000",
+        "headword": "liberal"
+      },
+      {
+        "band": "2000",
+        "headword": "qualify"
+      },
+      {
+        "band": "2000",
+        "headword": "competitive"
+      },
+      {
+        "band": "2000",
+        "headword": "hi"
+      },
+      {
+        "band": "2000",
+        "headword": "disk"
+      },
+      {
+        "band": "2000",
+        "headword": "core"
+      },
+      {
+        "band": "2000",
+        "headword": "emotional"
+      },
+      {
+        "band": "2000",
+        "headword": "aircraft"
+      },
+      {
+        "band": "2000",
+        "headword": "self"
+      },
+      {
+        "band": "2000",
+        "headword": "metal"
+      },
+      {
+        "band": "2000",
+        "headword": "existence"
+      },
+      {
+        "band": "2000",
+        "headword": "panel"
+      },
+      {
+        "band": "2000",
+        "headword": "prime"
+      },
+      {
+        "band": "2000",
+        "headword": "appointment"
+      },
+      {
+        "band": "2000",
+        "headword": "maximum"
+      },
+      {
+        "band": "2000",
+        "headword": "effectively"
+      },
+      {
+        "band": "2000",
+        "headword": "elsewhere"
+      },
+      {
+        "band": "2000",
+        "headword": "initiative"
+      },
+      {
+        "band": "2000",
+        "headword": "sharp"
+      },
+      {
+        "band": "2000",
+        "headword": "motion"
+      },
+      {
+        "band": "2000",
+        "headword": "gray"
+      },
+      {
+        "band": "2000",
+        "headword": "plastic"
+      },
+      {
+        "band": "2000",
+        "headword": "complicate"
+      },
+      {
+        "band": "2000",
+        "headword": "disappoint"
+      },
+      {
+        "band": "2000",
+        "headword": "assumption"
+      },
+      {
+        "band": "2000",
+        "headword": "freeze"
+      },
+      {
+        "band": "2000",
+        "headword": "extreme"
+      },
+      {
+        "band": "2000",
+        "headword": "passage"
+      },
+      {
+        "band": "2000",
+        "headword": "forth"
+      },
+      {
+        "band": "2000",
+        "headword": "negotiation"
+      },
+      {
+        "band": "2000",
+        "headword": "crash"
+      },
+      {
+        "band": "2000",
+        "headword": "observation"
+      },
+      {
+        "band": "2000",
+        "headword": "concentration"
+      },
+      {
+        "band": "2000",
+        "headword": "deserve"
+      },
+      {
+        "band": "2000",
+        "headword": "classic"
+      },
+      {
+        "band": "2000",
+        "headword": "king"
+      },
+      {
+        "band": "2000",
+        "headword": "interaction"
+      },
+      {
+        "band": "2000",
+        "headword": "dish"
+      },
+      {
+        "band": "2000",
+        "headword": "abroad"
+      },
+      {
+        "band": "2000",
+        "headword": "presidential"
+      },
+      {
+        "band": "2000",
+        "headword": "perfectly"
+      },
+      {
+        "band": "2000",
+        "headword": "educational"
+      },
+      {
+        "band": "2000",
+        "headword": "nearby"
+      },
+      {
+        "band": "2000",
+        "headword": "manufacturer"
+      },
+      {
+        "band": "2000",
+        "headword": "slide"
+      },
+      {
+        "band": "2000",
+        "headword": "personally"
+      },
+      {
+        "band": "2000",
+        "headword": "breast"
+      },
+      {
+        "band": "2000",
+        "headword": "cope"
+      },
+      {
+        "band": "2000",
+        "headword": "exception"
+      },
+      {
+        "band": "2000",
+        "headword": "chip"
+      },
+      {
+        "band": "2000",
+        "headword": "winner"
+      },
+      {
+        "band": "2000",
+        "headword": "breathe"
+      },
+      {
+        "band": "2000",
+        "headword": "partly"
+      },
+      {
+        "band": "2000",
+        "headword": "southern"
+      },
+      {
+        "band": "2000",
+        "headword": "beauty"
+      },
+      {
+        "band": "2000",
+        "headword": "massive"
+      },
+      {
+        "band": "2000",
+        "headword": "mathematics"
+      },
+      {
+        "band": "2000",
+        "headword": "upper"
+      },
+      {
+        "band": "2000",
+        "headword": "occupy"
+      },
+      {
+        "band": "2000",
+        "headword": "outline"
+      },
+      {
+        "band": "2000",
+        "headword": "update"
+      },
+      {
+        "band": "2000",
+        "headword": "preserve"
+      },
+      {
+        "band": "2000",
+        "headword": "split"
+      },
+      {
+        "band": "2000",
+        "headword": "swing"
+      },
+      {
+        "band": "2000",
+        "headword": "sudden"
+      },
+      {
+        "band": "2000",
+        "headword": "originally"
+      },
+      {
+        "band": "2000",
+        "headword": "aside"
+      },
+      {
+        "band": "2000",
+        "headword": "secondly"
+      },
+      {
+        "band": "2000",
+        "headword": "gene"
+      },
+      {
+        "band": "2000",
+        "headword": "plot"
+      },
+      {
+        "band": "2000",
+        "headword": "primarily"
+      },
+      {
+        "band": "2000",
+        "headword": "bet"
+      },
+      {
+        "band": "2000",
+        "headword": "examination"
+      },
+      {
+        "band": "2000",
+        "headword": "silence"
+      },
+      {
+        "band": "2000",
+        "headword": "rapidly"
+      },
+      {
+        "band": "2000",
+        "headword": "spell"
+      },
+      {
+        "band": "2000",
+        "headword": "lean"
+      },
+      {
+        "band": "2000",
+        "headword": "dramatic"
+      },
+      {
+        "band": "2000",
+        "headword": "protein"
+      },
+      {
+        "band": "2000",
+        "headword": "bike"
+      },
+      {
+        "band": "2000",
+        "headword": "wheel"
+      },
+      {
+        "band": "2000",
+        "headword": "crop"
+      },
+      {
+        "band": "2000",
+        "headword": "interpretation"
+      },
+      {
+        "band": "2000",
+        "headword": "gentleman"
+      },
+      {
+        "band": "2000",
+        "headword": "drama"
+      },
+      {
+        "band": "2000",
+        "headword": "landscape"
+      },
+      {
+        "band": "2000",
+        "headword": "fault"
+      },
+      {
+        "band": "2000",
+        "headword": "minor"
+      },
+      {
+        "band": "2000",
+        "headword": "hunt"
+      },
+      {
+        "band": "2000",
+        "headword": "achievement"
+      },
+      {
+        "band": "2000",
+        "headword": "shoot"
+      },
+      {
+        "band": "3000",
+        "headword": "supplier"
+      },
+      {
+        "band": "3000",
+        "headword": "prize"
+      },
+      {
+        "band": "3000",
+        "headword": "typically"
+      },
+      {
+        "band": "3000",
+        "headword": "peer"
+      },
+      {
+        "band": "3000",
+        "headword": "wing"
+      },
+      {
+        "band": "3000",
+        "headword": "acquisition"
+      },
+      {
+        "band": "3000",
+        "headword": "laughter"
+      },
+      {
+        "band": "3000",
+        "headword": "deeply"
+      },
+      {
+        "band": "3000",
+        "headword": "recognition"
+      },
+      {
+        "band": "3000",
+        "headword": "electricity"
+      },
+      {
+        "band": "3000",
+        "headword": "assistance"
+      },
+      {
+        "band": "3000",
+        "headword": "roof"
+      },
+      {
+        "band": "3000",
+        "headword": "retirement"
+      },
+      {
+        "band": "3000",
+        "headword": "respectively"
+      },
+      {
+        "band": "3000",
+        "headword": "variation"
+      },
+      {
+        "band": "3000",
+        "headword": "ultimately"
+      },
+      {
+        "band": "3000",
+        "headword": "proof"
+      },
+      {
+        "band": "3000",
+        "headword": "layer"
+      },
+      {
+        "band": "3000",
+        "headword": "representation"
+      },
+      {
+        "band": "3000",
+        "headword": "preparation"
+      },
+      {
+        "band": "3000",
+        "headword": "dispute"
+      },
+      {
+        "band": "3000",
+        "headword": "edition"
+      },
+      {
+        "band": "3000",
+        "headword": "silver"
+      },
+      {
+        "band": "3000",
+        "headword": "unlikely"
+      },
+      {
+        "band": "3000",
+        "headword": "gay"
+      },
+      {
+        "band": "3000",
+        "headword": "publication"
+      },
+      {
+        "band": "3000",
+        "headword": "slight"
+      },
+      {
+        "band": "3000",
+        "headword": "unknown"
+      },
+      {
+        "band": "3000",
+        "headword": "inch"
+      },
+      {
+        "band": "3000",
+        "headword": "solid"
+      },
+      {
+        "band": "3000",
+        "headword": "owe"
+      },
+      {
+        "band": "3000",
+        "headword": "governor"
+      },
+      {
+        "band": "3000",
+        "headword": "port"
+      },
+      {
+        "band": "3000",
+        "headword": "pitch"
+      },
+      {
+        "band": "3000",
+        "headword": "gate"
+      },
+      {
+        "band": "3000",
+        "headword": "ease"
+      },
+      {
+        "band": "3000",
+        "headword": "beer"
+      },
+      {
+        "band": "3000",
+        "headword": "specialist"
+      },
+      {
+        "band": "3000",
+        "headword": "assure"
+      },
+      {
+        "band": "3000",
+        "headword": "mood"
+      },
+      {
+        "band": "3000",
+        "headword": "episode"
+      },
+      {
+        "band": "3000",
+        "headword": "crack"
+      },
+      {
+        "band": "3000",
+        "headword": "numerous"
+      },
+      {
+        "band": "3000",
+        "headword": "virtually"
+      },
+      {
+        "band": "3000",
+        "headword": "cable"
+      },
+      {
+        "band": "3000",
+        "headword": "input"
+      },
+      {
+        "band": "3000",
+        "headword": "prisoner"
+      },
+      {
+        "band": "3000",
+        "headword": "tight"
+      },
+      {
+        "band": "3000",
+        "headword": "secondary"
+      },
+      {
+        "band": "3000",
+        "headword": "string"
+      },
+      {
+        "band": "3000",
+        "headword": "inspire"
+      },
+      {
+        "band": "3000",
+        "headword": "grand"
+      },
+      {
+        "band": "3000",
+        "headword": "hence"
+      },
+      {
+        "band": "3000",
+        "headword": "crew"
+      },
+      {
+        "band": "3000",
+        "headword": "pupil"
+      },
+      {
+        "band": "3000",
+        "headword": "false"
+      },
+      {
+        "band": "3000",
+        "headword": "routine"
+      },
+      {
+        "band": "3000",
+        "headword": "sink"
+      },
+      {
+        "band": "3000",
+        "headword": "stare"
+      },
+      {
+        "band": "3000",
+        "headword": "anymore"
+      },
+      {
+        "band": "3000",
+        "headword": "hero"
+      },
+      {
+        "band": "3000",
+        "headword": "supporter"
+      },
+      {
+        "band": "3000",
+        "headword": "steady"
+      },
+      {
+        "band": "3000",
+        "headword": "meter"
+      },
+      {
+        "band": "3000",
+        "headword": "truck"
+      },
+      {
+        "band": "3000",
+        "headword": "beside"
+      },
+      {
+        "band": "3000",
+        "headword": "sail"
+      },
+      {
+        "band": "3000",
+        "headword": "heavily"
+      },
+      {
+        "band": "3000",
+        "headword": "terrorist"
+      },
+      {
+        "band": "3000",
+        "headword": "fascinate"
+      },
+      {
+        "band": "3000",
+        "headword": "external"
+      },
+      {
+        "band": "3000",
+        "headword": "spare"
+      },
+      {
+        "band": "3000",
+        "headword": "whenever"
+      },
+      {
+        "band": "3000",
+        "headword": "underlie"
+      },
+      {
+        "band": "3000",
+        "headword": "mom"
+      },
+      {
+        "band": "3000",
+        "headword": "distinction"
+      },
+      {
+        "band": "3000",
+        "headword": "sir"
+      },
+      {
+        "band": "3000",
+        "headword": "pub"
+      },
+      {
+        "band": "3000",
+        "headword": "perception"
+      },
+      {
+        "band": "3000",
+        "headword": "naturally"
+      },
+      {
+        "band": "3000",
+        "headword": "initially"
+      },
+      {
+        "band": "3000",
+        "headword": "stream"
+      },
+      {
+        "band": "3000",
+        "headword": "rarely"
+      },
+      {
+        "band": "3000",
+        "headword": "height"
+      },
+      {
+        "band": "3000",
+        "headword": "western"
+      },
+      {
+        "band": "3000",
+        "headword": "expansion"
+      },
+      {
+        "band": "3000",
+        "headword": "constantly"
+      },
+      {
+        "band": "3000",
+        "headword": "scare"
+      },
+      {
+        "band": "3000",
+        "headword": "badly"
+      },
+      {
+        "band": "3000",
+        "headword": "everyday"
+      },
+      {
+        "band": "3000",
+        "headword": "boundary"
+      },
+      {
+        "band": "3000",
+        "headword": "ratio"
+      },
+      {
+        "band": "3000",
+        "headword": "scream"
+      },
+      {
+        "band": "3000",
+        "headword": "disorder"
+      },
+      {
+        "band": "3000",
+        "headword": "furniture"
+      },
+      {
+        "band": "3000",
+        "headword": "demonstration"
+      },
+      {
+        "band": "3000",
+        "headword": "analyst"
+      },
+      {
+        "band": "3000",
+        "headword": "steel"
+      },
+      {
+        "band": "3000",
+        "headword": "restriction"
+      },
+      {
+        "band": "3000",
+        "headword": "foundation"
+      },
+      {
+        "band": "3000",
+        "headword": "designer"
+      },
+      {
+        "band": "3000",
+        "headword": "strain"
+      },
+      {
+        "band": "3000",
+        "headword": "album"
+      },
+      {
+        "band": "3000",
+        "headword": "trail"
+      },
+      {
+        "band": "3000",
+        "headword": "trap"
+      },
+      {
+        "band": "3000",
+        "headword": "loose"
+      },
+      {
+        "band": "3000",
+        "headword": "extension"
+      },
+      {
+        "band": "3000",
+        "headword": "gradually"
+      },
+      {
+        "band": "3000",
+        "headword": "tank"
+      },
+      {
+        "band": "3000",
+        "headword": "evil"
+      },
+      {
+        "band": "3000",
+        "headword": "remarkable"
+      },
+      {
+        "band": "3000",
+        "headword": "tune"
+      },
+      {
+        "band": "3000",
+        "headword": "grass"
+      },
+      {
+        "band": "3000",
+        "headword": "invitation"
+      },
+      {
+        "band": "3000",
+        "headword": "frighten"
+      },
+      {
+        "band": "3000",
+        "headword": "bid"
+      },
+      {
+        "band": "3000",
+        "headword": "breed"
+      },
+      {
+        "band": "3000",
+        "headword": "extraordinary"
+      },
+      {
+        "band": "3000",
+        "headword": "brilliant"
+      },
+      {
+        "band": "3000",
+        "headword": "adviser"
+      },
+      {
+        "band": "3000",
+        "headword": "stem"
+      },
+      {
+        "band": "3000",
+        "headword": "mode"
+      },
+      {
+        "band": "3000",
+        "headword": "pose"
+      },
+      {
+        "band": "3000",
+        "headword": "creative"
+      },
+      {
+        "band": "3000",
+        "headword": "nowadays"
+      },
+      {
+        "band": "3000",
+        "headword": "poem"
+      },
+      {
+        "band": "3000",
+        "headword": "agricultural"
+      },
+      {
+        "band": "3000",
+        "headword": "competitor"
+      },
+      {
+        "band": "3000",
+        "headword": "alcohol"
+      },
+      {
+        "band": "3000",
+        "headword": "van"
+      },
+      {
+        "band": "3000",
+        "headword": "planet"
+      },
+      {
+        "band": "3000",
+        "headword": "curve"
+      },
+      {
+        "band": "3000",
+        "headword": "web"
+      },
+      {
+        "band": "3000",
+        "headword": "depth"
+      },
+      {
+        "band": "3000",
+        "headword": "log"
+      },
+      {
+        "band": "3000",
+        "headword": "giant"
+      },
+      {
+        "band": "3000",
+        "headword": "god"
+      },
+      {
+        "band": "3000",
+        "headword": "substance"
+      },
+      {
+        "band": "3000",
+        "headword": "inner"
+      },
+      {
+        "band": "3000",
+        "headword": "shadow"
+      },
+      {
+        "band": "3000",
+        "headword": "strip"
+      },
+      {
+        "band": "3000",
+        "headword": "intervention"
+      },
+      {
+        "band": "3000",
+        "headword": "vice"
+      },
+      {
+        "band": "3000",
+        "headword": "radical"
+      },
+      {
+        "band": "3000",
+        "headword": "similarly"
+      },
+      {
+        "band": "3000",
+        "headword": "efficiency"
+      },
+      {
+        "band": "3000",
+        "headword": "statistic"
+      },
+      {
+        "band": "3000",
+        "headword": "regularly"
+      },
+      {
+        "band": "3000",
+        "headword": "resort"
+      },
+      {
+        "band": "3000",
+        "headword": "iron"
+      },
+      {
+        "band": "3000",
+        "headword": "membership"
+      },
+      {
+        "band": "3000",
+        "headword": "blind"
+      },
+      {
+        "band": "3000",
+        "headword": "pure"
+      },
+      {
+        "band": "3000",
+        "headword": "bloody"
+      },
+      {
+        "band": "3000",
+        "headword": "ally"
+      },
+      {
+        "band": "3000",
+        "headword": "briefly"
+      },
+      {
+        "band": "3000",
+        "headword": "disturb"
+      },
+      {
+        "band": "3000",
+        "headword": "newly"
+      },
+      {
+        "band": "3000",
+        "headword": "sponsor"
+      },
+      {
+        "band": "3000",
+        "headword": "dealer"
+      },
+      {
+        "band": "3000",
+        "headword": "mate"
+      },
+      {
+        "band": "3000",
+        "headword": "occasionally"
+      },
+      {
+        "band": "3000",
+        "headword": "shareholder"
+      },
+      {
+        "band": "3000",
+        "headword": "resistance"
+      },
+      {
+        "band": "3000",
+        "headword": "bath"
+      },
+      {
+        "band": "3000",
+        "headword": "criticize"
+      },
+      {
+        "band": "3000",
+        "headword": "tap"
+      },
+      {
+        "band": "3000",
+        "headword": "approval"
+      },
+      {
+        "band": "3000",
+        "headword": "grab"
+      },
+      {
+        "band": "3000",
+        "headword": "entitle"
+      },
+      {
+        "band": "3000",
+        "headword": "involvement"
+      },
+      {
+        "band": "3000",
+        "headword": "edit"
+      },
+      {
+        "band": "3000",
+        "headword": "formation"
+      },
+      {
+        "band": "3000",
+        "headword": "overseas"
+      },
+      {
+        "band": "3000",
+        "headword": "establishment"
+      },
+      {
+        "band": "3000",
+        "headword": "summary"
+      },
+      {
+        "band": "3000",
+        "headword": "rough"
+      },
+      {
+        "band": "3000",
+        "headword": "recovery"
+      },
+      {
+        "band": "3000",
+        "headword": "tube"
+      },
+      {
+        "band": "3000",
+        "headword": "tower"
+      },
+      {
+        "band": "3000",
+        "headword": "characterize"
+      },
+      {
+        "band": "3000",
+        "headword": "spin"
+      },
+      {
+        "band": "3000",
+        "headword": "operator"
+      },
+      {
+        "band": "3000",
+        "headword": "infant"
+      },
+      {
+        "band": "3000",
+        "headword": "dig"
+      },
+      {
+        "band": "3000",
+        "headword": "drag"
+      },
+      {
+        "band": "3000",
+        "headword": "mount"
+      },
+      {
+        "band": "3000",
+        "headword": "wrap"
+      },
+      {
+        "band": "3000",
+        "headword": "dependent"
+      },
+      {
+        "band": "3000",
+        "headword": "specialize"
+      },
+      {
+        "band": "3000",
+        "headword": "angle"
+      },
+      {
+        "band": "3000",
+        "headword": "precisely"
+      },
+      {
+        "band": "3000",
+        "headword": "offense"
+      },
+      {
+        "band": "3000",
+        "headword": "teenager"
+      },
+      {
+        "band": "3000",
+        "headword": "musician"
+      },
+      {
+        "band": "3000",
+        "headword": "significance"
+      },
+      {
+        "band": "3000",
+        "headword": "shower"
+      },
+      {
+        "band": "3000",
+        "headword": "charity"
+      },
+      {
+        "band": "3000",
+        "headword": "cigarette"
+      },
+      {
+        "band": "3000",
+        "headword": "consultant"
+      },
+      {
+        "band": "3000",
+        "headword": "historian"
+      },
+      {
+        "band": "3000",
+        "headword": "stupid"
+      },
+      {
+        "band": "3000",
+        "headword": "ethnic"
+      },
+      {
+        "band": "3000",
+        "headword": "twin"
+      },
+      {
+        "band": "3000",
+        "headword": "clinical"
+      },
+      {
+        "band": "3000",
+        "headword": "eastern"
+      },
+      {
+        "band": "3000",
+        "headword": "forecast"
+      },
+      {
+        "band": "3000",
+        "headword": "segment"
+      },
+      {
+        "band": "3000",
+        "headword": "prompt"
+      },
+      {
+        "band": "3000",
+        "headword": "charm"
+      },
+      {
+        "band": "3000",
+        "headword": "rescue"
+      },
+      {
+        "band": "3000",
+        "headword": "mess"
+      },
+      {
+        "band": "3000",
+        "headword": "league"
+      },
+      {
+        "band": "3000",
+        "headword": "dialog"
+      },
+      {
+        "band": "3000",
+        "headword": "cream"
+      },
+      {
+        "band": "3000",
+        "headword": "rapid"
+      },
+      {
+        "band": "3000",
+        "headword": "regret"
+      },
+      {
+        "band": "3000",
+        "headword": "dismiss"
+      },
+      {
+        "band": "3000",
+        "headword": "beneath"
+      },
+      {
+        "band": "3000",
+        "headword": "opponent"
+      },
+      {
+        "band": "3000",
+        "headword": "capability"
+      },
+      {
+        "band": "3000",
+        "headword": "absolute"
+      },
+      {
+        "band": "3000",
+        "headword": "stroke"
+      },
+      {
+        "band": "3000",
+        "headword": "dare"
+      },
+      {
+        "band": "3000",
+        "headword": "rid"
+      },
+      {
+        "band": "3000",
+        "headword": "divorce"
+      },
+      {
+        "band": "3000",
+        "headword": "bury"
+      },
+      {
+        "band": "3000",
+        "headword": "counsel"
+      },
+      {
+        "band": "3000",
+        "headword": "motor"
+      },
+      {
+        "band": "3000",
+        "headword": "survival"
+      },
+      {
+        "band": "3000",
+        "headword": "counter"
+      },
+      {
+        "band": "3000",
+        "headword": "possess"
+      },
+      {
+        "band": "3000",
+        "headword": "permission"
+      },
+      {
+        "band": "3000",
+        "headword": "float"
+      },
+      {
+        "band": "3000",
+        "headword": "mad"
+      },
+      {
+        "band": "3000",
+        "headword": "greatly"
+      },
+      {
+        "band": "3000",
+        "headword": "electric"
+      },
+      {
+        "band": "3000",
+        "headword": "impressive"
+      },
+      {
+        "band": "3000",
+        "headword": "evolution"
+      },
+      {
+        "band": "3000",
+        "headword": "violent"
+      },
+      {
+        "band": "3000",
+        "headword": "slave"
+      },
+      {
+        "band": "3000",
+        "headword": "wealthy"
+      },
+      {
+        "band": "3000",
+        "headword": "acceptable"
+      },
+      {
+        "band": "3000",
+        "headword": "coal"
+      },
+      {
+        "band": "3000",
+        "headword": "measurement"
+      },
+      {
+        "band": "3000",
+        "headword": "successfully"
+      },
+      {
+        "band": "3000",
+        "headword": "depress"
+      },
+      {
+        "band": "3000",
+        "headword": "illustration"
+      },
+      {
+        "band": "3000",
+        "headword": "buyer"
+      },
+      {
+        "band": "3000",
+        "headword": "rail"
+      },
+      {
+        "band": "3000",
+        "headword": "mortgage"
+      },
+      {
+        "band": "3000",
+        "headword": "champion"
+      },
+      {
+        "band": "3000",
+        "headword": "fulfill"
+      },
+      {
+        "band": "3000",
+        "headword": "roughly"
+      },
+      {
+        "band": "3000",
+        "headword": "skirt"
+      },
+      {
+        "band": "3000",
+        "headword": "province"
+      },
+      {
+        "band": "3000",
+        "headword": "march"
+      },
+      {
+        "band": "3000",
+        "headword": "evaluation"
+      },
+      {
+        "band": "3000",
+        "headword": "weakness"
+      },
+      {
+        "band": "3000",
+        "headword": "announcement"
+      },
+      {
+        "band": "3000",
+        "headword": "glance"
+      },
+      {
+        "band": "3000",
+        "headword": "opera"
+      },
+      {
+        "band": "3000",
+        "headword": "contest"
+      },
+      {
+        "band": "3000",
+        "headword": "embarrass"
+      },
+      {
+        "band": "3000",
+        "headword": "genetic"
+      },
+      {
+        "band": "3000",
+        "headword": "aggressive"
+      },
+      {
+        "band": "3000",
+        "headword": "format"
+      },
+      {
+        "band": "3000",
+        "headword": "literary"
+      },
+      {
+        "band": "3000",
+        "headword": "embrace"
+      },
+      {
+        "band": "3000",
+        "headword": "praise"
+      },
+      {
+        "band": "3000",
+        "headword": "silent"
+      },
+      {
+        "band": "3000",
+        "headword": "pump"
+      },
+      {
+        "band": "3000",
+        "headword": "publisher"
+      },
+      {
+        "band": "3000",
+        "headword": "celebration"
+      },
+      {
+        "band": "3000",
+        "headword": "golf"
+      },
+      {
+        "band": "3000",
+        "headword": "compensation"
+      },
+      {
+        "band": "3000",
+        "headword": "classical"
+      },
+      {
+        "band": "3000",
+        "headword": "weigh"
+      },
+      {
+        "band": "3000",
+        "headword": "versus"
+      },
+      {
+        "band": "3000",
+        "headword": "deficit"
+      },
+      {
+        "band": "3000",
+        "headword": "flash"
+      },
+      {
+        "band": "3000",
+        "headword": "literally"
+      },
+      {
+        "band": "3000",
+        "headword": "equation"
+      },
+      {
+        "band": "3000",
+        "headword": "gesture"
+      },
+      {
+        "band": "3000",
+        "headword": "fantastic"
+      },
+      {
+        "band": "3000",
+        "headword": "historic"
+      },
+      {
+        "band": "3000",
+        "headword": "injure"
+      },
+      {
+        "band": "3000",
+        "headword": "remote"
+      },
+      {
+        "band": "3000",
+        "headword": "twist"
+      },
+      {
+        "band": "3000",
+        "headword": "personnel"
+      },
+      {
+        "band": "3000",
+        "headword": "disagree"
+      },
+      {
+        "band": "3000",
+        "headword": "throat"
+      },
+      {
+        "band": "3000",
+        "headword": "forever"
+      },
+      {
+        "band": "3000",
+        "headword": "pregnant"
+      },
+      {
+        "band": "3000",
+        "headword": "gear"
+      },
+      {
+        "band": "3000",
+        "headword": "poet"
+      },
+      {
+        "band": "3000",
+        "headword": "fortune"
+      },
+      {
+        "band": "3000",
+        "headword": "pile"
+      },
+      {
+        "band": "3000",
+        "headword": "mixture"
+      },
+      {
+        "band": "3000",
+        "headword": "automatically"
+      },
+      {
+        "band": "3000",
+        "headword": "scholar"
+      },
+      {
+        "band": "3000",
+        "headword": "psychological"
+      },
+      {
+        "band": "3000",
+        "headword": "dramatically"
+      },
+      {
+        "band": "3000",
+        "headword": "stake"
+      },
+      {
+        "band": "3000",
+        "headword": "creature"
+      },
+      {
+        "band": "3000",
+        "headword": "participation"
+      },
+      {
+        "band": "3000",
+        "headword": "clause"
+      },
+      {
+        "band": "3000",
+        "headword": "penalty"
+      },
+      {
+        "band": "3000",
+        "headword": "chamber"
+      },
+      {
+        "band": "3000",
+        "headword": "fancy"
+      },
+      {
+        "band": "3000",
+        "headword": "poetry"
+      },
+      {
+        "band": "3000",
+        "headword": "chat"
+      },
+      {
+        "band": "3000",
+        "headword": "clothing"
+      },
+      {
+        "band": "3000",
+        "headword": "sake"
+      },
+      {
+        "band": "3000",
+        "headword": "boost"
+      },
+      {
+        "band": "3000",
+        "headword": "tail"
+      },
+      {
+        "band": "3000",
+        "headword": "abortion"
+      },
+      {
+        "band": "3000",
+        "headword": "wooden"
+      },
+      {
+        "band": "3000",
+        "headword": "boom"
+      },
+      {
+        "band": "3000",
+        "headword": "tale"
+      },
+      {
+        "band": "3000",
+        "headword": "democratic"
+      },
+      {
+        "band": "3000",
+        "headword": "maintenance"
+      },
+      {
+        "band": "3000",
+        "headword": "consequently"
+      },
+      {
+        "band": "3000",
+        "headword": "pot"
+      },
+      {
+        "band": "3000",
+        "headword": "strengthen"
+      },
+      {
+        "band": "3000",
+        "headword": "whilst"
+      },
+      {
+        "band": "3000",
+        "headword": "fold"
+      },
+      {
+        "band": "3000",
+        "headword": "bin"
+      },
+      {
+        "band": "3000",
+        "headword": "potentially"
+      },
+      {
+        "band": "3000",
+        "headword": "diversity"
+      },
+      {
+        "band": "3000",
+        "headword": "allege"
+      },
+      {
+        "band": "3000",
+        "headword": "intense"
+      },
+      {
+        "band": "3000",
+        "headword": "craft"
+      },
+      {
+        "band": "3000",
+        "headword": "concrete"
+      },
+      {
+        "band": "3000",
+        "headword": "shell"
+      },
+      {
+        "band": "3000",
+        "headword": "damn"
+      },
+      {
+        "band": "3000",
+        "headword": "humor"
+      },
+      {
+        "band": "3000",
+        "headword": "limitation"
+      },
+      {
+        "band": "3000",
+        "headword": "indication"
+      },
+      {
+        "band": "3000",
+        "headword": "wise"
+      },
+      {
+        "band": "3000",
+        "headword": "jail"
+      },
+      {
+        "band": "3000",
+        "headword": "shelter"
+      },
+      {
+        "band": "3000",
+        "headword": "mere"
+      },
+      {
+        "band": "3000",
+        "headword": "pipe"
+      },
+      {
+        "band": "3000",
+        "headword": "destruction"
+      },
+      {
+        "band": "3000",
+        "headword": "flag"
+      },
+      {
+        "band": "3000",
+        "headword": "magic"
+      },
+      {
+        "band": "3000",
+        "headword": "mystery"
+      },
+      {
+        "band": "3000",
+        "headword": "ski"
+      },
+      {
+        "band": "3000",
+        "headword": "whisper"
+      },
+      {
+        "band": "3000",
+        "headword": "rear"
+      },
+      {
+        "band": "3000",
+        "headword": "menu"
+      },
+      {
+        "band": "3000",
+        "headword": "presumably"
+      },
+      {
+        "band": "3000",
+        "headword": "bless"
+      },
+      {
+        "band": "3000",
+        "headword": "airline"
+      },
+      {
+        "band": "3000",
+        "headword": "amendment"
+      },
+      {
+        "band": "3000",
+        "headword": "civilian"
+      },
+      {
+        "band": "3000",
+        "headword": "composition"
+      },
+      {
+        "band": "3000",
+        "headword": "coin"
+      },
+      {
+        "band": "3000",
+        "headword": "regardless"
+      },
+      {
+        "band": "3000",
+        "headword": "scan"
+      },
+      {
+        "band": "3000",
+        "headword": "bunch"
+      },
+      {
+        "band": "3000",
+        "headword": "racial"
+      },
+      {
+        "band": "3000",
+        "headword": "greet"
+      },
+      {
+        "band": "3000",
+        "headword": "hopefully"
+      },
+      {
+        "band": "3000",
+        "headword": "sanction"
+      },
+      {
+        "band": "3000",
+        "headword": "trick"
+      },
+      {
+        "band": "3000",
+        "headword": "paragraph"
+      },
+      {
+        "band": "3000",
+        "headword": "maker"
+      },
+      {
+        "band": "3000",
+        "headword": "chocolate"
+      },
+      {
+        "band": "3000",
+        "headword": "narrative"
+      },
+      {
+        "band": "3000",
+        "headword": "tissue"
+      },
+      {
+        "band": "3000",
+        "headword": "barely"
+      },
+      {
+        "band": "3000",
+        "headword": "pro"
+      },
+      {
+        "band": "3000",
+        "headword": "stair"
+      },
+      {
+        "band": "3000",
+        "headword": "hesitate"
+      },
+      {
+        "band": "3000",
+        "headword": "shine"
+      },
+      {
+        "band": "3000",
+        "headword": "motivation"
+      },
+      {
+        "band": "3000",
+        "headword": "romantic"
+      },
+      {
+        "band": "3000",
+        "headword": "firmly"
+      },
+      {
+        "band": "3000",
+        "headword": "interior"
+      },
+      {
+        "band": "3000",
+        "headword": "nowhere"
+      },
+      {
+        "band": "3000",
+        "headword": "pray"
+      },
+      {
+        "band": "3000",
+        "headword": "championship"
+      },
+      {
+        "band": "3000",
+        "headword": "servant"
+      },
+      {
+        "band": "3000",
+        "headword": "excess"
+      },
+      {
+        "band": "3000",
+        "headword": "complexity"
+      },
+      {
+        "band": "3000",
+        "headword": "liability"
+      },
+      {
+        "band": "3000",
+        "headword": "surprisingly"
+      },
+      {
+        "band": "3000",
+        "headword": "implementation"
+      },
+      {
+        "band": "3000",
+        "headword": "differently"
+      },
+      {
+        "band": "3000",
+        "headword": "catalog"
+      },
+      {
+        "band": "3000",
+        "headword": "continuous"
+      },
+      {
+        "band": "3000",
+        "headword": "golden"
+      },
+      {
+        "band": "3000",
+        "headword": "stamp"
+      },
+      {
+        "band": "3000",
+        "headword": "guideline"
+      },
+      {
+        "band": "3000",
+        "headword": "biological"
+      },
+      {
+        "band": "3000",
+        "headword": "luxury"
+      },
+      {
+        "band": "3000",
+        "headword": "weekly"
+      },
+      {
+        "band": "3000",
+        "headword": "wherever"
+      },
+      {
+        "band": "3000",
+        "headword": "bite"
+      },
+      {
+        "band": "3000",
+        "headword": "printer"
+      },
+      {
+        "band": "3000",
+        "headword": "firstly"
+      },
+      {
+        "band": "3000",
+        "headword": "adventure"
+      },
+      {
+        "band": "3000",
+        "headword": "fence"
+      },
+      {
+        "band": "3000",
+        "headword": "exhaust"
+      },
+      {
+        "band": "3000",
+        "headword": "attraction"
+      },
+      {
+        "band": "3000",
+        "headword": "quietly"
+      },
+      {
+        "band": "3000",
+        "headword": "castle"
+      },
+      {
+        "band": "3000",
+        "headword": "veteran"
+      },
+      {
+        "band": "3000",
+        "headword": "reflection"
+      },
+      {
+        "band": "3000",
+        "headword": "determination"
+      },
+      {
+        "band": "3000",
+        "headword": "altogether"
+      },
+      {
+        "band": "3000",
+        "headword": "cluster"
+      },
+      {
+        "band": "3000",
+        "headword": "confusion"
+      },
+      {
+        "band": "3000",
+        "headword": "logic"
+      },
+      {
+        "band": "3000",
+        "headword": "raw"
+      },
+      {
+        "band": "3000",
+        "headword": "grammar"
+      },
+      {
+        "band": "3000",
+        "headword": "hint"
+      },
+      {
+        "band": "3000",
+        "headword": "hook"
+      },
+      {
+        "band": "3000",
+        "headword": "bell"
+      },
+      {
+        "band": "3000",
+        "headword": "liquid"
+      },
+      {
+        "band": "3000",
+        "headword": "panic"
+      },
+      {
+        "band": "3000",
+        "headword": "vessel"
+      },
+      {
+        "band": "3000",
+        "headword": "verb"
+      },
+      {
+        "band": "3000",
+        "headword": "reckon"
+      },
+      {
+        "band": "3000",
+        "headword": "silly"
+      },
+      {
+        "band": "3000",
+        "headword": "transportation"
+      },
+      {
+        "band": "3000",
+        "headword": "harbor"
+      },
+      {
+        "band": "3000",
+        "headword": "comedy"
+      },
+      {
+        "band": "3000",
+        "headword": "chase"
+      },
+      {
+        "band": "3000",
+        "headword": "storage"
+      },
+      {
+        "band": "3000",
+        "headword": "universe"
+      },
+      {
+        "band": "3000",
+        "headword": "horrible"
+      },
+      {
+        "band": "3000",
+        "headword": "lover"
+      },
+      {
+        "band": "3000",
+        "headword": "portrait"
+      },
+      {
+        "band": "3000",
+        "headword": "innocent"
+      },
+      {
+        "band": "3000",
+        "headword": "adjustment"
+      },
+      {
+        "band": "3000",
+        "headword": "reasonably"
+      },
+      {
+        "band": "3000",
+        "headword": "filter"
+      },
+      {
+        "band": "3000",
+        "headword": "tent"
+      },
+      {
+        "band": "3000",
+        "headword": "shade"
+      },
+      {
+        "band": "3000",
+        "headword": "grain"
+      },
+      {
+        "band": "3000",
+        "headword": "situate"
+      },
+      {
+        "band": "3000",
+        "headword": "leap"
+      },
+      {
+        "band": "3000",
+        "headword": "snap"
+      },
+      {
+        "band": "3000",
+        "headword": "probability"
+      },
+      {
+        "band": "3000",
+        "headword": "leather"
+      },
+      {
+        "band": "3000",
+        "headword": "uncertainty"
+      },
+      {
+        "band": "3000",
+        "headword": "swear"
+      },
+      {
+        "band": "3000",
+        "headword": "refugee"
+      },
+      {
+        "band": "3000",
+        "headword": "monthly"
+      },
+      {
+        "band": "3000",
+        "headword": "excitement"
+      },
+      {
+        "band": "3000",
+        "headword": "sigh"
+      },
+      {
+        "band": "3000",
+        "headword": "pregnancy"
+      },
+      {
+        "band": "3000",
+        "headword": "experimental"
+      },
+      {
+        "band": "3000",
+        "headword": "institutional"
+      },
+      {
+        "band": "3000",
+        "headword": "wander"
+      },
+      {
+        "band": "3000",
+        "headword": "empire"
+      },
+      {
+        "band": "3000",
+        "headword": "subsequently"
+      },
+      {
+        "band": "3000",
+        "headword": "ownership"
+      },
+      {
+        "band": "3000",
+        "headword": "functional"
+      },
+      {
+        "band": "3000",
+        "headword": "pale"
+      },
+      {
+        "band": "3000",
+        "headword": "stain"
+      },
+      {
+        "band": "3000",
+        "headword": "athlete"
+      },
+      {
+        "band": "3000",
+        "headword": "structural"
+      },
+      {
+        "band": "3000",
+        "headword": "fool"
+      },
+      {
+        "band": "3000",
+        "headword": "alongside"
+      },
+      {
+        "band": "3000",
+        "headword": "unite"
+      },
+      {
+        "band": "3000",
+        "headword": "gently"
+      },
+      {
+        "band": "3000",
+        "headword": "compute"
+      },
+      {
+        "band": "3000",
+        "headword": "wipe"
+      },
+      {
+        "band": "3000",
+        "headword": "weird"
+      },
+      {
+        "band": "3000",
+        "headword": "gaze"
+      },
+      {
+        "band": "3000",
+        "headword": "fade"
+      },
+      {
+        "band": "3000",
+        "headword": "royal"
+      },
+      {
+        "band": "3000",
+        "headword": "theoretical"
+      },
+      {
+        "band": "3000",
+        "headword": "mayor"
+      },
+      {
+        "band": "3000",
+        "headword": "darkness"
+      },
+      {
+        "band": "3000",
+        "headword": "tournament"
+      },
+      {
+        "band": "3000",
+        "headword": "registration"
+      },
+      {
+        "band": "3000",
+        "headword": "fragment"
+      },
+      {
+        "band": "3000",
+        "headword": "listener"
+      },
+      {
+        "band": "3000",
+        "headword": "tender"
+      },
+      {
+        "band": "3000",
+        "headword": "density"
+      },
+      {
+        "band": "3000",
+        "headword": "ugly"
+      },
+      {
+        "band": "3000",
+        "headword": "module"
+      },
+      {
+        "band": "3000",
+        "headword": "faithfully"
+      },
+      {
+        "band": "3000",
+        "headword": "cheek"
+      },
+      {
+        "band": "3000",
+        "headword": "attachment"
+      },
+      {
+        "band": "3000",
+        "headword": "holder"
+      },
+      {
+        "band": "3000",
+        "headword": "grin"
+      },
+      {
+        "band": "3000",
+        "headword": "noun"
+      },
+      {
+        "band": "3000",
+        "headword": "fortunate"
+      },
+      {
+        "band": "3000",
+        "headword": "alright"
+      },
+      {
+        "band": "3000",
+        "headword": "hello"
+      },
+      {
+        "band": "3000",
+        "headword": "hunger"
+      },
+      {
+        "band": "3000",
+        "headword": "insure"
+      },
+      {
+        "band": "3000",
+        "headword": "found"
+      },
+      {
+        "band": "3000",
+        "headword": "thirst"
+      }
+    ]
+  },
+  "nawl": {
+    "totalHeadwords": 963,
+    "exactHeadwordsPresent": 212,
+    "familyRepresented": 213,
+    "exactCoveragePercent": 22,
+    "familyCoveragePercent": 22.1,
+    "missingHeadwords": [
+      {
+        "band": "NAWL",
+        "headword": "abdominal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "absorption"
+      },
+      {
+        "band": "NAWL",
+        "headword": "accelerate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "acceleration"
+      },
+      {
+        "band": "NAWL",
+        "headword": "accent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "accumulation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "accuracy"
+      },
+      {
+        "band": "NAWL",
+        "headword": "accurately"
+      },
+      {
+        "band": "NAWL",
+        "headword": "acid"
+      },
+      {
+        "band": "NAWL",
+        "headword": "acidic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "activate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "actively"
+      },
+      {
+        "band": "NAWL",
+        "headword": "acute"
+      },
+      {
+        "band": "NAWL",
+        "headword": "adaptation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "adaptive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "admission"
+      },
+      {
+        "band": "NAWL",
+        "headword": "adolescent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "adverse"
+      },
+      {
+        "band": "NAWL",
+        "headword": "aerosol"
+      },
+      {
+        "band": "NAWL",
+        "headword": "aesthetic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "afterward"
+      },
+      {
+        "band": "NAWL",
+        "headword": "airplane"
+      },
+      {
+        "band": "NAWL",
+        "headword": "algebra"
+      },
+      {
+        "band": "NAWL",
+        "headword": "alien"
+      },
+      {
+        "band": "NAWL",
+        "headword": "alliance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "allocation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "altitude"
+      },
+      {
+        "band": "NAWL",
+        "headword": "aluminum"
+      },
+      {
+        "band": "NAWL",
+        "headword": "amino"
+      },
+      {
+        "band": "NAWL",
+        "headword": "amongst"
+      },
+      {
+        "band": "NAWL",
+        "headword": "amplitude"
+      },
+      {
+        "band": "NAWL",
+        "headword": "anthropology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "anti"
+      },
+      {
+        "band": "NAWL",
+        "headword": "antibiotic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "antibody"
+      },
+      {
+        "band": "NAWL",
+        "headword": "antiquity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "approximate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "approximation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "archaeology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "architect"
+      },
+      {
+        "band": "NAWL",
+        "headword": "array"
+      },
+      {
+        "band": "NAWL",
+        "headword": "arrow"
+      },
+      {
+        "band": "NAWL",
+        "headword": "artifact"
+      },
+      {
+        "band": "NAWL",
+        "headword": "artistic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "artwork"
+      },
+      {
+        "band": "NAWL",
+        "headword": "assembly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "athletic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "atom"
+      },
+      {
+        "band": "NAWL",
+        "headword": "atomic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "auction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "audio"
+      },
+      {
+        "band": "NAWL",
+        "headword": "audit"
+      },
+      {
+        "band": "NAWL",
+        "headword": "autonomy"
+      },
+      {
+        "band": "NAWL",
+        "headword": "availability"
+      },
+      {
+        "band": "NAWL",
+        "headword": "axiom"
+      },
+      {
+        "band": "NAWL",
+        "headword": "axis"
+      },
+      {
+        "band": "NAWL",
+        "headword": "backward"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bacterial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bang"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bargain"
+      },
+      {
+        "band": "NAWL",
+        "headword": "barrel"
+      },
+      {
+        "band": "NAWL",
+        "headword": "basin"
+      },
+      {
+        "band": "NAWL",
+        "headword": "beam"
+      },
+      {
+        "band": "NAWL",
+        "headword": "behavioral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bilingual"
+      },
+      {
+        "band": "NAWL",
+        "headword": "binary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "biologist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "biology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bizarre"
+      },
+      {
+        "band": "NAWL",
+        "headword": "blank"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bleed"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bodily"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bound"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bracket"
+      },
+      {
+        "band": "NAWL",
+        "headword": "breakdown"
+      },
+      {
+        "band": "NAWL",
+        "headword": "broadly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bubble"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bulk"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bullet"
+      },
+      {
+        "band": "NAWL",
+        "headword": "bundle"
+      },
+      {
+        "band": "NAWL",
+        "headword": "calcium"
+      },
+      {
+        "band": "NAWL",
+        "headword": "calculation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "calculator"
+      },
+      {
+        "band": "NAWL",
+        "headword": "calculus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "capillary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "capitalism"
+      },
+      {
+        "band": "NAWL",
+        "headword": "capitalist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "carrier"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cattle"
+      },
+      {
+        "band": "NAWL",
+        "headword": "censor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "characterization"
+      },
+      {
+        "band": "NAWL",
+        "headword": "chemistry"
+      },
+      {
+        "band": "NAWL",
+        "headword": "chemotherapy"
+      },
+      {
+        "band": "NAWL",
+        "headword": "chloride"
+      },
+      {
+        "band": "NAWL",
+        "headword": "chromosome"
+      },
+      {
+        "band": "NAWL",
+        "headword": "chunk"
+      },
+      {
+        "band": "NAWL",
+        "headword": "circa"
+      },
+      {
+        "band": "NAWL",
+        "headword": "circulate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "circulation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "classification"
+      },
+      {
+        "band": "NAWL",
+        "headword": "clay"
+      },
+      {
+        "band": "NAWL",
+        "headword": "click"
+      },
+      {
+        "band": "NAWL",
+        "headword": "clinic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "clip"
+      },
+      {
+        "band": "NAWL",
+        "headword": "clone"
+      },
+      {
+        "band": "NAWL",
+        "headword": "closure"
+      },
+      {
+        "band": "NAWL",
+        "headword": "clue"
+      },
+      {
+        "band": "NAWL",
+        "headword": "coefficient"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cognitive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "collective"
+      },
+      {
+        "band": "NAWL",
+        "headword": "colonial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "colony"
+      },
+      {
+        "band": "NAWL",
+        "headword": "comma"
+      },
+      {
+        "band": "NAWL",
+        "headword": "commonly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "communicative"
+      },
+      {
+        "band": "NAWL",
+        "headword": "communist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "compact"
+      },
+      {
+        "band": "NAWL",
+        "headword": "comparable"
+      },
+      {
+        "band": "NAWL",
+        "headword": "comparative"
+      },
+      {
+        "band": "NAWL",
+        "headword": "competence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "complication"
+      },
+      {
+        "band": "NAWL",
+        "headword": "composer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "composite"
+      },
+      {
+        "band": "NAWL",
+        "headword": "comprehension"
+      },
+      {
+        "band": "NAWL",
+        "headword": "computation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conception"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conceptual"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conditional"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conduction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cone"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conference"
+      },
+      {
+        "band": "NAWL",
+        "headword": "configuration"
+      },
+      {
+        "band": "NAWL",
+        "headword": "confound"
+      },
+      {
+        "band": "NAWL",
+        "headword": "congruent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "connector"
+      },
+      {
+        "band": "NAWL",
+        "headword": "connotation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conscious"
+      },
+      {
+        "band": "NAWL",
+        "headword": "consciousness"
+      },
+      {
+        "band": "NAWL",
+        "headword": "conserve"
+      },
+      {
+        "band": "NAWL",
+        "headword": "consonant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "consultation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "container"
+      },
+      {
+        "band": "NAWL",
+        "headword": "continuity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "contour"
+      },
+      {
+        "band": "NAWL",
+        "headword": "contradiction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "contradictory"
+      },
+      {
+        "band": "NAWL",
+        "headword": "contrary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "convergence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "coordination"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cord"
+      },
+      {
+        "band": "NAWL",
+        "headword": "coronary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "corpus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "correction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "correlation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "correspondence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "corruption"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cortex"
+      },
+      {
+        "band": "NAWL",
+        "headword": "credibility"
+      },
+      {
+        "band": "NAWL",
+        "headword": "critically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "critique"
+      },
+      {
+        "band": "NAWL",
+        "headword": "crude"
+      },
+      {
+        "band": "NAWL",
+        "headword": "crystal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cue"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cure"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cyclic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "cylinder"
+      },
+      {
+        "band": "NAWL",
+        "headword": "damp"
+      },
+      {
+        "band": "NAWL",
+        "headword": "decay"
+      },
+      {
+        "band": "NAWL",
+        "headword": "deceive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "deflection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "degrade"
+      },
+      {
+        "band": "NAWL",
+        "headword": "deliberately"
+      },
+      {
+        "band": "NAWL",
+        "headword": "delta"
+      },
+      {
+        "band": "NAWL",
+        "headword": "demonstrator"
+      },
+      {
+        "band": "NAWL",
+        "headword": "denominator"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dependence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "derivative"
+      },
+      {
+        "band": "NAWL",
+        "headword": "descendent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "descriptor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "detection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "developmental"
+      },
+      {
+        "band": "NAWL",
+        "headword": "deviation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diagnose"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diagnostic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diagram"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dialect"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diameter"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dictate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "differential"
+      },
+      {
+        "band": "NAWL",
+        "headword": "differentiation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "diffusion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dilute"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dimensional"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dioxide"
+      },
+      {
+        "band": "NAWL",
+        "headword": "directive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "disability"
+      },
+      {
+        "band": "NAWL",
+        "headword": "disadvantage"
+      },
+      {
+        "band": "NAWL",
+        "headword": "discharge"
+      },
+      {
+        "band": "NAWL",
+        "headword": "discourse"
+      },
+      {
+        "band": "NAWL",
+        "headword": "displacement"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dissection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dissertation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "distribution"
+      },
+      {
+        "band": "NAWL",
+        "headword": "disturbance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dominance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "domination"
+      },
+      {
+        "band": "NAWL",
+        "headword": "donor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dose"
+      },
+      {
+        "band": "NAWL",
+        "headword": "drain"
+      },
+      {
+        "band": "NAWL",
+        "headword": "drift"
+      },
+      {
+        "band": "NAWL",
+        "headword": "dye"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ecological"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ecology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "economically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "economist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "effectiveness"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elastic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elasticity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "electron"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elementary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elevate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elevation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elimination"
+      },
+      {
+        "band": "NAWL",
+        "headword": "elite"
+      },
+      {
+        "band": "NAWL",
+        "headword": "emergence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "emit"
+      },
+      {
+        "band": "NAWL",
+        "headword": "emperor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "encode"
+      },
+      {
+        "band": "NAWL",
+        "headword": "enforcement"
+      },
+      {
+        "band": "NAWL",
+        "headword": "enormously"
+      },
+      {
+        "band": "NAWL",
+        "headword": "entrant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "enzyme"
+      },
+      {
+        "band": "NAWL",
+        "headword": "epidemiology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "equilibrium"
+      },
+      {
+        "band": "NAWL",
+        "headword": "equivalence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "erase"
+      },
+      {
+        "band": "NAWL",
+        "headword": "essence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "essentially"
+      },
+      {
+        "band": "NAWL",
+        "headword": "estimation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ethical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ethics"
+      },
+      {
+        "band": "NAWL",
+        "headword": "evolutionary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ex"
+      },
+      {
+        "band": "NAWL",
+        "headword": "execution"
+      },
+      {
+        "band": "NAWL",
+        "headword": "explicitly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "exploit"
+      },
+      {
+        "band": "NAWL",
+        "headword": "exponential"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fabric"
+      },
+      {
+        "band": "NAWL",
+        "headword": "facet"
+      },
+      {
+        "band": "NAWL",
+        "headword": "factorial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "feedback"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fertility"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fetal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fiber"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fin"
+      },
+      {
+        "band": "NAWL",
+        "headword": "finite"
+      },
+      {
+        "band": "NAWL",
+        "headword": "flesh"
+      },
+      {
+        "band": "NAWL",
+        "headword": "flexibility"
+      },
+      {
+        "band": "NAWL",
+        "headword": "flip"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fluid"
+      },
+      {
+        "band": "NAWL",
+        "headword": "flux"
+      },
+      {
+        "band": "NAWL",
+        "headword": "footnote"
+      },
+      {
+        "band": "NAWL",
+        "headword": "formally"
+      },
+      {
+        "band": "NAWL",
+        "headword": "formulation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "forum"
+      },
+      {
+        "band": "NAWL",
+        "headword": "founds"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fraction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fracture"
+      },
+      {
+        "band": "NAWL",
+        "headword": "freely"
+      },
+      {
+        "band": "NAWL",
+        "headword": "friction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fringe"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fundamentally"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fungus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "fusion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gauge"
+      },
+      {
+        "band": "NAWL",
+        "headword": "generalization"
+      },
+      {
+        "band": "NAWL",
+        "headword": "generalize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "genetically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "genetics"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ghost"
+      },
+      {
+        "band": "NAWL",
+        "headword": "globalization"
+      },
+      {
+        "band": "NAWL",
+        "headword": "goodness"
+      },
+      {
+        "band": "NAWL",
+        "headword": "goods"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gradient"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gram"
+      },
+      {
+        "band": "NAWL",
+        "headword": "grammatical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "graph"
+      },
+      {
+        "band": "NAWL",
+        "headword": "grasp"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gravity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "grid"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gross"
+      },
+      {
+        "band": "NAWL",
+        "headword": "gut"
+      },
+      {
+        "band": "NAWL",
+        "headword": "halfway"
+      },
+      {
+        "band": "NAWL",
+        "headword": "handout"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hawk"
+      },
+      {
+        "band": "NAWL",
+        "headword": "headquarter"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hedge"
+      },
+      {
+        "band": "NAWL",
+        "headword": "helix"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hepatitis"
+      },
+      {
+        "band": "NAWL",
+        "headword": "herbicide"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hip"
+      },
+      {
+        "band": "NAWL",
+        "headword": "historically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "horizontal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hormone"
+      },
+      {
+        "band": "NAWL",
+        "headword": "hydrogen"
+      },
+      {
+        "band": "NAWL",
+        "headword": "identification"
+      },
+      {
+        "band": "NAWL",
+        "headword": "illusion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "importantly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "impulse"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inclusion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "incredible"
+      },
+      {
+        "band": "NAWL",
+        "headword": "incredibly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "incumbent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "independently"
+      },
+      {
+        "band": "NAWL",
+        "headword": "indicator"
+      },
+      {
+        "band": "NAWL",
+        "headword": "indifference"
+      },
+      {
+        "band": "NAWL",
+        "headword": "indigenous"
+      },
+      {
+        "band": "NAWL",
+        "headword": "indirect"
+      },
+      {
+        "band": "NAWL",
+        "headword": "individually"
+      },
+      {
+        "band": "NAWL",
+        "headword": "induction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "industrialization"
+      },
+      {
+        "band": "NAWL",
+        "headword": "industrialize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inequality"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inevitably"
+      },
+      {
+        "band": "NAWL",
+        "headword": "infect"
+      },
+      {
+        "band": "NAWL",
+        "headword": "infectious"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inference"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inferior"
+      },
+      {
+        "band": "NAWL",
+        "headword": "infinite"
+      },
+      {
+        "band": "NAWL",
+        "headword": "infinity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "influential"
+      },
+      {
+        "band": "NAWL",
+        "headword": "informal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inhibition"
+      },
+      {
+        "band": "NAWL",
+        "headword": "initiation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "injection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "innate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "insect"
+      },
+      {
+        "band": "NAWL",
+        "headword": "insert"
+      },
+      {
+        "band": "NAWL",
+        "headword": "instability"
+      },
+      {
+        "band": "NAWL",
+        "headword": "instinct"
+      },
+      {
+        "band": "NAWL",
+        "headword": "integration"
+      },
+      {
+        "band": "NAWL",
+        "headword": "intensity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "intensive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "interestingly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "interface"
+      },
+      {
+        "band": "NAWL",
+        "headword": "interfere"
+      },
+      {
+        "band": "NAWL",
+        "headword": "intermediate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "interrupt"
+      },
+      {
+        "band": "NAWL",
+        "headword": "interviewer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "invade"
+      },
+      {
+        "band": "NAWL",
+        "headword": "invasion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "inversion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "invert"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ion"
+      },
+      {
+        "band": "NAWL",
+        "headword": "irrelevant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "jazz"
+      },
+      {
+        "band": "NAWL",
+        "headword": "junior"
+      },
+      {
+        "band": "NAWL",
+        "headword": "justification"
+      },
+      {
+        "band": "NAWL",
+        "headword": "kidney"
+      },
+      {
+        "band": "NAWL",
+        "headword": "kilometer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lab"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lateral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "layout"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lecturer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "legend"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lever"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lexical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "liable"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lifetime"
+      },
+      {
+        "band": "NAWL",
+        "headword": "likelihood"
+      },
+      {
+        "band": "NAWL",
+        "headword": "likewise"
+      },
+      {
+        "band": "NAWL",
+        "headword": "limb"
+      },
+      {
+        "band": "NAWL",
+        "headword": "linear"
+      },
+      {
+        "band": "NAWL",
+        "headword": "linguistic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "linguistics"
+      },
+      {
+        "band": "NAWL",
+        "headword": "liter"
+      },
+      {
+        "band": "NAWL",
+        "headword": "liver"
+      },
+      {
+        "band": "NAWL",
+        "headword": "locally"
+      },
+      {
+        "band": "NAWL",
+        "headword": "locus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "longitudinal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "loop"
+      },
+      {
+        "band": "NAWL",
+        "headword": "lump"
+      },
+      {
+        "band": "NAWL",
+        "headword": "machinery"
+      },
+      {
+        "band": "NAWL",
+        "headword": "magnetic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mall"
+      },
+      {
+        "band": "NAWL",
+        "headword": "manipulation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "manual"
+      },
+      {
+        "band": "NAWL",
+        "headword": "manuscript"
+      },
+      {
+        "band": "NAWL",
+        "headword": "marble"
+      },
+      {
+        "band": "NAWL",
+        "headword": "marker"
+      },
+      {
+        "band": "NAWL",
+        "headword": "marrow"
+      },
+      {
+        "band": "NAWL",
+        "headword": "maternal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mathematical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "matrix"
+      },
+      {
+        "band": "NAWL",
+        "headword": "meaningful"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mechanic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mechanical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "membrane"
+      },
+      {
+        "band": "NAWL",
+        "headword": "memorize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mentor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mercury"
+      },
+      {
+        "band": "NAWL",
+        "headword": "messenger"
+      },
+      {
+        "band": "NAWL",
+        "headword": "metabolism"
+      },
+      {
+        "band": "NAWL",
+        "headword": "metaphor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "micro"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mid"
+      },
+      {
+        "band": "NAWL",
+        "headword": "migration"
+      },
+      {
+        "band": "NAWL",
+        "headword": "millimeter"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mineral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "minus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "missile"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mobility"
+      },
+      {
+        "band": "NAWL",
+        "headword": "modification"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mole"
+      },
+      {
+        "band": "NAWL",
+        "headword": "molecular"
+      },
+      {
+        "band": "NAWL",
+        "headword": "molecule"
+      },
+      {
+        "band": "NAWL",
+        "headword": "monetary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "monopoly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "morality"
+      },
+      {
+        "band": "NAWL",
+        "headword": "morphological"
+      },
+      {
+        "band": "NAWL",
+        "headword": "morphology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mortality"
+      },
+      {
+        "band": "NAWL",
+        "headword": "motif"
+      },
+      {
+        "band": "NAWL",
+        "headword": "motive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "multi"
+      },
+      {
+        "band": "NAWL",
+        "headword": "multinational"
+      },
+      {
+        "band": "NAWL",
+        "headword": "multiply"
+      },
+      {
+        "band": "NAWL",
+        "headword": "mutation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "myth"
+      },
+      {
+        "band": "NAWL",
+        "headword": "naked"
+      },
+      {
+        "band": "NAWL",
+        "headword": "namely"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nasty"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nationalism"
+      },
+      {
+        "band": "NAWL",
+        "headword": "neat"
+      },
+      {
+        "band": "NAWL",
+        "headword": "neo"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nest"
+      },
+      {
+        "band": "NAWL",
+        "headword": "neural"
+      },
+      {
+        "band": "NAWL",
+        "headword": "neuron"
+      },
+      {
+        "band": "NAWL",
+        "headword": "neutral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nicely"
+      },
+      {
+        "band": "NAWL",
+        "headword": "niche"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nitrogen"
+      },
+      {
+        "band": "NAWL",
+        "headword": "noble"
+      },
+      {
+        "band": "NAWL",
+        "headword": "node"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nominal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "non"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nonetheless"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nonlinear"
+      },
+      {
+        "band": "NAWL",
+        "headword": "notation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "novice"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nucleus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "null"
+      },
+      {
+        "band": "NAWL",
+        "headword": "numerical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "nutrient"
+      },
+      {
+        "band": "NAWL",
+        "headword": "objection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "obscure"
+      },
+      {
+        "band": "NAWL",
+        "headword": "observer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "occurrence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "offspring"
+      },
+      {
+        "band": "NAWL",
+        "headword": "onset"
+      },
+      {
+        "band": "NAWL",
+        "headword": "onwards"
+      },
+      {
+        "band": "NAWL",
+        "headword": "optical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "optimum"
+      },
+      {
+        "band": "NAWL",
+        "headword": "oral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "organ"
+      },
+      {
+        "band": "NAWL",
+        "headword": "orientation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "oscillation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "outer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "outlet"
+      },
+      {
+        "band": "NAWL",
+        "headword": "overhead"
+      },
+      {
+        "band": "NAWL",
+        "headword": "overview"
+      },
+      {
+        "band": "NAWL",
+        "headword": "oxidize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "oxygen"
+      },
+      {
+        "band": "NAWL",
+        "headword": "painful"
+      },
+      {
+        "band": "NAWL",
+        "headword": "par"
+      },
+      {
+        "band": "NAWL",
+        "headword": "paradox"
+      },
+      {
+        "band": "NAWL",
+        "headword": "parcel"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pardon"
+      },
+      {
+        "band": "NAWL",
+        "headword": "parental"
+      },
+      {
+        "band": "NAWL",
+        "headword": "parenthesis"
+      },
+      {
+        "band": "NAWL",
+        "headword": "partial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "partially"
+      },
+      {
+        "band": "NAWL",
+        "headword": "particle"
+      },
+      {
+        "band": "NAWL",
+        "headword": "partition"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pathway"
+      },
+      {
+        "band": "NAWL",
+        "headword": "peasant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "periodic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "peripheral"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pest"
+      },
+      {
+        "band": "NAWL",
+        "headword": "phenomenal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "philosopher"
+      },
+      {
+        "band": "NAWL",
+        "headword": "philosophical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "phonological"
+      },
+      {
+        "band": "NAWL",
+        "headword": "phosphate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "photographic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "physically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "physics"
+      },
+      {
+        "band": "NAWL",
+        "headword": "physiological"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pi"
+      },
+      {
+        "band": "NAWL",
+        "headword": "planner"
+      },
+      {
+        "band": "NAWL",
+        "headword": "plantation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "plural"
+      },
+      {
+        "band": "NAWL",
+        "headword": "polar"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pole"
+      },
+      {
+        "band": "NAWL",
+        "headword": "politically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "portfolio"
+      },
+      {
+        "band": "NAWL",
+        "headword": "portray"
+      },
+      {
+        "band": "NAWL",
+        "headword": "portrayal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "positively"
+      },
+      {
+        "band": "NAWL",
+        "headword": "poster"
+      },
+      {
+        "band": "NAWL",
+        "headword": "postgraduate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "potassium"
+      },
+      {
+        "band": "NAWL",
+        "headword": "powder"
+      },
+      {
+        "band": "NAWL",
+        "headword": "practitioner"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pragmatic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "pre"
+      },
+      {
+        "band": "NAWL",
+        "headword": "precipitate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "precipitation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "predator"
+      },
+      {
+        "band": "NAWL",
+        "headword": "prediction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "predominantly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "prejudice"
+      },
+      {
+        "band": "NAWL",
+        "headword": "prevalence"
+      },
+      {
+        "band": "NAWL",
+        "headword": "prey"
+      },
+      {
+        "band": "NAWL",
+        "headword": "primer"
+      },
+      {
+        "band": "NAWL",
+        "headword": "primitive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "probe"
+      },
+      {
+        "band": "NAWL",
+        "headword": "problematic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "processor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "productive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "productivity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "progression"
+      },
+      {
+        "band": "NAWL",
+        "headword": "progressive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "projection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "proposition"
+      },
+      {
+        "band": "NAWL",
+        "headword": "proton"
+      },
+      {
+        "band": "NAWL",
+        "headword": "psychiatric"
+      },
+      {
+        "band": "NAWL",
+        "headword": "psychologist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "punch"
+      },
+      {
+        "band": "NAWL",
+        "headword": "purely"
+      },
+      {
+        "band": "NAWL",
+        "headword": "puzzle"
+      },
+      {
+        "band": "NAWL",
+        "headword": "quantum"
+      },
+      {
+        "band": "NAWL",
+        "headword": "questionnaire"
+      },
+      {
+        "band": "NAWL",
+        "headword": "quiz"
+      },
+      {
+        "band": "NAWL",
+        "headword": "quotation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rack"
+      },
+      {
+        "band": "NAWL",
+        "headword": "radar"
+      },
+      {
+        "band": "NAWL",
+        "headword": "radiation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "radius"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rainfall"
+      },
+      {
+        "band": "NAWL",
+        "headword": "randomize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "randomly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rationality"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ray"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reactive"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reactor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "readily"
+      },
+      {
+        "band": "NAWL",
+        "headword": "realism"
+      },
+      {
+        "band": "NAWL",
+        "headword": "realm"
+      },
+      {
+        "band": "NAWL",
+        "headword": "receptor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reconstruct"
+      },
+      {
+        "band": "NAWL",
+        "headword": "regression"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rehabilitation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rejection"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reliability"
+      },
+      {
+        "band": "NAWL",
+        "headword": "render"
+      },
+      {
+        "band": "NAWL",
+        "headword": "repertoire"
+      },
+      {
+        "band": "NAWL",
+        "headword": "replacement"
+      },
+      {
+        "band": "NAWL",
+        "headword": "replicate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "replication"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reproduce"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reproduction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "republic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "reservoir"
+      },
+      {
+        "band": "NAWL",
+        "headword": "residual"
+      },
+      {
+        "band": "NAWL",
+        "headword": "residue"
+      },
+      {
+        "band": "NAWL",
+        "headword": "resistant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "respiratory"
+      },
+      {
+        "band": "NAWL",
+        "headword": "retrieve"
+      },
+      {
+        "band": "NAWL",
+        "headword": "revolutionary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rewrite"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rhetoric"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rhythm"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ridiculous"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ritual"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rotate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rotation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "rub"
+      },
+      {
+        "band": "NAWL",
+        "headword": "scatter"
+      },
+      {
+        "band": "NAWL",
+        "headword": "scenario"
+      },
+      {
+        "band": "NAWL",
+        "headword": "scripture"
+      },
+      {
+        "band": "NAWL",
+        "headword": "scroll"
+      },
+      {
+        "band": "NAWL",
+        "headword": "secrete"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sediment"
+      },
+      {
+        "band": "NAWL",
+        "headword": "selective"
+      },
+      {
+        "band": "NAWL",
+        "headword": "semantic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "semi"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sensation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sensible"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sensitivity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sensory"
+      },
+      {
+        "band": "NAWL",
+        "headword": "separately"
+      },
+      {
+        "band": "NAWL",
+        "headword": "separation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sexuality"
+      },
+      {
+        "band": "NAWL",
+        "headword": "shallow"
+      },
+      {
+        "band": "NAWL",
+        "headword": "shortly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "shuttle"
+      },
+      {
+        "band": "NAWL",
+        "headword": "similarity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "simplify"
+      },
+      {
+        "band": "NAWL",
+        "headword": "simulation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "simultaneously"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sin"
+      },
+      {
+        "band": "NAWL",
+        "headword": "singular"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sketch"
+      },
+      {
+        "band": "NAWL",
+        "headword": "skip"
+      },
+      {
+        "band": "NAWL",
+        "headword": "slab"
+      },
+      {
+        "band": "NAWL",
+        "headword": "slash"
+      },
+      {
+        "band": "NAWL",
+        "headword": "slavery"
+      },
+      {
+        "band": "NAWL",
+        "headword": "slot"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sniff"
+      },
+      {
+        "band": "NAWL",
+        "headword": "socialize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "socially"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sodium"
+      },
+      {
+        "band": "NAWL",
+        "headword": "solar"
+      },
+      {
+        "band": "NAWL",
+        "headword": "soluble"
+      },
+      {
+        "band": "NAWL",
+        "headword": "solute"
+      },
+      {
+        "band": "NAWL",
+        "headword": "solvent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sometime"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sophisticate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "span"
+      },
+      {
+        "band": "NAWL",
+        "headword": "spatial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "specialty"
+      },
+      {
+        "band": "NAWL",
+        "headword": "specification"
+      },
+      {
+        "band": "NAWL",
+        "headword": "specimen"
+      },
+      {
+        "band": "NAWL",
+        "headword": "spectrum"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sperm"
+      },
+      {
+        "band": "NAWL",
+        "headword": "splice"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sponsorship"
+      },
+      {
+        "band": "NAWL",
+        "headword": "spray"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stabilize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stack"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stadium"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "standardize"
+      },
+      {
+        "band": "NAWL",
+        "headword": "static"
+      },
+      {
+        "band": "NAWL",
+        "headword": "statistical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "statistically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stereotype"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stimulus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "straightforward"
+      },
+      {
+        "band": "NAWL",
+        "headword": "strand"
+      },
+      {
+        "band": "NAWL",
+        "headword": "strategic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "strictly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "stripe"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sub"
+      },
+      {
+        "band": "NAWL",
+        "headword": "subjective"
+      },
+      {
+        "band": "NAWL",
+        "headword": "subset"
+      },
+      {
+        "band": "NAWL",
+        "headword": "substitution"
+      },
+      {
+        "band": "NAWL",
+        "headword": "substrate"
+      },
+      {
+        "band": "NAWL",
+        "headword": "subtract"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sufficiently"
+      },
+      {
+        "band": "NAWL",
+        "headword": "suicide"
+      },
+      {
+        "band": "NAWL",
+        "headword": "super"
+      },
+      {
+        "band": "NAWL",
+        "headword": "superior"
+      },
+      {
+        "band": "NAWL",
+        "headword": "supposedly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "surgeon"
+      },
+      {
+        "band": "NAWL",
+        "headword": "surgical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "surplus"
+      },
+      {
+        "band": "NAWL",
+        "headword": "susceptible"
+      },
+      {
+        "band": "NAWL",
+        "headword": "swap"
+      },
+      {
+        "band": "NAWL",
+        "headword": "sword"
+      },
+      {
+        "band": "NAWL",
+        "headword": "syllable"
+      },
+      {
+        "band": "NAWL",
+        "headword": "symbolic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "syndrome"
+      },
+      {
+        "band": "NAWL",
+        "headword": "syntactic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "syntax"
+      },
+      {
+        "band": "NAWL",
+        "headword": "synthesis"
+      },
+      {
+        "band": "NAWL",
+        "headword": "synthetic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "systematic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tech"
+      },
+      {
+        "band": "NAWL",
+        "headword": "technically"
+      },
+      {
+        "band": "NAWL",
+        "headword": "temporal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tempt"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tense"
+      },
+      {
+        "band": "NAWL",
+        "headword": "terminology"
+      },
+      {
+        "band": "NAWL",
+        "headword": "terribly"
+      },
+      {
+        "band": "NAWL",
+        "headword": "theorem"
+      },
+      {
+        "band": "NAWL",
+        "headword": "theorist"
+      },
+      {
+        "band": "NAWL",
+        "headword": "thermal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "thickness"
+      },
+      {
+        "band": "NAWL",
+        "headword": "thread"
+      },
+      {
+        "band": "NAWL",
+        "headword": "threshold"
+      },
+      {
+        "band": "NAWL",
+        "headword": "thumb"
+      },
+      {
+        "band": "NAWL",
+        "headword": "ton"
+      },
+      {
+        "band": "NAWL",
+        "headword": "toxic"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tract"
+      },
+      {
+        "band": "NAWL",
+        "headword": "traditionally"
+      },
+      {
+        "band": "NAWL",
+        "headword": "trajectory"
+      },
+      {
+        "band": "NAWL",
+        "headword": "trans"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transaction"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transcribe"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transcription"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transformation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "translation"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transmission"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transparency"
+      },
+      {
+        "band": "NAWL",
+        "headword": "transplant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "trauma"
+      },
+      {
+        "band": "NAWL",
+        "headword": "treaty"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tremendous"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tribe"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tricky"
+      },
+      {
+        "band": "NAWL",
+        "headword": "trivial"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tropical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "tumor"
+      },
+      {
+        "band": "NAWL",
+        "headword": "turbulent"
+      },
+      {
+        "band": "NAWL",
+        "headword": "underneath"
+      },
+      {
+        "band": "NAWL",
+        "headword": "unemployed"
+      },
+      {
+        "band": "NAWL",
+        "headword": "unify"
+      },
+      {
+        "band": "NAWL",
+        "headword": "unintelligible"
+      },
+      {
+        "band": "NAWL",
+        "headword": "unity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "unstable"
+      },
+      {
+        "band": "NAWL",
+        "headword": "uplift"
+      },
+      {
+        "band": "NAWL",
+        "headword": "upward"
+      },
+      {
+        "band": "NAWL",
+        "headword": "urine"
+      },
+      {
+        "band": "NAWL",
+        "headword": "usage"
+      },
+      {
+        "band": "NAWL",
+        "headword": "utterance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "validity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "valve"
+      },
+      {
+        "band": "NAWL",
+        "headword": "variability"
+      },
+      {
+        "band": "NAWL",
+        "headword": "variance"
+      },
+      {
+        "band": "NAWL",
+        "headword": "variant"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vector"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vein"
+      },
+      {
+        "band": "NAWL",
+        "headword": "velocity"
+      },
+      {
+        "band": "NAWL",
+        "headword": "verbal"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vertical"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vitamin"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vocabulary"
+      },
+      {
+        "band": "NAWL",
+        "headword": "volition"
+      },
+      {
+        "band": "NAWL",
+        "headword": "vowel"
+      },
+      {
+        "band": "NAWL",
+        "headword": "watershed"
+      },
+      {
+        "band": "NAWL",
+        "headword": "wavelength"
+      },
+      {
+        "band": "NAWL",
+        "headword": "weave"
+      },
+      {
+        "band": "NAWL",
+        "headword": "wheat"
+      },
+      {
+        "band": "NAWL",
+        "headword": "whereby"
+      },
+      {
+        "band": "NAWL",
+        "headword": "whichever"
+      },
+      {
+        "band": "NAWL",
+        "headword": "whoever"
+      },
+      {
+        "band": "NAWL",
+        "headword": "workshop"
+      },
+      {
+        "band": "NAWL",
+        "headword": "yeast"
+      }
+    ]
+  }
+}

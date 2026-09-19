@@ -27,7 +27,7 @@ WORDS.push(
   {word:"cyber", ipa:"/ˈsaɪbər/", pos:"adj.", zh:"网络的", def:"related to computers and the internet", example:"___ crime is growing quickly.", pack:"ielts3", level:3},
   {word:"encrypt", ipa:"/ɪnˈkrɪpt/", pos:"v.", zh:"加密", def:"to turn information into a secret code", example:"The app ___s your messages.", pack:"ielts3", level:4},
   {word:"algorithm", ipa:"/ˈælɡərɪðəm/", pos:"n.", zh:"算法", def:"a set of steps a computer follows to solve a problem", example:"The ___ sorts photos by date.", pack:"ielts3", level:4},
-  {word:"engineering", ipa:"/ˌendʒɪˈnɪrɪŋ/", pos:"n.", zh:"工程学", example:"She studied ___ at university.", pack:"ielts3", level:2},
+  {word:"engineering", ipa:"/ˌendʒɪˈnɪrɪŋ/", pos:"n.", zh:"工程学", def:"the design and building of machines, structures or systems", example:"She studied ___ at university.", pack:"ielts3", level:2},
   {word:"scientist", ipa:"/ˈsaɪəntɪst/", pos:"n.", zh:"科学家", def:"a person who studies science", example:"The ___ discovered a new planet.", pack:"ielts3", level:1},
   {word:"laboratory", ipa:"/ˈlæbrətɔːri/", pos:"n.", zh:"实验室", def:"a room where scientists do experiments", example:"The team works in a modern ___.", pack:"ielts3", level:2},
   {word:"experiment", ipa:"/ɪkˈsperɪmənt/", pos:"n./v.", zh:"实验", def:"a test done to learn something", example:"They did an ___ to test the drug.", pack:"ielts3", level:2},

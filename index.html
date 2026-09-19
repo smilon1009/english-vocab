@@ -347,13 +347,13 @@
   <div class="sub" id="syncStatus"></div>
   <div class="sub flow" style="padding:9px 11px">
     <div><b>每天流程</b></div>
-    <div class="flow-line">① <b>判词</b>：看英文想中文——认识 → 已学会，不认识 → 今日生词。判满 <b id="flowTarget">10</b> 个就停。</div>
+    <div class="flow-line">① <b>判词</b>：先清到期复习；还有精力再判新词。看英文想中文——认识 → 已学会，不认识 → 今日生词。默认判满 <b id="flowTarget">5</b> 个就停。</div>
     <div class="flow-line">② <b>三明治学习</b>：每个生词走三步——听音默写 → 句子填空（英文提示 + 中文拐杖）→ 看释义造句并复制去 AI 批改，批改回复可存进 <b>📒 造句笔记</b>。</div>
     <div class="flow-line">③ <b>复习</b>：「复习当天」过今天的生词；「复习到期」按艾宾浩斯 1→3→7→15→30 天自动到期。所有朗读均为慢速。</div>
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="num" id="stDayNew">0</div><div class="lbl">今日生词(目标<span id="stTarget">7</span>)</div></div>
+    <div class="stat"><div class="num" id="stDayNew">0</div><div class="lbl">今日生词(目标<span id="stTarget">5</span>)</div></div>
     <div class="stat"><div class="num" id="stKnownToday">0</div><div class="lbl">今日判为已学会</div></div>
     <div class="stat"><div class="num" id="stLearned">0</div><div class="lbl">已学会总数</div></div>
     <div class="stat"><div class="num" id="stNew">0</div><div class="lbl">生词本(复习中)</div></div>
@@ -363,9 +363,9 @@
   </div>
 
   <div class="nav">
-    <div class="navbtn" data-m="collect"><b>1️⃣ 判词</b><span class="c" id="navCollect">今日生词 x/7</span></div>
-    <div class="navbtn" data-m="sandwich"><b>🥪 三明治学习</b><span class="c" id="navSandwich">3步×7词</span></div>
-    <div class="navbtn" data-m="reviewToday"><b>🔄 复习当天</b><span class="c" id="navRT">今天的7个</span></div>
+    <div class="navbtn" data-m="collect"><b>1️⃣ 判词</b><span class="c" id="navCollect">今日生词 x/5</span></div>
+    <div class="navbtn" data-m="sandwich"><b>🥪 三明治学习</b><span class="c" id="navSandwich">3步×5词</span></div>
+    <div class="navbtn" data-m="reviewToday"><b>🔄 复习当天</b><span class="c" id="navRT">今天的5个</span></div>
     <div class="navbtn" data-m="reviewDue"><b>📅 复习到期</b><span class="c" id="navRD">艾宾浩斯到期</span></div>
     <div class="navbtn" data-m="notes"><b>📒 造句笔记</b><span class="c" id="navNotes">0 条</span></div>
     <div class="navbtn" data-m="plan"><b>📔 计划</b><span class="c" id="navPlan">目标·死线·打卡</span></div>
@@ -385,7 +385,7 @@
     <div class="settings" id="settingsBox">
       <div class="row left">
         <span class="small">每日生词目标</span>
-        <input type="number" id="setTarget" class="numw" value="10" min="1" max="30">
+        <input type="number" id="setTarget" class="numw" value="5" min="1" max="30">
         <span class="small">朗读语速</span>
         <select id="setRate" style="width:120px">
           <option value="0.5">很慢</option>
@@ -426,6 +426,7 @@
       </div>
       <div class="row left" id="packRow"></div>
       <div class="small" style="margin-top:6px">判词只从「打勾的词包」里抽；不勾的词包，里面的词不会出现。</div>
+      <div class="small muted" style="margin-top:6px">当前 2125 张卡片是历史词库，仍在逐条核验，并非 IELTS 官方完整词表。默认先用 level 1–2；遇到可疑释义或例句时暂停记忆并记录。</div>
     </div>
   </div>
 
@@ -469,7 +470,7 @@
 
 <script>
 // =========================================================
-// 雅思背单词工作台 v3 —— 多账号云同步版
+// 英语词汇工作台 v4 —— 可持续任务量、多账号云同步、正确词形答案
 // 用法：每个用户登录自己的邮箱账号、各自独立进度，打开网页即用，
 //       进度自动云同步到 Supabase；旧版需 node server.js 的用法已废弃。
 // =========================================================
@@ -488,7 +489,7 @@ const ALL = [];
 WORDS.forEach(w => { if(!WORDMAP[w.word]){ WORDMAP[w.word]=Object.assign({pack:'core'},w); ALL.push(WORDMAP[w.word]); } });
 const WORD_LC = ALL.map(w => w.word.toLowerCase());   // 与 ALL 同序的小写词头索引（查词用，只建一次）
 function groups(){ const g=[]; ALL.forEach(w=>{ if(!g.includes(w.pack)) g.push(w.pack); }); return g.sort(); }
-function groupLabel(g){ const L={'core':'基础词库','ielts1':'雅思词包1','ielts2':'雅思词包2','ielts3':'雅思词包3','ielts4':'雅思词包4','ielts5':'雅思词包5','ielts6':'雅思词包6','ielts7':'雅思词包7','ielts8':'雅思词包8','ielts9':'雅思词包9'}; return L[g]||g; }
+function groupLabel(g){ const L={'core':'旧词库·基础','ielts1':'旧词包1','ielts2':'旧词包2','ielts3':'旧词包3','ielts4':'旧词包4','ielts5':'旧词包5','ielts6':'旧词包6','ielts7':'旧词包7','ielts8':'旧词包8','ielts9':'旧词包9'}; return L[g]||g; }
 
 // ---------- 朗读（慢速）：系统语音为主，无声/失败自动转在线词典发音 ----------
 function speak(text, rate){
@@ -536,21 +537,21 @@ let sb = null, uid = null, userEmail = '';   // sb = Supabase client（注意：
 let dirty = false, planDirty = false, syncOk = true, syncTimer = null, retryTimer = null, booted = false;
 let authMode = 'login';                   // login / register / reset
 function newDay(target){
-  return { date: todayStr(), target: target||7, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0, speedRevDone:false, miss:[] };
+  return { date: todayStr(), target: target||5, newWords:[], known:[], fuzzy:[], steps:{}, phase:'collect', reviewToday:null, celebrated:false, lastKnown:null, revR:0, revW:0, speedRevDone:false, miss:[] };
 }
 function baseState(){
   return { learned:[], newWords:{}, notes:{}, day:null,
-    settings:{ target:10, rate:0.6, packs:groups(), maxLevel:4, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
+    settings:{ target:5, rate:0.6, packs:groups(), maxLevel:2, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
     stats:{ streak:0, last:'' },
     relearn:{},
     checkins:{},
     screen:null,
-    v:3 };
+    v:4 };
 }
 function normalize(s){
   if(!s || typeof s!=='object') s={};
-  const upgraded = !s.v || s.v<3;  // v3 起：新增词包自动全开、默认每日10词、默认全难度
-  s.v = 3;
+  const upgraded = !s.v || s.v<4;  // v4：把可持续的每日默认目标调整为 5 词
+  s.v = 4;
   s.learned = Array.isArray(s.learned)? s.learned : [];
   const learnedNow = new Set(s.learned);   // 本次 normalize 的局部镜像（供下方跨天顺延判断用）
   s.newWords = (s.newWords && typeof s.newWords==='object')? s.newWords : {};
@@ -561,9 +562,9 @@ function normalize(s){
     s.notes[w] = s.notes[w].filter(e => e && typeof e==='object');
   }
   s.settings = s.settings||{};
-  s.settings.target = upgraded? 10 : Math.max(1, Math.min(30, parseInt(s.settings.target)||10));
+  s.settings.target = upgraded? 5 : Math.max(1, Math.min(30, parseInt(s.settings.target)||5));
   s.settings.rate  = parseFloat(s.settings.rate)||0.6;
-  s.settings.maxLevel = upgraded? 4 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||4));
+  s.settings.maxLevel = upgraded? 2 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||2));
   const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
   if(!s.settings.ttsEngine || !['auto','sys','net'].includes(s.settings.ttsEngine)) s.settings.ttsEngine='auto';
   if(typeof s.settings.breakReminder!=='boolean') s.settings.breakReminder = true;
@@ -977,7 +978,7 @@ function wordExtrasHtml(o){
 function showWordDetail(w){
   const o=WORDMAP[w]; const r=state.newWords[w];
   if(!o) return;
-  const lines=[w+'（'+o.zh+'）', '音标：'+o.ipa+' · '+o.pos, '英文释义：'+o.def, '例句：'+o.example.replace('___', w)];
+  const lines=[w+'（'+o.zh+'）', '音标：'+o.ipa+' · '+o.pos, '英文释义：'+o.def, '例句：'+o.example.replace('___', answerOf(o))];
   if(r) lines.push('下次复习：'+r.next);
   if(r && r.sentence) lines.push('我的句子：'+r.sentence);
   wordExtras(o,true).forEach(s=>lines.push(s));
@@ -1102,7 +1103,7 @@ function collectTapKnow(){ // 先亮出中文让他确认，避免误判成已�
       '</div>'+
     '</div>';
 }
-function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安排 7 天后回炉再确认
+function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安排 3 天后回炉再确认
   const o=collectQ[collectIdx];
   const d=state.day; d.fuzzy=d.fuzzy||[]; d.known=d.known||[];
   if(!d.fuzzy.includes(o.word)) d.fuzzy.push(o.word);
@@ -1116,7 +1117,7 @@ function collectFuzzy(){   // 半熟：视为基本认识，进已学会并安�
   $('stage').innerHTML =
     '<div class="card">'+
       '<div class="zh">😐 已标记「半熟」</div>'+
-      '<div class="def">先进「已学会」，<b>7 天后</b>会出现在「复习到期 → 已学会可回炉」里请你再确认一次。答对就长期保留，答错就多安排一轮。</div>'+
+      '<div class="def">先进「已学会」，<b>3 天后</b>会出现在「复习到期 → 已学会可回炉」里请你再确认一次。答对就长期保留，答错就多安排一轮。</div>'+
       '<div class="hint">其实不认识的话，点「改回」重新判。</div>'+
       '<div class="btn-row">'+
         '<button class="red" onclick="undoKnow()">↩️ 改回（其实不熟）</button>'+
@@ -1286,7 +1287,7 @@ function sandwichStep2Html(){
       '<div class="def"><span class="en">'+esc(o.def)+'</span></div>'+
       '<div class="btn-row"><button class="big" onclick="swToStep3()">进入第③步 造句 →</button></div>';
   }
-  return '<div class="progress">第②步 句子填空：<b>用下面的英文提示猜出空里要填的词</b>（就是当前生词 '+esc(o.word)+'）</div>'+
+  return '<div class="progress">第②步 句子填空：<b>用下面的英文提示补全句子</b>（有时需要填写正确词形）</div>'+
     '<div class="example">'+fmtExample(o,false)+'</div>'+
     '<div class="def left"><b>💡 简单英文提示（A2-B1）：</b><br><span class="en">'+esc(o.def)+'</span></div>'+
     '<div class="left"><span class="toggle" onclick="document.getElementById(\'c2\').style.display=(document.getElementById(\'c2\').style.display===\'block\'?\'none\':\'block\')">🩼 中文拐杖（卡住再点）</span>'+
@@ -1302,12 +1303,12 @@ function sw2Check(){
   const o=WORDMAP[SW.word];
   const v=($('sw2In').value||'').trim().toLowerCase().replace(/[.!?,;:]$/,'');
   if(!v) return;
-  if(v===o.word.toLowerCase()){
+  if(v===answerOf(o).toLowerCase()){
     const done=state.day.steps[o.word]||0;
     if(done<2) state.day.steps[o.word]=2;
     save();
     $('sw2Fb').innerHTML='<span class="ok">✔ 填对了！整句是：</span>';
-    speak(o.example.replace('___',o.word));
+    speak(o.example.replace('___',answerOf(o)));
     SW.attempts=0; SW.revealed=false;
     setTimeout(()=>{ SW.step=3; renderSandwich(); }, 1600);
   }else{
@@ -1332,7 +1333,7 @@ function sandwichStep3Html(){
   }
   return '<div class="progress">第③步 造句：看英文释义，用 <b>'+esc(o.word)+'</b> 自己写一个英文句子</div>'+
     '<div class="def left"><b>英文释义：</b><br><span class="en">'+esc(o.def)+'</span></div>'+
-    '<div class="example left small">参考例句：'+esc(o.example.replace('___',o.word))+'</div>'+
+    '<div class="example left small">参考例句：'+esc(o.example.replace('___',answerOf(o)))+'</div>'+
     '<div class="left"><span class="toggle" onclick="document.getElementById(\'c3\').style.display=(document.getElementById(\'c3\').style.display===\'block\'?\'none\':\'block\')">🩼 中文拐杖</span>'+
       '<div class="zhcrutch" id="c3">'+esc(o.zh)+' · '+esc(o.ipa)+'</div></div>'+
     '<textarea id="sw3In" class="sentence" style="margin-top:10px" placeholder="在这里写你的句子（要包含 '+esc(o.word)+'）"></textarea>'+
@@ -1368,8 +1369,9 @@ function sw3Copy(){
 function sw3Done(){
   const o=WORDMAP[SW.word];
   const v=($('sw3In') && $('sw3In').value||'').trim();
-  if(!v || !v.toLowerCase().includes(o.word.toLowerCase())){
-    $('sw3Fb').innerHTML='<span class="bad">你的句子里好像还没有 '+esc(o.word)+'，先补上再完成。</span>';
+  const lower=v.toLowerCase();
+  if(!v || (!lower.includes(o.word.toLowerCase()) && !lower.includes(answerOf(o).toLowerCase()))){
+    $('sw3Fb').innerHTML='<span class="bad">句子里需要用到 '+esc(o.word)+' 或它的正确词形，先补上再完成。</span>';
     return;
   }
   const done=state.day.steps[o.word]||0;
@@ -1428,9 +1430,10 @@ function saveSentenceNote(word, mySentence){
   state.notes[word].unshift(entry);   // 最新记录放最前，笔记本按此顺序展示/编辑
 }
 
-// ---------- 例句渲染（___ 高亮为输入框样） ----------
+// ---------- 例句渲染（answer 可表示 blew/studies 等正确词形；缺省仍使用词条原形） ----------
+function answerOf(o){ return String(o.answer || o.word); }
 function fmtExample(o, filled){
-  const ex = filled? o.example.replace('___','<b style="color:var(--accent)">'+esc(o.word)+'</b>') : esc(o.example).replace('___','<span class="blank">______</span>');
+  const ex = filled? o.example.replace('___','<b style="color:var(--accent)">'+esc(answerOf(o))+'</b>') : esc(o.example).replace('___','<span class="blank">______</span>');
   return ex;
 }
 
@@ -1575,15 +1578,16 @@ function reviewCheck(){
   const o=WORDMAP[w];
   const v=($('rzIn').value||'').trim().toLowerCase().replace(/[.!?,;:]$/,'');
   if(!v) return;
-  const full=o.example.replace('___', o.word);
-  if(v===o.word.toLowerCase()){
+  const answer=answerOf(o);
+  const full=o.example.replace('___', answer);
+  if(v===answer.toLowerCase()){
     const rec=state.newWords[w];
     const sent=(rec && rec.sentence) ? '<div class="small" style="margin-top:5px">你当时的句子：'+esc(rec.sentence)+'</div>' : '';
     $('rzFb').innerHTML='<span class="ok">✔ '+esc(o.word)+' —— '+esc(o.zh)+'</span>'+sent;
     speak(full);          // 例句整句朗读，练听力
     setTimeout(()=>reviewJudge(true), 1900);
   }else{
-    $('rzFb').innerHTML='<span class="bad">❌ 正确答案：'+esc(o.word)+'（'+esc(o.zh)+'）</span>';
+    $('rzFb').innerHTML='<span class="bad">❌ 正确答案：'+esc(answer)+'（词条：'+esc(o.word)+'，'+esc(o.zh)+'）</span>';
     speak(full);
     setTimeout(()=>reviewJudge(false), 1800);
   }
@@ -1591,8 +1595,8 @@ function reviewCheck(){
 function reviewDontKnow(){
   const w=RV.list[RV.idx];
   const o=WORDMAP[w];
-  $('rzFb').innerHTML='<span class="bad">正确答案：'+esc(o.word)+'（'+esc(o.zh)+'）</span>';
-  speak(o.example.replace('___', o.word));
+  $('rzFb').innerHTML='<span class="bad">正确答案：'+esc(answerOf(o))+'（词条：'+esc(o.word)+'，'+esc(o.zh)+'）</span>';
+  speak(o.example.replace('___', answerOf(o)));
   setTimeout(()=>reviewJudge(false), 1600);
 }
 function reviewRedoWrong(){
@@ -1861,7 +1865,7 @@ function wbRmNew(w){
 
 // =========================================================
 // 词汇量测量：A.抽样自测（短）  B.高频全量摸底（可续传）
-// 口径说明：测的是「这套雅思核心词库的掌握率」，与外部网站"泛词汇量"不可直接比。
+// 口径说明：测的是「当前工作台旧词库的掌握率」，与外部网站“泛词汇量”或 IELTS 成绩不可直接比。
 // =========================================================
 let QZ=null;                 // 抽样自测运行时状态
 const QUIZ_N = 80;
@@ -1922,7 +1926,7 @@ function quizEnd(){
       '<div class="def" style="font-size:18px">掌握率约 <b style="color:var(--green)">'+Math.round(rate*100)+'%</b>'+
         '<span class="small muted">（±'+Math.round(err*100)+'%）</span></div>'+
       '<div class="def">按抽样推算：本词库约 <b>'+bank+'</b> / '+ALL.length+' 个词你已认识。</div>'+
-      '<div class="hint left">注意：这是<b>雅思核心词库掌握率</b>口径，和外站"泛词汇量"（1800 那种）不是同一个数字，不能直接对比。<br>把词库陆续扩到 6000 后，这个数字会更能反映你的雅思词汇水平。</div>'+
+      '<div class="hint left">注意：这是<b>当前工作台词库掌握率</b>，和外站“泛词汇量”不是同一个数字，不能直接对比。词库扩容已暂缓，当前优先审核释义、例句和词形质量。</div>'+
       '<div class="btn-row"><button class="green" onclick="openModule(\'collect\')">好的</button></div>'+
     '</div>';
   if(tip) tip.textContent = '上次抽样自测（'+todayStr()+'）：掌握率约 '+Math.round(rate*100)+'%，预计词库已会 '+bank+' 词。';
@@ -1972,7 +1976,7 @@ function screenAnswer(a){
   if(a===1){               // 认识 → 当场标记已学会，以后不再重复问
     if(!learnedSet.has(word)){ learnedAdd(word); relearnInit(word); }
     s.known++;
-  }else if(a===0.5){       // 半熟 → 也算认识，但 7 天后回炉再确认
+  }else if(a===0.5){       // 半熟 → 也算认识，但 3 天后回炉再确认
     if(!learnedSet.has(word)){ learnedAdd(word); }
     relearnInit(word);
     if(state.relearn[word]) state.relearn[word].next = addDays(todayStr(), FUZZY_REVIEW_DAYS);   // 半熟：3 天后回炉确认
@@ -2027,7 +2031,7 @@ const PLAN_BLANK = {
   '英语专线':
     '# 英语专线\n\n## 起点与目标\n- 起点（日期 / 词汇量）：\n- 目标（比如 雅思 6.5）：\n\n## 时间轴\n| 时间 | 动作 | 目标 |\n|---|---|---|\n|  |  |  |\n\n## 预算\n\n',
   '每日执行':
-    '# 每日执行\n\n## 每天固定三件事\n1. **跟读 shadowing 30min**：\n2. **词汇工作台**：判词攒满 10 个生词 → 三明治三步 → 复习当天 + 复习到期。\n3. **睡前英文日记 10min**：写到「日记」这一篇里。\n\n## 每周\n- \n',
+    '# 每日执行\n\n## 默认版\n1. **到期复习优先**。\n2. **有精力再学 5 个新词**：三明治三步。\n3. **精听跟读 10–15 分钟**。\n4. **每周 3 篇五句话日记**。\n\n## 忙碌版\n- 只清到期复习 10 分钟；没有学习债。\n',
   '日记':
     '# English Tech Diary\n\n> 每天用英文写一小段技术内容，格式：原句 / 错处 / 术语；写完让 AI 批改。\n\n## '+todayStr()+'\n\n[ORIGINAL]\n\n\n[ERRORS]\n\n\n[TERMS]\n\n'
 };
@@ -2111,9 +2115,9 @@ function renderPlan(){
       '</div>'+
       '<div class="bar"><div style="width:'+pct+'%"></div></div>'+
       '<div class="plan-checks">'+
-        planCheckHtml('shadow','早晨 欧路跟读 30min', done.shadow, false)+
+        planCheckHtml('shadow','精听跟读 10–15min', done.shadow, false)+
         planCheckHtml('wb','词汇工作台（自动判定）', done.wb, true)+
-        planCheckHtml('diary','睡前 英文技术日记 10min', done.diary, false)+
+        planCheckHtml('diary','五句话日记（每周 3 次）', done.diary, false)+
       '</div>'+
       '<div class="small" style="margin-top:8px">今日完成 <b>'+dc+'/3</b> · 连续三件全齐 <b>'+planStreak()+'</b> 天'+
         (done.wb? '' : ' · 工作台未打卡：去判词/复习/造句后自动点亮')+'</div>'+

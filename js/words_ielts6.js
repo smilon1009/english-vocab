@@ -79,7 +79,7 @@ WORDS.push(
   {word:"vegetable", ipa:"/ˈvedʒtəbl/", pos:"n.", zh:"蔬菜", def:"a plant eaten as food, like a carrot", example:"Eat more fruit and ___.", pack:"ielts6", level:1},
   // ---------- 居家 & 物品 ----------
   {word:"bag", ipa:"/bæɡ/", pos:"n.", zh:"包", def:"a thing used for carrying things", example:"She put the books in her ___.", pack:"ielts6", level:1},
-  {word:"basket", ipa:"/ˈbæskɪt/", pos:"n.", zh:"篮子", def:"a container made of thin material for carrying things", example:"The basket is full of fruit.", pack:"ielts6", level:1},
+  {word:"basket", ipa:"/ˈbæskɪt/", pos:"n.", zh:"篮子", def:"a container made of thin material for carrying things", example:"The ___ is full of fruit.", pack:"ielts6", level:1},
   {word:"bed", ipa:"/bed/", pos:"n.", zh:"床", def:"a piece of furniture you sleep on", example:"It is time to go to ___.", pack:"ielts6", level:1},
   {word:"blanket", ipa:"/ˈblæŋkɪt/", pos:"n.", zh:"毯子", def:"a thick cover to keep you warm", example:"She pulled the ___ over herself.", pack:"ielts6", level:1},
   {word:"bottle", ipa:"/ˈbɑːtl/", pos:"n.", zh:"瓶子", def:"a container for liquid with a narrow top", example:"Please fill the ___ with water.", pack:"ielts6", level:1},
@@ -170,7 +170,7 @@ WORDS.push(
   {word:"shoulder", ipa:"/ˈʃoʊldər/", pos:"n.", zh:"肩膀", def:"the part where your arm meets your body", example:"He carried the bag on his ___.", pack:"ielts6", level:1},
   {word:"skin", ipa:"/skɪn/", pos:"n.", zh:"皮肤", def:"the outer cover of your body", example:"Use cream to protect your ___.", pack:"ielts6", level:1},
   {word:"stomach", ipa:"/ˈstʌmək/", pos:"n.", zh:"胃", def:"the organ that digests food", example:"My ___ hurts after that meal.", pack:"ielts6", level:1},
-  {word:"tooth", ipa:"/tuːθ/", pos:"n.", zh:"牙齿", def:"the white parts in your mouth for biting", example:"Brush your teeth twice a day.", pack:"ielts6", level:1},
+  {word:"tooth", answer:"teeth", ipa:"/tuːθ/", pos:"n.", zh:"牙齿", def:"one of the hard white parts in your mouth used for biting", example:"Brush your ___ twice a day.", pack:"ielts6", level:1},
   {word:"tongue", ipa:"/tʌŋ/", pos:"n.", zh:"舌头", def:"the soft part in your mouth you taste with", example:"The hot soup burned my ___.", pack:"ielts6", level:1},
   // ---------- 学校与文具 ----------
   {word:"blackboard", ipa:"/ˈblækbɔːrd/", pos:"n.", zh:"黑板", def:"a dark board written on with chalk", example:"The teacher wrote on the ___.", pack:"ielts6", level:1},
@@ -251,7 +251,7 @@ WORDS.push(
   // ---------- 生活动词（家务/动作） ----------
   {word:"catch", ipa:"/kætʃ/", pos:"v.", zh:"抓住", def:"to get hold of something moving", example:"Try to ___ the ball.", pack:"ielts6", level:1},
   {word:"climb", ipa:"/klaɪm/", pos:"v.", zh:"攀爬", def:"to go up something using your hands and feet", example:"The child ___ed the tree.", pack:"ielts6", level:1},
-  {word:"cry", ipa:"/kraɪ/", pos:"v.", zh:"哭", def:"to have tears coming from your eyes", example:"The baby ___s when hungry.", pack:"ielts6", level:1},
+  {word:"cry", answer:"cries", ipa:"/kraɪ/", pos:"v.", zh:"哭", def:"to have tears coming from your eyes", example:"The baby ___ when hungry.", pack:"ielts6", level:1},
   {word:"dance", ipa:"/dæns/", pos:"v.", zh:"跳舞", def:"to move your body to music", example:"They ___d at the party.", pack:"ielts6", level:1},
   {word:"drink", ipa:"/drɪŋk/", pos:"v.", zh:"喝", def:"to take liquid into your mouth", example:"___ more water in summer.", pack:"ielts6", level:1},
   {word:"drop", ipa:"/drɑːp/", pos:"v.", zh:"掉落", def:"to let something fall", example:"Don't ___ the glass.", pack:"ielts6", level:1},

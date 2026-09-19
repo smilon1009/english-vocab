@@ -1,6 +1,6 @@
 // 雅思背单词工作台 · 离线缓存 Service Worker
 // 只缓存本站静态文件（页面/词库/库），Supabase 的请求一律放行走网络。
-const CACHE = 'ev-shell-v9';
+const CACHE = 'ev-shell-v13';
 const ASSETS = [
   '../',
   '../index.html',
@@ -20,6 +20,12 @@ const ASSETS = [
   '../plan/README.md',
   '../plan/英语专线.md',
   '../plan/每日执行.md',
+  '../plan/12周英语执行计划_2026-09-28.md',
+  '../plan/学习方法说明.md',
+  '../plan/完整英语学习系统.md',
+  '../plan/CodeBuddy英语教练开场.md',
+  '../plan/词库质量说明.md',
+  '../plan/词库扩充路线.md',
   '../plan/english_diary.md',
   '../pwa/manifest.webmanifest',
   '../pwa/icon.svg'
