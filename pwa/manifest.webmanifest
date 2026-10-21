@@ -1,7 +1,7 @@
 {
   "name": "英语学习工作台",
   "short_name": "英语学习",
-  "description": "每日美式英语课程、听读跟练、词汇复习和输出记录，多账号云同步。",
+  "description": "按账号等级、目标和强度生成每日美式英语任务，并同步词汇、复习和输出记录。",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -24,6 +24,7 @@
 <script src="js/words_ielts8.js"></script>
 <script src="js/words_ielts9.js"></script>
 <script src="js/config.js"></script>
+<script src="js/daily_plan.js"></script>
 <script src="lib/supabase.min.js"></script>
 <script src="lib/marked.min.js"></script>
 <style>
@@ -312,6 +313,7 @@
     padding:12px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:14px; line-height:1.6; }
   .plan-edit textarea:focus { outline:none; border-color:var(--accent); }
 </style>
+<link rel="stylesheet" href="css/app-v5.css">
 </head>
 <body>
 <audio id="ttsAudio" preload="none" style="display:none"></audio>
@@ -383,6 +385,22 @@
   <div class="list">
     <h3>⚙️ 设置 <span class="toggle" onclick="toggleSettings()">展开/收起</span></h3>
     <div class="settings" id="settingsBox">
+      <div class="row left">
+        <span class="small">学习等级</span>
+        <select id="setStudyLevel" style="width:120px">
+          <option value="A1">A1 入门</option><option value="A2">A2 基础</option>
+          <option value="B1">B1 中级</option><option value="B2">B2 中高级</option>
+        </select>
+        <span class="small">学习目标</span>
+        <select id="setStudyGoal" style="width:135px">
+          <option value="general">日常交流</option><option value="technical">技术英语</option>
+          <option value="interview">求职面试</option><option value="travel">旅行生活</option>
+        </select>
+        <span class="small">每日强度</span>
+        <select id="setStudyPace" style="width:110px">
+          <option value="light">轻量</option><option value="standard">标准</option><option value="deep">深入</option>
+        </select>
+      </div>
       <div class="row left">
         <span class="small">每日生词目标</span>
         <input type="number" id="setTarget" class="numw" value="5" min="1" max="30">
@@ -541,7 +559,7 @@ function newDay(target){
 }
 function baseState(){
   return { learned:[], newWords:{}, notes:{}, day:null,
-    settings:{ target:5, rate:0.6, packs:groups(), maxLevel:2, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[] },
+    settings:{ target:5, rate:0.6, packs:groups(), maxLevel:2, vocabSize:null, ttsEngine:'auto', breakReminder:true, packOff:[], studyLevel:'A2', studyGoal:'general', studyPace:'standard' },
     stats:{ streak:0, last:'' },
     relearn:{},
     checkins:{},
@@ -566,6 +584,10 @@ function normalize(s){
   s.settings.rate  = parseFloat(s.settings.rate)||0.6;
   s.settings.maxLevel = upgraded? 2 : Math.max(1, Math.min(4, parseInt(s.settings.maxLevel)||2));
   const nv=parseInt(s.settings.vocabSize); s.settings.vocabSize = (nv>0 && nv<=40000)? nv : null;
+  const inferredLevel=s.settings.vocabSize && cefrOf(s.settings.vocabSize) ? cefrOf(s.settings.vocabSize).code : 'A2';
+  s.settings.studyLevel=['A1','A2','B1','B2'].includes(s.settings.studyLevel) ? s.settings.studyLevel : (['A1','A2','B1','B2'].includes(inferredLevel)?inferredLevel:'A2');
+  s.settings.studyGoal=['general','technical','interview','travel'].includes(s.settings.studyGoal) ? s.settings.studyGoal : 'general';
+  s.settings.studyPace=['light','standard','deep'].includes(s.settings.studyPace) ? s.settings.studyPace : 'standard';
   if(!s.settings.ttsEngine || !['auto','sys','net'].includes(s.settings.ttsEngine)) s.settings.ttsEngine='auto';
   if(typeof s.settings.breakReminder!=='boolean') s.settings.breakReminder = true;
   // 词包勾选：默认全开；用户关掉的（packOff）保持关闭；新词包入库后自动默认开启
@@ -581,10 +603,11 @@ function normalize(s){
     const o=s.checkins[d];
     if(!o || typeof o!=='object' || Array.isArray(o)){ delete s.checkins[d]; continue; }
     const k={};
+    if(o.read) k.read=true;
     if(o.shadow) k.shadow=true;
     if(o.wb) k.wb=true;
     if(o.diary) k.diary=true;
-    if(k.shadow||k.wb||k.diary) s.checkins[d]=k; else delete s.checkins[d];
+    if(k.read||k.shadow||k.wb||k.diary) s.checkins[d]=k; else delete s.checkins[d];
   }
   // 已学会·可回炉：老数据里的已学会词补一次回炉登记（30 天后起）
   s.relearn = (s.relearn && typeof s.relearn==='object')? s.relearn : {};
@@ -832,7 +855,8 @@ function refreshLvlBadge(){
   const b=$('lvlBadge'); if(!b) return;
   const n=state.settings.vocabSize;
   const c=n? cefrOf(n):null;
-  if(c && uid){ b.style.display=''; b.textContent='🧠 词汇量约 '+n+' · '+c.code+' '+c.name; }
+  const lv=(state.settings && state.settings.studyLevel)||'A2';
+  if(uid){ b.style.display=''; b.textContent=c ? '🧠 '+lv+' 学习 · 词汇量约 '+n : '🧠 '+lv+' 个性学习'; }
   else b.style.display='none';
 }
 function refreshUndoBtn(){
@@ -928,6 +952,9 @@ function renderLists(){
   const rb=$('setRemind'); if(rb) rb.checked = state.settings.breakReminder!==false;
   const pt=$('setTarget'); if(pt) pt.value=String(state.settings.target);
   const pm=$('setMaxLevel'); if(pm) pm.value=String(state.settings.maxLevel);
+  const psl=$('setStudyLevel'); if(psl) psl.value=state.settings.studyLevel||'A2';
+  const psg=$('setStudyGoal'); if(psg) psg.value=state.settings.studyGoal||'general';
+  const psp=$('setStudyPace'); if(psp) psp.value=state.settings.studyPace||'standard';
   const pr=$('packRow');
   if(pr){
     pr.innerHTML = '<span class="small">判词词包：</span>'+ groups().map(g=>
@@ -2095,25 +2122,49 @@ function planCheckHtml(key, label, checked, auto){
       (auto? '' : ' onchange="planToggle(\''+key+'\',this.checked)"')+'>'+
     '<span>'+esc(label)+'</span></label>';
 }
+function planProfileOptions(map, selected){
+  return Object.keys(map).map(k=>'<option value="'+k+'"'+(k===selected?' selected':'')+'>'+esc(k+' · '+map[k].name)+'</option>').join('');
+}
+function planProfileChange(key,value){
+  const allowed={studyLevel:['A1','A2','B1','B2'],studyGoal:['general','technical','interview','travel'],studyPace:['light','standard','deep']};
+  if(!allowed[key] || !allowed[key].includes(value)) return;
+  state.settings[key]=value;
+  save(); renderPlan();
+}
 function renderPlan(){
   paint();
   const done = planDone(), dc = planDoneCount();
-  const pct = Math.min(100, Math.round(state.learned.length/(ALL.length||1)*1000)/10);
+  const mission=EnglishPlan.mission(state.settings,todayStr());
+  const profile=mission.profile;
+  const dateLabel=new Date(todayStr()+'T00:00:00').toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});
+  const ring=Math.round(dc/3*100);
   const tab = d=> '<span class="crumb'+(d.id===PLAN.show?' active':'')+'" onclick="planShow(\''+d.id+'\')">'+esc(d.id)+'</span>';
   $('stage').innerHTML =
-    '<div class="card left" style="padding:16px 18px">'+
-      '<div class="row left" style="justify-content:space-between;gap:12px;margin:0">'+
-        '<div><div class="small">当前阶段</div>'+
-          '<div class="plan-count"><b>A2</b> · 美式英语</div></div>'+
-        '<div style="text-align:right"><div class="small">词汇进度</div>'+
-          '<div class="plan-count"><b>'+state.learned.length+'</b> / '+ALL.length+'</div></div>'+
+    '<section class="today-hero">'+
+      '<div class="today-top">'+
+        '<div><div class="today-kicker">'+esc(dateLabel)+' · 第 '+mission.cycle+' 天</div>'+
+          '<div class="today-title">'+mission.focus.icon+' '+esc(mission.focus.title)+'</div>'+
+          '<div class="today-meta">'+esc(profile.level+' '+mission.level.name)+' · '+esc(mission.goal.icon+' '+mission.goal.name)+' · '+esc(mission.pace.name)+'模式 · 预计 '+mission.total+' 分钟</div></div>'+
+        '<div class="today-ring" style="--p:'+ring+'"><span>'+dc+'/3<small>今日进度</small></span></div>'+
       '</div>'+
-      '<div class="bar"><div style="width:'+pct+'%"></div></div>'+
+      '<div class="profile-strip">'+
+        '<div class="profile-field"><label>我的等级</label><select onchange="planProfileChange(\'studyLevel\',this.value)">'+planProfileOptions(EnglishPlan.LEVELS,profile.level)+'</select></div>'+
+        '<div class="profile-field"><label>学习目标</label><select onchange="planProfileChange(\'studyGoal\',this.value)">'+Object.keys(EnglishPlan.GOALS).map(k=>'<option value="'+k+'"'+(k===profile.goal?' selected':'')+'>'+esc(EnglishPlan.GOALS[k].icon+' '+EnglishPlan.GOALS[k].name)+'</option>').join('')+'</select></div>'+
+        '<div class="profile-field"><label>今日强度</label><select onchange="planProfileChange(\'studyPace\',this.value)">'+Object.keys(EnglishPlan.PACES).map(k=>'<option value="'+k+'"'+(k===profile.pace?' selected':'')+'>'+esc(EnglishPlan.PACES[k].name)+'</option>').join('')+'</select></div>'+
+      '</div>'+
+      '<div class="mission-grid">'+
+        '<div class="mission-step"><span class="ico">📖</span><b>理解 · '+mission.read+' 分钟</b><p>先读或先看文本，最多查 '+mission.vocab+' 个影响主旨的词。'+(mission.vocab===0?'忙碌模式只抓主旨。':'')+'</p></div>'+
+        '<div class="mission-step"><span class="ico">🎧</span><b>听说 · '+mission.listen+' 分钟</b><p>'+esc(mission.focus.action)+'</p></div>'+
+        '<div class="mission-step"><span class="ico">🎙️</span><b>输出 · '+esc(mission.level.method)+'</b><p>'+esc(mission.output+'；'+mission.goal.prompt+(mission.depth?' '+mission.depth:''))+'</p></div>'+
+      '</div>'+
+      '<div class="mission-source"><div><div class="small">今日官方美式英语材料</div><a href="'+mission.source.url+'" target="_blank" rel="noopener">'+esc(mission.source.name)+'</a></div><a class="arrow" href="'+mission.source.url+'" target="_blank" rel="noopener" aria-label="打开今日材料">↗</a></div>'+
+    '</section>'+
+    '<div class="card left" style="padding:16px 18px;margin-top:14px">'+
       '<div class="plan-checks">'+
-        planCheckHtml('read','今日课文 15–20min', done.read, false)+
-        planCheckHtml('shadow','美式听力与跟读 15–25min', done.shadow, false)+
+        planCheckHtml('read','完成理解任务 · '+mission.read+'min', done.read, false)+
+        planCheckHtml('shadow','完成美式听说任务 · '+mission.listen+'min', done.shadow, false)+
         planCheckHtml('wb','到期词汇复习（自动判定）', done.wb, true)+
-        planCheckHtml('diary','5 句或 30 秒口述（每周 3 次）', done.diary, false)+
+        planCheckHtml('diary','完成今日输出（额外记录）', done.diary, false)+
       '</div>'+
       '<div class="small" style="margin-top:8px">今日完成 <b>'+dc+'/3</b> · 连续三件全齐 <b>'+planStreak()+'</b> 天'+
         (done.wb? '' : ' · 工作台未打卡：去判词/复习/造句后自动点亮')+'</div>'+
@@ -2238,6 +2289,10 @@ $('btnApplySet').addEventListener('click',()=>{
   const en=$('setEngine').value;
   state.settings.target=t; state.settings.rate=r; state.settings.maxLevel=m;
   state.settings.ttsEngine=(['auto','sys','net'].includes(en)?en:'auto');
+  const sl=$('setStudyLevel').value, sg=$('setStudyGoal').value, sp=$('setStudyPace').value;
+  state.settings.studyLevel=['A1','A2','B1','B2'].includes(sl)?sl:'A2';
+  state.settings.studyGoal=['general','technical','interview','travel'].includes(sg)?sg:'general';
+  state.settings.studyPace=['light','standard','deep'].includes(sp)?sp:'standard';
   save(); refresh(); // 目标/语速/难度上限/发音引擎当天立即生效
 });
 $('btnSetVocab').addEventListener('click',()=>{
