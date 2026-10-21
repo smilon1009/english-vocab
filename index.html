@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>雅思背单词工作台</title>
+<title>英语学习工作台</title>
 <meta name="theme-color" content="#0b0f1a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="背单词">
+<meta name="apple-mobile-web-app-title" content="英语学习">
 <link rel="manifest" href="pwa/manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="pwa/icon.svg">
 <link rel="apple-touch-icon" href="pwa/icon.svg">
@@ -320,7 +320,7 @@
     <div class="auth-hero">
       <span class="brand-mark">📚</span>
       <div>
-        <h1>雅思背单词工作台</h1>
+        <h1>英语学习工作台</h1>
         <div class="sub">每人独立进度 · 手机/电脑自动云同步</div>
       </div>
     </div>
@@ -332,8 +332,8 @@
   <div class="brand">
     <span class="brand-mark">📚</span>
     <div>
-      <h1>雅思背单词工作台</h1>
-      <div class="hero-sub">判词 → 三明治三步 → 艾宾浩斯复习 · <b>多账号云同步</b></div>
+      <h1>英语学习工作台</h1>
+      <div class="hero-sub">今日课程 → 美式听读 → 词汇复习 → 开口输出 · <b>多账号云同步</b></div>
     </div>
   </div>
   <div id="accountBar" style="display:none">
@@ -368,7 +368,7 @@
     <div class="navbtn" data-m="reviewToday"><b>🔄 复习当天</b><span class="c" id="navRT">今天的5个</span></div>
     <div class="navbtn" data-m="reviewDue"><b>📅 复习到期</b><span class="c" id="navRD">艾宾浩斯到期</span></div>
     <div class="navbtn" data-m="notes"><b>📒 造句笔记</b><span class="c" id="navNotes">0 条</span></div>
-    <div class="navbtn" data-m="plan"><b>📔 计划</b><span class="c" id="navPlan">目标·死线·打卡</span></div>
+    <div class="navbtn" data-m="plan"><b>🧭 今日英语</b><span class="c" id="navPlan">材料·方法·打卡</span></div>
     <div class="navbtn" data-m="dict"><b>🔍 查词</b><span class="c" id="navDict">查词/释义</span></div>
   </div>
 
@@ -575,7 +575,7 @@ function normalize(s){
   s.stats = (s.stats && typeof s.stats==='object')? s.stats : {};
   if(!Number.isInteger(s.stats.streak) || s.stats.streak<0) s.stats.streak=0;
   if(typeof s.stats.last!=='string') s.stats.last='';
-  // 计划打卡（按日期存：shadow 跟读 / wb 工作台 / diary 日记，均布尔）
+  // 每日英语打卡（按日期存：read 课文 / shadow 跟读 / wb 词汇 / diary 输出，均布尔）
   if(!s.checkins || typeof s.checkins!=='object' || Array.isArray(s.checkins)) s.checkins={};
   for(const d in s.checkins){
     const o=s.checkins[d];
@@ -2015,34 +2015,29 @@ function screenEnd(){
 function screenClear(){ state.screen=null; save(); openModule('collect'); }
 
 // =========================================================
-// 📔 计划：每个账号自己的计划文档（存 Supabase user_plan）+ 今日三件事打卡
-// 个人文档（英语专线/每日执行/日记）存在各自账号里、可在 App 内编辑；
-// 「说明」仍读仓库、只读。仓库 plan/*.md 作为新用户的种子模板。
+// 🧭 今日英语：共享的今日任务与学习路线 + 每个账号自己的日记 + 今日三件事打卡
+// 「今日学习 / 学习路线 / 说明」读仓库、只读；「日记」存在各自账号里、可在 App 内编辑。
 // 「工作台」打卡由 noteStudy() 在学习动作发生时自动写入 checkins[日期].wb。
 // =========================================================
-const IELTS_DATE = '2027-06-01';   // 雅思首考（plan/英语专线.md 记为 2027.06，改这里即可）
+const IELTS_DATE = '2027-06-01';   // 长期检查点；当前训练从 A2 美式英语开始
 const PLAN_DOCS = [
-  { id:'英语专线', file:'plan/英语专线.md', personal:true },
-  { id:'每日执行', file:'plan/每日执行.md', personal:true },
+  { id:'今日学习', file:'plan/今日学习.md', personal:false },
+  { id:'学习路线', file:'plan/学习路线.md', personal:false },
   { id:'日记',     file:'plan/english_diary.md', personal:true },
   { id:'说明',     file:'plan/README.md', personal:false }
 ];
 const PLAN_BLANK = {
-  '英语专线':
-    '# 英语专线\n\n## 起点与目标\n- 起点（日期 / 词汇量）：\n- 目标（比如 雅思 6.5）：\n\n## 时间轴\n| 时间 | 动作 | 目标 |\n|---|---|---|\n|  |  |  |\n\n## 预算\n\n',
-  '每日执行':
-    '# 每日执行\n\n## 默认版\n1. **到期复习优先**。\n2. **有精力再学 5 个新词**：三明治三步。\n3. **精听跟读 10–15 分钟**。\n4. **每周 3 篇五句话日记**。\n\n## 忙碌版\n- 只清到期复习 10 分钟；没有学习债。\n',
   '日记':
     '# English Tech Diary\n\n> 每天用英文写一小段技术内容，格式：原句 / 错处 / 术语；写完让 AI 批改。\n\n## '+todayStr()+'\n\n[ORIGINAL]\n\n\n[ERRORS]\n\n\n[TERMS]\n\n'
 };
-let PLAN = { show:'英语专线', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
+let PLAN = { show:'今日学习', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
 
 function planDone(d){
   d = d || todayStr();
   const c = (state.checkins && state.checkins[d]) || {};
-  return { shadow:!!c.shadow, wb:(!!c.wb || (!!state.stats && state.stats.last===d)), diary:!!c.diary };
+  return { read:!!c.read, shadow:!!c.shadow, wb:(!!c.wb || (!!state.stats && state.stats.last===d)), diary:!!c.diary };
 }
-function planDoneCount(d){ const p=planDone(d); return (p.shadow?1:0)+(p.wb?1:0)+(p.diary?1:0); }
+function planDoneCount(d){ const p=planDone(d); return (p.read?1:0)+(p.shadow?1:0)+(p.wb?1:0); }
 function todayDoneCount(){ return planDoneCount(); }
 function planStreak(){   // 从今天往回数「三件全齐」的连续天数（今天还没齐也不清零）
   let n=0, d=todayStr();
@@ -2108,16 +2103,17 @@ function renderPlan(){
   $('stage').innerHTML =
     '<div class="card left" style="padding:16px 18px">'+
       '<div class="row left" style="justify-content:space-between;gap:12px;margin:0">'+
-        '<div><div class="small">雅思首考倒计时（目标 2027.06 · 6.5）</div>'+
-          '<div class="plan-count">还有 <b>'+planDaysToExam()+'</b> 天</div></div>'+
+        '<div><div class="small">当前阶段</div>'+
+          '<div class="plan-count"><b>A2</b> · 美式英语</div></div>'+
         '<div style="text-align:right"><div class="small">词汇进度</div>'+
           '<div class="plan-count"><b>'+state.learned.length+'</b> / '+ALL.length+'</div></div>'+
       '</div>'+
       '<div class="bar"><div style="width:'+pct+'%"></div></div>'+
       '<div class="plan-checks">'+
-        planCheckHtml('shadow','精听跟读 10–15min', done.shadow, false)+
-        planCheckHtml('wb','词汇工作台（自动判定）', done.wb, true)+
-        planCheckHtml('diary','五句话日记（每周 3 次）', done.diary, false)+
+        planCheckHtml('read','今日课文 15–20min', done.read, false)+
+        planCheckHtml('shadow','美式听力与跟读 15–25min', done.shadow, false)+
+        planCheckHtml('wb','到期词汇复习（自动判定）', done.wb, true)+
+        planCheckHtml('diary','5 句或 30 秒口述（每周 3 次）', done.diary, false)+
       '</div>'+
       '<div class="small" style="margin-top:8px">今日完成 <b>'+dc+'/3</b> · 连续三件全齐 <b>'+planStreak()+'</b> 天'+
         (done.wb? '' : ' · 工作台未打卡：去判词/复习/造句后自动点亮')+'</div>'+
@@ -2277,7 +2273,7 @@ function resetRuntime(){   // 切换账号时清掉上一个用户留在内存�
   SW={word:null,step:1,attempts:0,revealed:false,nextWord:null};
   RV={mode:'today',list:[],idx:0,right:[],wrong:[],locked:false};
   NB={ q:'', edit:null, show:{} };
-  PLAN={ show:'英语专线', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
+  PLAN={ show:'今日学习', loaded:false, err:false, docs:{}, shared:{}, dirtyIds:{}, editing:false, editBuf:null };
   planDirty=false;
   rebuildLearnedSet();   // 防御性重建（随后 enterApp 会用 normalize 覆盖）
 }

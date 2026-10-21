@@ -1,7 +1,7 @@
 {
-  "name": "雅思背单词工作台",
-  "short_name": "背单词",
-  "description": "雅思背单词：判词 → 三明治三步 → 艾宾浩斯复习，多账号云同步。",
+  "name": "英语学习工作台",
+  "short_name": "英语学习",
+  "description": "每日美式英语课程、听读跟练、词汇复习和输出记录，多账号云同步。",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
